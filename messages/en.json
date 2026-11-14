@@ -1,0 +1,591 @@
+{
+  "meta": {
+    "title": "NO FORM — Furniture as Art",
+    "description": "Sculptural furniture designed to shape space. Sphere, Retro, Tiles, and Fringes."
+  },
+  "nav": {
+    "showroom": "The Showroom",
+    "collections": "Collections",
+    "allProducts": "All products",
+    "about": "About",
+    "styling": "Styling",
+    "designer": "Meet our designer",
+    "contact": "Contact",
+    "cart": "Cart",
+    "signIn": "Sign in",
+    "account": "Account",
+    "furniture": "Furniture",
+    "home": "Home",
+    "back": "Back",
+    "menu": "Menu",
+    "close": "Close"
+  },
+  "common": {
+    "enter": "Enter",
+    "enquire": "Enquire",
+    "addToCart": "Add to cart",
+    "soldOut": "Not available",
+    "inStudio": "In studio",
+    "alsoInWorld": "Also in this world",
+    "explore": "Explore",
+    "collection": "Collection",
+    "materials": "Materials",
+    "otherWorlds": "Other worlds",
+    "email": "studio@noform.design"
+  },
+  "showroom": {
+    "enter": "Enter the showroom",
+    "room": "Room",
+    "nextRoom": "Next room",
+    "previousRoom": "Previous room",
+    "nextObject": "Next object",
+    "previousObject": "Previous object",
+    "observe": "Observe",
+    "close": "Close",
+    "of": "of",
+    "continue": "Continue through",
+    "stepInside": "Step Inside",
+    "stepBack": "Step back",
+    "changeFloor": "Change floor",
+    "inspect": "Drag to inspect · Scroll to zoom"
+  },
+  "home": {
+    "tagline": "Furniture as art.",
+    "manifestoA": "We do not furnish spaces.",
+    "manifestoB": "We shape them.",
+    "worldsKicker": "Collections",
+    "worldsTitle": "Four atmospheres.",
+    "inPlaceKicker": "In place",
+    "inPlaceTitle": "Four scenes of light.",
+    "scenes": {
+      "at-home": "At home",
+      "by-the-pool": "By the pool",
+      "in-the-field": "In the field",
+      "at-the-sea": "At the sea"
+    },
+    "materialsKicker": "Materiality",
+    "materialsTitle": "The essence of form.",
+    "captions": {
+      "field": "Field",
+      "studio": "Studio",
+      "weave": "Weave",
+      "leather": "Leather",
+      "linen": "Linen",
+      "grain": "Grain",
+      "labyrinth": "Labyrinth",
+      "pigment": "Pigment"
+    }
+  },
+  "collectionsPage": {
+    "kicker": "Worlds",
+    "title": "Collections presented as atmospheres.",
+    "lede": "Each collection is a spatial landscape — entered, not browsed."
+  },
+  "productsPage": {
+    "metaTitle": "All products",
+    "kicker": "The studio",
+    "title": "All products.",
+    "lede": "Every piece in one room — filter by collection, availability, price, or name.",
+    "search": "Search",
+    "searchPlaceholder": "A name, a material, a mood.",
+    "collection": "Collection",
+    "availability": "Availability",
+    "sort": "Sort",
+    "all": "All",
+    "inStock": "In studio",
+    "madeToOrder": "Made to order",
+    "soldOut": "Not available",
+    "featured": "Featured",
+    "priceAsc": "Price, low to high",
+    "priceDesc": "Price, high to low",
+    "name": "Name",
+    "minPrice": "Min price",
+    "maxPrice": "Max price",
+    "results": "{count, plural, one {# piece} other {# pieces}}",
+    "empty": "No pieces match these filters.",
+    "clear": "Clear filters"
+  },
+  "collections": {
+    "sphere": {
+      "name": "Sphere",
+      "mood": "Calm",
+      "keywords": ["Soft", "Organic", "Sculptural", "Calm"],
+      "manifesto": "Rounded geometry and quiet volume. Sphere holds space with softness — bouclé, ball feet, and silhouettes that settle rather than announce.",
+      "lede": "Four volumes, one curve. Table, orbit, pouf, and bench — bouclé and stone held in quiet roundness.",
+      "interiorKicker": "In the room",
+      "interiorTitle": "Objects among objects.",
+      "materials": ["Bouclé and ivory textiles", "Rounded stone", "Matte warm woods", "Spherical hardwood feet"]
+    },
+    "retro": {
+      "name": "Retro",
+      "mood": "Cinematic",
+      "keywords": ["Steel", "Stripe", "Outdoor", "Shade"],
+      "manifesto": "Tubular steel and striped textile in cinematic shade. Retro is outdoor light held still — orange frame, long shadow, a lounge that belongs to air more than to a room.",
+      "materials": ["Tubular steel", "Striped outdoor textile", "Shaded light", "Cinematic colour"]
+    },
+    "tiles": {
+      "name": "Tiles",
+      "mood": "Structured",
+      "keywords": ["Structured", "Architectural", "Geometric", "Precise"],
+      "manifesto": "Rhythm, grid, and glaze. Tiles is an exploration of presence — ceramic, walnut, and a playing field held in exact proportion.",
+      "lede": "Four objects, one grid. Bench, table, pouf, and Rove — glaze standing in wood, grout holding the measure.",
+      "materials": ["Ceramic and mosaic", "Structured wood grain", "Matte stone", "Geometric grout and glaze"]
+    },
+    "fringes": {
+      "name": "Fringes",
+      "mood": "Layered",
+      "keywords": ["Expressive", "Textural", "Artistic", "Layered"],
+      "manifesto": "Movement in still objects. Fringes is tactile layering — fringe, pile, and colour that asks to be felt before it is named.",
+      "materials": ["Layered textiles", "Fringe and woven detail", "Soft tactile pile", "Expressive colour fields"]
+    }
+  },
+  "products": {
+    "sphere-bench": {
+      "name": "The Onda Bench",
+      "description": "A low seating form draped in a labyrinthine weave, resting on three spherical hardwood volumes.",
+      "materials": ["Beech wood", "High-density foam", "Luxurious upholstery"]
+    },
+    "lounge-chair": {
+      "name": "The Boule Lounge Chair",
+      "description": "A low sculptural seating form defined by floating arms, olive leather, and a spherical wooden foot.",
+      "materials": ["Wood", "Durable elastic band", "Luxurious leather upholstery"]
+    },
+    "commode": {
+      "name": "The Forma Commode",
+      "description": "A darkened wooden chest whose drawer fronts carry a continuous rust-orange textile field, lifted on spherical feet.",
+      "materials": ["Upholstery", "Beech wood"]
+    },
+    "folded-pouf": {
+      "name": "The Folded Pouf",
+      "description": "A cylindrical seating volume with a leather wrap that rises into a short back — a fold held by a single metal stud.",
+      "materials": ["Wood", "Durable elastic band", "Luxurious upholstery"]
+    },
+    "sphere-ottoman": {
+      "name": "The Nubo Pouf",
+      "description": "A tapered cylindrical ottoman in sketched ivory weave, grounded by four glossed spherical feet.",
+      "materials": ["Wood", "Durable elastic band", "Luxurious leather upholstery"]
+    },
+    "orbit-coffee-table": {
+      "name": "The Orbit Table",
+      "description": "A low table whose mass orbits a spherical presence — proportion over ornament.",
+      "materials": ["Beech wood"]
+    },
+    "coffee-table-iii": {
+      "name": "The Bubbly Console",
+      "description": "A long ivory plane lifted on stacked olive spheres — volume clustered into structure.",
+      "materials": ["Beech wood"]
+    },
+    "lobe-coffee-table": {
+      "name": "The Sphera Table",
+      "description": "Two warm hardwood planes, stacked in an organic drift, held by spherical volumes.",
+      "materials": ["Mosaic", "Upholstery"]
+    },
+    "wave-coffee-table": {
+      "name": "The Sphere Table",
+      "description": "A glass plane that folds toward the floor, lifted at the far end by a single hardwood sphere.",
+      "materials": ["Glass", "Beech wood"]
+    },
+    "stem-side-table": {
+      "name": "Stem Side Table",
+      "description": "A small circular plane on a slender stem, weighted by a sphere at the base.",
+      "materials": ["Hardwood plane", "Slender stem", "Hardwood sphere"]
+    },
+    "backgammon-table": {
+      "name": "The Tawla Table",
+      "description": "A pedestal table with a copper playing field set in a rounded white plane, above a relief-cast, earth-toned base.",
+      "materials": ["Premium PVC leather finish", "Italian wood veneer"]
+    },
+    "steel-lounge-chair": {
+      "name": "The Steel Chair",
+      "description": "Tubular steel in orange, striped cushions, shade cut across colour — a lounge for outdoor light.",
+      "materials": ["Steel", "Upholstery"]
+    },
+    "tiled-bench": {
+      "name": "The Tiled Bench",
+      "description": "Cushioned linen volumes on a walnut plane, supported by a glazed ceramic plinth — architecture at seating height.",
+      "materials": ["Premium tiles", "Upholstery", "Wood"]
+    },
+    "tiled-coffee-table": {
+      "name": "The Tiled Coffee Table",
+      "description": "A dark wood frame carrying a field of standing ceramic blocks — glaze, grout, and geometric rhythm.",
+      "materials": ["Premium tiles", "Wood"]
+    },
+    "tiled-pouf": {
+      "name": "The Tiled Pouf",
+      "description": "A mosaic cube in coral glaze, capped with a powder-blue cushion. Grid below, softness above.",
+      "materials": ["Mosaic", "Upholstery"]
+    },
+    "fringes-pouf": {
+      "name": "The Tango Pouf",
+      "description": "A cylindrical seating form split between burnt-orange pile and a falling field of teal fringe.",
+      "materials": ["Upholstery"]
+    }
+  },
+  "about": {
+    "kicker": "About",
+    "title": "Furniture as art.",
+    "storyTitle": "Our story",
+    "lede": "NO FORM explores the space between sculpture and function. Each piece is a functional object and an artistic statement — defined by bold silhouettes, refined detailing, tactile richness, and architectural presence.",
+    "body": "Luxury is found in restraint: in proportion, material honesty, precision, and atmosphere. We create collectible furniture designed to be experienced, remembered, and lived with.",
+    "madeToLast": "Made to last",
+    "craftLine": "Burl, inlay, and the patience of the studio — pieces meant to be lived with daily.",
+    "close": "We do not simply furnish spaces. We shape them.",
+    "pillarsTitle": "Essence",
+    "pillars": {
+      "artistic": {
+        "title": "Artistic expression",
+        "body": "Every piece is an exploration of form, movement, and emotion."
+      },
+      "sculptural": {
+        "title": "Sculptural design",
+        "body": "We challenge conventions and embrace bold silhouettes."
+      },
+      "craft": {
+        "title": "Luxury craftsmanship",
+        "body": "The highest quality materials, finishes, and artisanal execution."
+      },
+      "function": {
+        "title": "Functional purpose",
+        "body": "Beauty and comfort exist together in balance."
+      },
+      "architecture": {
+        "title": "Architectural presence",
+        "body": "Our objects shape space, create atmosphere, and leave an impression."
+      },
+      "timeless": {
+        "title": "Timeless identity",
+        "body": "Designed to transcend trends and become collectible over time."
+      }
+    }
+  },
+  "styling": {
+    "kicker": "Styling — the designer’s vision",
+    "index": "Four rooms",
+    "title": "How a room begins to breathe.",
+    "lede": "Four compositions. Not a catalogue — a way of seeing.",
+    "body": "These are rooms the studio imagined until the pieces found each other. Sit with them. Let the light do the introducing.",
+    "close": "We do not decorate. We see.",
+    "continue": "Enter the collections",
+    "scenes": {
+      "night": {
+        "kicker": "Sphere",
+        "title": "Night, composed.",
+        "body": "A bed that is a volume. A commode like a small planet. The Onda bench waits at the foot of sleep."
+      },
+      "sitting": {
+        "kicker": "Sphere",
+        "title": "The hour the light stays.",
+        "body": "A sofa that turns like a thought. Leather at rest. Tables that are not placed — they belong."
+      },
+      "terrace": {
+        "kicker": "Tiles · Retro",
+        "title": "Green that remembers the sea.",
+        "body": "Glaze catching the afternoon. Steel sitting open. The air does the rest."
+      },
+      "threshold": {
+        "kicker": "Tiles",
+        "title": "A pause before the house.",
+        "body": "Colour as architecture. You sit, and the room begins."
+      }
+    }
+  },
+  "designer": {
+    "kicker": "Designer",
+    "title": "Meet our designer.",
+    "lede": "A conversation with the studio designer — about a piece, a room, or a commission.",
+    "talk": "Talk on WhatsApp",
+    "write": "Or write a message below.",
+    "intent": "Meet our designer",
+    "send": "Write to the designer",
+    "placeholder": "Tell the designer what you have in mind.",
+    "whatsappText": "Hello, I would like to speak with the designer at NO FORM."
+  },
+  "contact": {
+    "kicker": "Contact",
+    "title": "Enquire.",
+    "lede": "A quiet conversation about a piece, a collection, or a space.",
+    "name": "Name",
+    "email": "Email",
+    "collection": "Collection",
+    "piece": "Piece",
+    "message": "Message",
+    "send": "Send enquiry",
+    "optional": "Optional",
+    "any": "Any",
+    "sent": "Received. We will reply with care.",
+    "placeholder": "A few words about the space, or the object."
+  },
+  "shop": {
+    "cartTitle": "Cart.",
+    "cartLede": "Pieces held for the studio to confirm.",
+    "empty": "The cart is empty.",
+    "continue": "Continue through collections",
+    "checkout": "Checkout",
+    "completeRoom": {
+      "title": "Complete the room.",
+      "add": "Add",
+      "held": "Added.",
+      "skip": "Skip",
+      "prev": "Previous",
+      "next": "Next"
+    },
+    "checkoutTitle": "Checkout.",
+    "checkoutLede": "An order is confirmed once the studio receives a {percent}% deposit. The balance is settled on delivery.",
+    "quantity": "Qty",
+    "qtyMore": "More",
+    "qtyFewer": "Fewer",
+    "total": "Total",
+    "remove": "Remove",
+    "phone": "Phone",
+    "city": "City",
+    "notes": "Notes",
+    "place": "Place order",
+    "placed": "Order received.",
+    "placedLede": "Your pieces are held for you. Pay the deposit below and the studio will confirm the order.",
+    "reference": "Reference",
+    "contactSection": "Contact",
+    "deliverySection": "Delivery address",
+    "paymentSection": "Payment",
+    "summary": "Summary",
+    "subtotal": "Subtotal",
+    "delivery": "Delivery",
+    "discount": "Discount",
+    "tax": "VAT",
+    "free": "Free",
+    "deliveryQuote": "Confirmed by the studio",
+    "governorate": "Governorate",
+    "choose": "Choose",
+    "area": "Area / District",
+    "street": "Street",
+    "building": "Building",
+    "floor": "Floor",
+    "apartment": "Apartment",
+    "landmark": "Landmark",
+    "phone2": "Second phone",
+    "depositExplainer": "A {percent}% deposit of {deposit} confirms your order and reserves the pieces.",
+    "balanceOnDelivery": "The remaining {balance} is paid in cash or by transfer when the pieces are delivered.",
+    "balanceBeforeShipping": "The remaining {balance} is paid before the pieces ship.",
+    "noCod": "We do not offer cash on delivery for the full amount.",
+    "depositMethod": "Pay the deposit by",
+    "depositNow": "Deposit now · {percent}%",
+    "balanceLaterDelivery": "Balance on delivery",
+    "balanceLaterShipping": "Balance before shipping",
+    "bankTransfer": "Bank transfer / InstaPay",
+    "bankTransferHint": "Account details arrive with your confirmation email. Send the receipt to the studio and the order is confirmed.",
+    "card": "Card",
+    "cardHint": "Pay the deposit securely by card.",
+    "cardSoon": "Card payments open soon.",
+    "coupon": "Coupon",
+    "apply": "Apply",
+    "couponApplied": "Applied",
+    "couponInvalid": "This code cannot be applied.",
+    "saveAddress": "Save this address to my account",
+    "useSaved": "Deliver to a saved address",
+    "newAddress": "Enter a new address",
+    "acceptTerms": "I accept the terms of sale and the delivery & returns policy.",
+    "lowStock": "Only {count} left",
+    "outOfStock": "Not available",
+    "madeToOrder": "Made to order"
+  },
+  "order": {
+    "title": "Order",
+    "thanks": "Thank you. Your order is with the studio.",
+    "placedAt": "Placed",
+    "status": "Status",
+    "payment": "Payment",
+    "method": "Method",
+    "items": "Pieces",
+    "address": "Delivery address",
+    "tracking": "Tracking",
+    "notes": "Notes",
+    "timeline": "Timeline",
+    "lookupTitle": "Find an order.",
+    "lookupLede": "Enter the reference from your confirmation email and the email you ordered with.",
+    "find": "Find order",
+    "notFound": "No order matches that reference and email.",
+    "statuses": {
+      "pending": "Awaiting confirmation",
+      "confirmed": "Confirmed",
+      "processing": "In preparation",
+      "shipped": "On its way",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled"
+    },
+    "payments": {
+      "unpaid": "Awaiting deposit",
+      "deposit_paid": "Deposit received",
+      "paid": "Paid in full",
+      "failed": "Payment failed",
+      "refunded": "Refunded",
+      "partially_refunded": "Partially refunded"
+    },
+    "methods": {
+      "bank_transfer": "Deposit by bank transfer / InstaPay",
+      "card": "Deposit by card"
+    },
+    "depositDue": "Deposit due · {percent}%",
+    "paidSoFar": "Paid so far",
+    "balanceDue": "Balance due",
+    "balanceDueOnDelivery": "Collected on delivery",
+    "balanceDueBeforeShipping": "Due before shipping",
+    "depositReceivedNote": "Your deposit has been received and the order is confirmed.",
+    "settledNote": "This order is paid in full. Thank you.",
+    "bankInstructions": "How to pay the deposit",
+    "depositHold": "Pieces are held for {hours} hours awaiting the deposit.",
+    "help": "Questions about this order? Write to the studio and quote the reference."
+  },
+  "account": {
+    "title": "Sign in.",
+    "lede": "An account holds your orders and lets the studio know who is writing.",
+    "signIn": "Sign in",
+    "create": "Create account",
+    "password": "Password",
+    "failed": "Could not sign in.",
+    "accountTitle": "Your account.",
+    "signOut": "Sign out",
+    "orders": "Orders",
+    "noOrders": "No orders yet.",
+    "view": "View",
+    "profile": "Profile",
+    "save": "Save",
+    "saved": "Saved.",
+    "addresses": "Addresses",
+    "noAddresses": "No saved addresses.",
+    "addAddress": "Add an address",
+    "editAddress": "Edit",
+    "label": "Label (Home, Studio…)",
+    "default": "Default",
+    "makeDefault": "Make default",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "security": "Security",
+    "changePassword": "Change password",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "forgot": "Forgot your password?",
+    "forgotTitle": "Reset password.",
+    "forgotLede": "Enter your email and we will send a link to choose a new password.",
+    "sendReset": "Send reset link",
+    "resetSent": "If an account exists for that email, a reset link is on its way.",
+    "resetTitle": "Choose a new password.",
+    "resetLede": "The link is valid for one hour.",
+    "reset": "Set password",
+    "resetInvalid": "This reset link is invalid or has expired."
+  },
+  "product": {
+    "details": "Details",
+    "dimensions": "Dimensions",
+    "width": "Width",
+    "depth": "Depth",
+    "height": "Height",
+    "diameter": "Diameter",
+    "weight": "Weight",
+    "leadTime": "Lead time",
+    "days": "{count} days",
+    "madeToOrder": "Made to order",
+    "inStock": "In studio",
+    "lowStock": "Only {count} in studio",
+    "care": "Care",
+    "sku": "Reference",
+    "delivery": "Delivery across Egypt. Returns within {days} days.",
+    "deliveryLink": "Delivery & returns",
+    "color": "Colour",
+    "chooseColor": "Choose a colour",
+    "chooseMaterial": "Choose a material",
+    "previousPicture": "Previous picture",
+    "nextPicture": "Next picture"
+  },
+  "legal": {
+    "privacy": {
+      "title": "Privacy.",
+      "updated": "Last updated",
+      "sections": [
+        {
+          "title": "What we collect",
+          "body": "When you order, enquire, or create an account we collect your name, email, phone number, and delivery address. We do not store card details — payments are handled by our payment provider."
+        },
+        {
+          "title": "How we use it",
+          "body": "To fulfil orders, deliver pieces, answer enquiries, and send transactional emails about your order. We do not sell or share your data with third parties beyond delivery and payment partners needed to complete your order."
+        },
+        {
+          "title": "Cookies",
+          "body": "We use a small number of first-party cookies to keep your cart, keep you signed in, and remember your language. No advertising cookies are set."
+        },
+        {
+          "title": "Your rights",
+          "body": "You may ask us to correct or delete your data at any time by writing to the studio."
+        }
+      ]
+    },
+    "terms": {
+      "title": "Terms of sale.",
+      "updated": "Last updated",
+      "sections": [
+        {
+          "title": "Orders",
+          "body": "Placing an order reserves the pieces for you. The order is confirmed only when the studio has received the deposit described below and verified availability. Prices are in Egyptian pounds and include VAT unless stated otherwise."
+        },
+        {
+          "title": "Deposit",
+          "body": "Every order requires a deposit of {depositPercent}% of the order total, paid by bank transfer, InstaPay, or card where available. Pieces are held for {depositHoldHours} hours awaiting the deposit; if it is not received in that time the order lapses and the pieces are released. We do not offer cash on delivery for the full amount."
+        },
+        {
+          "title": "Balance",
+          "body": "The remaining {balancePercent}% is due on delivery, before the pieces are handed over, and may be paid in cash, by transfer, or by card where available. Pieces cannot be released until the order is paid in full."
+        },
+        {
+          "title": "Cancellations and refunds",
+          "body": "If the studio cannot fulfil a confirmed order, the deposit is refunded in full. If you cancel a confirmed order of in-studio pieces before dispatch, the deposit is refunded less any costs incurred. Deposits on made-to-order pieces are non-refundable once production has begun."
+        },
+        {
+          "title": "Made to order",
+          "body": "Some pieces are made to order. Lead times are shown on the piece and confirmed with your order. Made-to-order pieces cannot be cancelled once production has begun."
+        },
+        {
+          "title": "Ownership",
+          "body": "Pieces remain the property of NO FORM until paid in full. All designs are protected by copyright."
+        }
+      ]
+    },
+    "shipping": {
+      "title": "Delivery & returns.",
+      "updated": "Last updated",
+      "sections": [
+        {
+          "title": "Delivery",
+          "body": "We deliver across Egypt. Delivery fees depend on the governorate and are shown at checkout. Large pieces are delivered by the studio's courier partner and require someone to receive them."
+        },
+        {
+          "title": "Timing",
+          "body": "In-studio pieces ship within 3–5 working days of confirmation. Made-to-order pieces follow the lead time shown on the piece."
+        },
+        {
+          "title": "Inspection",
+          "body": "Inspect pieces on delivery. Note any damage on the courier's receipt and write to the studio within 48 hours with photographs."
+        },
+        {
+          "title": "Returns",
+          "body": "In-studio pieces may be returned within {days} days in their original condition. Return delivery is at the customer's cost unless the piece arrived damaged. Made-to-order pieces are final sale."
+        }
+      ]
+    }
+  },
+  "footer": {
+    "line": "Designed to shape space. Created to last.",
+    "rights": "NO FORM",
+    "studio": "Studio",
+    "allProducts": "All products",
+    "showroom": "The Showroom",
+    "collections": "Collections",
+    "legal": "Legal",
+    "privacy": "Privacy",
+    "terms": "Terms of sale",
+    "shipping": "Delivery & returns",
+    "designer": "Meet our designer",
+    "styling": "Styling",
+    "trackOrder": "Track an order",
+    "whatsapp": "WhatsApp",
+    "instagram": "Instagram"
+  }
+}

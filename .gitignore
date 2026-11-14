@@ -1,0 +1,41 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# next
+/.next/
+/out/
+
+# env
+.env*.local
+
+# local database
+/data/*.db
+/data/*.db-journal
+/data/*.db-wal
+/data/*.db-shm
+
+# debug
+npm-debug.log*
+
+# misc
+.DS_Store
+*.pem
+Thumbs.db
+
+# typescript
+next-env.d.ts
+tsconfig.tsbuildinfo
+
+# research extracts — not a public asset
+/_brandbook_pages
+
+# local source photo dumps
+/noform pics
+/Cartella senza titolo-20260902T130212Z-1-001

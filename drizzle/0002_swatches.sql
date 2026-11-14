@@ -1,0 +1,3 @@
+ALTER TABLE `products` ADD COLUMN `color_swatches` text DEFAULT '[]' NOT NULL;--> statement-breakpoint
+ALTER TABLE `products` ADD COLUMN `material_swatches` text DEFAULT '[]' NOT NULL;--> statement-breakpoint
+UPDATE `products` SET `color_swatches` = '[{"id":"olive","hex":"#3d4a32","en":"Olive","ar":"زيتوني"},{"id":"ivory","hex":"#e8e0d4","en":"Ivory","ar":"عاجي"},{"id":"charcoal","hex":"#2c2c2a","en":"Charcoal","ar":"فحمي"},{"id":"cognac","hex":"#8b5340","en":"Cognac","ar":"كونياك"},{"id":"sand","hex":"#c4a574","en":"Sand","ar":"رملي"}]', `material_swatches` = '[{"id":"leather","hex":"#6b4e3d","en":"Leather","ar":"جلد"},{"id":"hardwood","hex":"#8b5a2b","en":"Hardwood","ar":"خشب صلب"}]' WHERE `slug` = 'lounge-chair';

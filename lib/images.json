@@ -1,0 +1,199 @@
+{
+  "products": {
+    "sphere/sphere-bench": [
+      "/catalog/sphere/sphere-bench/01.jpg",
+      "/catalog/sphere/sphere-bench/02.jpg",
+      "/catalog/sphere/sphere-bench/03.jpg",
+      "/catalog/sphere/sphere-bench/04.jpg",
+      "/catalog/sphere/sphere-bench/05.jpg",
+      "/catalog/sphere/sphere-bench/06.jpg",
+      "/catalog/sphere/sphere-bench/07.jpg",
+      "/catalog/sphere/sphere-bench/08.jpg",
+      "/catalog/sphere/sphere-bench/09.jpg",
+      "/catalog/sphere/sphere-bench/10.jpg"
+    ],
+    "sphere/coffee-table-iii": [
+      "/catalog/sphere/coffee-table-iii/cover.jpg",
+      "/catalog/sphere/coffee-table-iii/02.jpg",
+      "/catalog/sphere/coffee-table-iii/03.jpg",
+      "/catalog/sphere/coffee-table-iii/04.jpg",
+      "/catalog/sphere/coffee-table-iii/05.jpg",
+      "/catalog/sphere/coffee-table-iii/06.jpg",
+      "/catalog/sphere/coffee-table-iii/07.jpg",
+      "/catalog/sphere/coffee-table-iii/08.jpg",
+      "/catalog/sphere/coffee-table-iii/09.jpg",
+      "/catalog/sphere/coffee-table-iii/10.jpg",
+      "/catalog/sphere/coffee-table-iii/11.jpg",
+      "/catalog/sphere/coffee-table-iii/12.jpg"
+    ],
+    "sphere/lobe-coffee-table": [
+      "/catalog/sphere/lobe-coffee-table/cover.jpeg",
+      "/catalog/sphere/lobe-coffee-table/01.jpg"
+    ],
+    "sphere/wave-coffee-table": [
+      "/catalog/sphere/wave-coffee-table/cover.jpeg",
+      "/catalog/sphere/wave-coffee-table/01.jpg"
+    ],
+    "sphere/stem-side-table": [
+      "/catalog/sphere/stem-side-table/cover.jpeg",
+      "/catalog/sphere/stem-side-table/01.jpg"
+    ],
+    "sphere/commode": [
+      "/catalog/sphere/commode/01.jpg",
+      "/catalog/sphere/commode/02.jpg",
+      "/catalog/sphere/commode/03.jpg",
+      "/catalog/sphere/commode/04.jpg",
+      "/catalog/sphere/commode/05.jpg",
+      "/catalog/sphere/commode/06.jpg",
+      "/catalog/sphere/commode/07.jpg",
+      "/catalog/sphere/commode/08.jpg"
+    ],
+    "sphere/folded-pouf": [
+      "/catalog/sphere/folded-pouf/01.jpg",
+      "/catalog/sphere/folded-pouf/02.jpg",
+      "/catalog/sphere/folded-pouf/03.jpg",
+      "/catalog/sphere/folded-pouf/04.jpg",
+      "/catalog/sphere/folded-pouf/05.jpg",
+      "/catalog/sphere/folded-pouf/06.jpg",
+      "/catalog/sphere/folded-pouf/07.jpg",
+      "/catalog/sphere/folded-pouf/08.jpg",
+      "/catalog/sphere/folded-pouf/09.jpg",
+      "/catalog/sphere/folded-pouf/10.jpg",
+      "/catalog/sphere/folded-pouf/11.jpg",
+      "/catalog/sphere/folded-pouf/12.jpg",
+      "/catalog/sphere/folded-pouf/13.jpg",
+      "/catalog/sphere/folded-pouf/14.jpg",
+      "/catalog/sphere/folded-pouf/15.jpg"
+    ],
+    "sphere/lounge-chair": [
+      "/catalog/sphere/lounge-chair/cover.jpg",
+      "/catalog/sphere/lounge-chair/02.jpg",
+      "/catalog/sphere/lounge-chair/03.jpg",
+      "/catalog/sphere/lounge-chair/04.jpg",
+      "/catalog/sphere/lounge-chair/05.jpg",
+      "/catalog/sphere/lounge-chair/06.jpg",
+      "/catalog/sphere/lounge-chair/07.jpg",
+      "/catalog/sphere/lounge-chair/08.jpg",
+      "/catalog/sphere/lounge-chair/09.jpg",
+      "/catalog/sphere/lounge-chair/10.jpg",
+      "/catalog/sphere/lounge-chair/11.jpg",
+      "/catalog/sphere/lounge-chair/12.jpg"
+    ],
+    "sphere/orbit-coffee-table": [
+      "/catalog/sphere/orbit-coffee-table/01.jpg",
+      "/catalog/sphere/orbit-coffee-table/02.jpg",
+      "/catalog/sphere/orbit-coffee-table/03.jpg",
+      "/catalog/sphere/orbit-coffee-table/04.jpg",
+      "/catalog/sphere/orbit-coffee-table/05.jpg",
+      "/catalog/sphere/orbit-coffee-table/06.jpg",
+      "/catalog/sphere/orbit-coffee-table/07.jpg",
+      "/catalog/sphere/orbit-coffee-table/08.jpg"
+    ],
+    "sphere/sphere-ottoman": [
+      "/catalog/sphere/sphere-ottoman/01.jpg",
+      "/catalog/sphere/sphere-ottoman/02.jpg",
+      "/catalog/sphere/sphere-ottoman/03.jpg",
+      "/catalog/sphere/sphere-ottoman/04.jpg",
+      "/catalog/sphere/sphere-ottoman/05.jpg",
+      "/catalog/sphere/sphere-ottoman/06.jpg"
+    ],
+    "tiles/tiled-bench": [
+      "/catalog/tiles/tiled-bench/cover.jpg",
+      "/catalog/tiles/tiled-bench/02.jpg",
+      "/catalog/tiles/tiled-bench/03.jpg",
+      "/catalog/tiles/tiled-bench/04.jpg",
+      "/catalog/tiles/tiled-bench/05.jpg",
+      "/catalog/tiles/tiled-bench/06.jpg",
+      "/catalog/tiles/tiled-bench/07.jpg",
+      "/catalog/tiles/tiled-bench/08.jpg",
+      "/catalog/tiles/tiled-bench/09.jpg",
+      "/catalog/tiles/tiled-bench/10.jpg",
+      "/catalog/tiles/tiled-bench/11.jpg",
+      "/catalog/tiles/tiled-bench/12.jpg"
+    ],
+    "tiles/tiled-coffee-table": [
+      "/catalog/tiles/tiled-coffee-table/cover.jpg",
+      "/catalog/tiles/tiled-coffee-table/02.jpg",
+      "/catalog/tiles/tiled-coffee-table/03.jpg",
+      "/catalog/tiles/tiled-coffee-table/04.jpg",
+      "/catalog/tiles/tiled-coffee-table/05.jpg",
+      "/catalog/tiles/tiled-coffee-table/06.jpg",
+      "/catalog/tiles/tiled-coffee-table/07.jpg",
+      "/catalog/tiles/tiled-coffee-table/08.jpg"
+    ],
+    "tiles/tiled-pouf": [
+      "/catalog/tiles/tiled-pouf/01.jpg",
+      "/catalog/tiles/tiled-pouf/02.jpg",
+      "/catalog/tiles/tiled-pouf/03.jpg",
+      "/catalog/tiles/tiled-pouf/04.jpg",
+      "/catalog/tiles/tiled-pouf/05.jpg",
+      "/catalog/tiles/tiled-pouf/06.jpg",
+      "/catalog/tiles/tiled-pouf/07.jpg",
+      "/catalog/tiles/tiled-pouf/08.jpg"
+    ],
+    "tiles/backgammon-table": [
+      "/catalog/tiles/backgammon-table/01.jpg",
+      "/catalog/tiles/backgammon-table/02.jpg",
+      "/catalog/tiles/backgammon-table/03.jpg",
+      "/catalog/tiles/backgammon-table/04.jpg",
+      "/catalog/tiles/backgammon-table/05.jpg",
+      "/catalog/tiles/backgammon-table/06.jpg",
+      "/catalog/tiles/backgammon-table/07.jpg",
+      "/catalog/tiles/backgammon-table/08.jpg"
+    ],
+    "fringes/fringes-pouf": [
+      "/catalog/fringes/fringes-pouf/cover.jpeg",
+      "/catalog/fringes/fringes-pouf/02.jpg",
+      "/catalog/fringes/fringes-pouf/03.jpg",
+      "/catalog/fringes/fringes-pouf/04.jpg",
+      "/catalog/fringes/fringes-pouf/05.jpg",
+      "/catalog/fringes/fringes-pouf/06.jpg",
+      "/catalog/fringes/fringes-pouf/07.jpg",
+      "/catalog/fringes/fringes-pouf/08.jpg",
+      "/catalog/fringes/fringes-pouf/09.jpg",
+      "/catalog/fringes/fringes-pouf/10.jpg",
+      "/catalog/fringes/fringes-pouf/11.jpg"
+    ],
+    "retro/steel-lounge-chair": [
+      "/catalog/retro/steel-lounge-chair/cover.jpg",
+      "/catalog/retro/steel-lounge-chair/02.jpg",
+      "/catalog/retro/steel-lounge-chair/03.jpg",
+      "/catalog/retro/steel-lounge-chair/04.jpg",
+      "/catalog/retro/steel-lounge-chair/05.jpg",
+      "/catalog/retro/steel-lounge-chair/06.jpg",
+      "/catalog/retro/steel-lounge-chair/07.jpg",
+      "/catalog/retro/steel-lounge-chair/08.jpg",
+      "/catalog/retro/steel-lounge-chair/09.jpg",
+      "/catalog/retro/steel-lounge-chair/10.jpg",
+      "/catalog/retro/steel-lounge-chair/11.jpg",
+      "/catalog/retro/steel-lounge-chair/12.jpg"
+    ],
+    "sphere/mixed": [
+      "/catalog/sphere/mixed/01.jpg",
+      "/catalog/sphere/mixed/02.jpg",
+      "/catalog/sphere/mixed/03.jpg",
+      "/catalog/sphere/mixed/04.jpg",
+      "/catalog/sphere/mixed/05.jpg",
+      "/catalog/sphere/mixed/06.jpg",
+      "/catalog/sphere/mixed/07.jpg",
+      "/catalog/sphere/mixed/08.jpg"
+    ],
+    "materials": [
+      "/catalog/materials/01.jpg",
+      "/catalog/materials/02.jpg",
+      "/catalog/materials/03.jpg",
+      "/catalog/materials/04.jpg",
+      "/catalog/materials/05.jpg",
+      "/catalog/materials/06.jpg",
+      "/catalog/materials/07.jpg",
+      "/catalog/materials/08.jpg"
+    ]
+  },
+  "campaign": {
+    "at-home": "/catalog/campaign/at-home.jpg",
+    "by-the-pool": "/catalog/campaign/by-the-pool.jpg",
+    "in-the-field": "/catalog/campaign/in-the-field.jpg",
+    "at-the-sea": "/catalog/campaign/at-the-sea.jpg",
+    "tiles-cover": "/catalog/tiles/room.jpg"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "sphere-bench": {
+    "price": 4200,
+    "quantity": 6
+  },
+  "lounge-chair": {
+    "price": 3800,
+    "quantity": 8
+  },
+  "commode": {
+    "price": 5600,
+    "quantity": 4
+  },
+  "folded-pouf": {
+    "price": 1400,
+    "quantity": 10
+  },
+  "sphere-ottoman": {
+    "price": 1600,
+    "quantity": 10
+  },
+  "orbit-coffee-table": {
+    "price": 3200,
+    "quantity": 5
+  },
+  "coffee-table-iii": {
+    "price": 4800,
+    "quantity": 5
+  },
+  "lobe-coffee-table": {
+    "price": 3600,
+    "quantity": 4
+  },
+  "wave-coffee-table": {
+    "price": 4200,
+    "quantity": 4
+  },
+  "stem-side-table": {
+    "price": 1800,
+    "quantity": 6
+  },
+  "tiled-bench": {
+    "price": 3900,
+    "quantity": 6
+  },
+  "tiled-coffee-table": {
+    "price": 3400,
+    "quantity": 6
+  },
+  "tiled-pouf": {
+    "price": 1800,
+    "quantity": 8
+  },
+  "backgammon-table": {
+    "price": 4500,
+    "quantity": 4
+  },
+  "fringes-pouf": {
+    "price": 1200,
+    "quantity": 8
+  },
+  "steel-lounge-chair": {
+    "price": 2800,
+    "quantity": 5
+  }
+}

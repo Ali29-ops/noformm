@@ -1,0 +1,24 @@
+[
+  {
+    "id": "NF-MTRBKY9T-O1C2",
+    "createdAt": "2026-09-07T14:12:17.921Z",
+    "status": "placed",
+    "customer": {
+      "name": "Bido",
+      "email": "employee@system.com",
+      "phone": "01271060116",
+      "city": "Cairo",
+      "notes": ""
+    },
+    "items": [
+      {
+        "slug": "steel-lounge-chair",
+        "name": "Steel Outdoor Lounge Chair",
+        "collection": "retro",
+        "quantity": 1,
+        "price": 2800
+      }
+    ],
+    "total": 2800
+  }
+]

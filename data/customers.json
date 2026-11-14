@@ -1,0 +1,12 @@
+[
+  {
+    "id": "CU-MTR8V6YJ-8F0T",
+    "name": "Alhabashi",
+    "email": "alhabashi@noform.test",
+    "phone": "",
+    "city": "",
+    "salt": "c701cb3021209508e4e7a3b0",
+    "passwordHash": "f502c9dfb4797a54e9aacdc9e34177b95ed1702f8b63a1ed54ad4e1aa79b9586",
+    "createdAt": "2026-09-07T12:56:16.891Z"
+  }
+]
