@@ -142,7 +142,6 @@ export function ImageCarousel({
                 src={slide.src}
                 alt={i >= index && i < index + visibleCount ? slide.caption : ""}
                 fill
-                priority={i < visibleCount}
                 className="object-cover"
                 sizes={
                   filmstrip

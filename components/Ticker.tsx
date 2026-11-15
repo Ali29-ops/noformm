@@ -1,5 +1,7 @@
 "use client";
 
+import { DeferredVideo } from "@/components/DeferredVideo";
+
 const REPEAT = 3;
 
 function TickerRow({ phrase }: { phrase: string }) {
@@ -31,16 +33,10 @@ export function Ticker({
     <section className={`ticker-band ${sage ? "ticker-sage" : ""}`} aria-label={phrase}>
       {src ? (
         <>
-          <video
+          <DeferredVideo
             className="ticker-film pointer-events-none absolute inset-0 h-full w-full object-cover object-bottom"
-            autoPlay
-            muted
-            loop
-            playsInline
-            aria-hidden
-          >
-            <source src={src} type="video/mp4" />
-          </video>
+            src={src}
+          />
           <div className="pointer-events-none absolute inset-0 bg-charcoal/55" aria-hidden />
         </>
       ) : null}

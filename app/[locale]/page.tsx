@@ -8,6 +8,7 @@ import {
   homeTilesCarousel,
   materialStrip,
 } from "@/lib/catalog";
+import { DeferredVideo } from "@/components/DeferredVideo";
 import { ImageCarousel } from "@/components/ImageCarousel";
 import { RevealObject } from "@/components/RevealObject";
 import { Ticker } from "@/components/Ticker";
@@ -29,16 +30,11 @@ export default async function HomePage({
   return (
     <>
       <section className="relative h-svh min-h-[640px] overflow-hidden bg-charcoal">
-        <video
+        <DeferredVideo
           className="manifesto-film pointer-events-none absolute inset-0 h-full w-full object-cover"
-          autoPlay
-          muted
-          loop
-          playsInline
-          aria-hidden
-        >
-          <source src={homeManifestoFilm} type="video/mp4" />
-        </video>
+          src={homeManifestoFilm}
+          poster="/catalog/home/manifesto-poster.webp"
+        />
         <div className="absolute inset-0 bg-charcoal/50" />
         <div className="relative z-10 flex h-full items-center justify-center px-6 text-center md:px-12">
           <div className="max-w-4xl">
