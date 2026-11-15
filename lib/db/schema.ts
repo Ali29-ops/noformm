@@ -1,7 +1,7 @@
 import { sql } from "drizzle-orm";
 import { index, integer, real, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
-export type ProductSwatch = { id: string; hex: string; en: string; ar: string };
+export type ProductSwatch = { id: string; hex: string; en: string; ar: string; image?: string };
 
 const now = sql`(strftime('%Y-%m-%dT%H:%M:%fZ','now'))`;
 

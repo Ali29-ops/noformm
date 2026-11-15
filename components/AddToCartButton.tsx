@@ -33,10 +33,14 @@ function Swatches({
               aria-pressed={on}
               aria-label={name}
               title={name}
-              className={`h-8 w-8 rounded-full border transition-transform ${
+              className={`h-11 w-11 rounded-full border bg-cover bg-center transition-transform ${
                 on ? "scale-110 border-ivory ring-2 ring-ivory/70" : "border-ivory/35 hover:border-ivory/70"
               }`}
-              style={{ backgroundColor: option.hex }}
+              style={
+                option.image
+                  ? { backgroundImage: `url(${option.image})` }
+                  : { backgroundColor: option.hex }
+              }
             />
           );
         })}
@@ -101,7 +105,21 @@ export function AddToCartButton({
     <div className="mt-10">
       {materials.length > 0 ? (
         <Swatches
-          legend={common("materials")}
+          legend={
+            slug === "fringes-pouf"
+              ? t("tassels")
+              : slug === "tiled-bench" || slug === "wave-coffee-table" || slug === "lobe-coffee-table" || slug === "sphere-bench"
+                ? t("wood")
+                : slug === "folded-pouf" || slug === "lounge-chair"
+                  ? t("leather")
+                  : slug === "steel-lounge-chair"
+                  ? t("steel")
+                  : slug === "backgammon-table"
+                    ? t("pvc")
+                    : slug === "tiled-coffee-table" || slug === "commode" || slug === "stem-side-table"
+                      ? t("veneer")
+                      : common("materials")
+          }
           options={materials}
           value={material}
           locale={locale}
@@ -109,7 +127,21 @@ export function AddToCartButton({
         />
       ) : null}
       {colors.length > 0 ? (
-        <Swatches legend={t("color")} options={colors} value={color} locale={locale} onChange={setColor} />
+        <Swatches
+          legend={
+            slug === "fringes-pouf" || slug === "steel-lounge-chair" || slug === "folded-pouf" || slug === "sphere-ottoman" || slug === "commode" || slug === "sphere-bench"
+              ? t("fabric")
+              : slug === "backgammon-table"
+                ? t("veneer")
+                : slug === "lounge-chair"
+                  ? t("wood")
+                  : t("color")
+          }
+          options={colors}
+          value={color}
+          locale={locale}
+          onChange={setColor}
+        />
       ) : null}
       <button
         type="button"

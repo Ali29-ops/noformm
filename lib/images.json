@@ -80,6 +80,7 @@
       "/catalog/sphere/lounge-chair/12.jpg"
     ],
     "sphere/orbit-coffee-table": [
+      "/catalog/sphere/orbit-coffee-table/cover.jpg",
       "/catalog/sphere/orbit-coffee-table/01.jpg",
       "/catalog/sphere/orbit-coffee-table/02.jpg",
       "/catalog/sphere/orbit-coffee-table/03.jpg",
@@ -149,10 +150,7 @@
       "/catalog/fringes/fringes-pouf/05.jpg",
       "/catalog/fringes/fringes-pouf/06.jpg",
       "/catalog/fringes/fringes-pouf/07.jpg",
-      "/catalog/fringes/fringes-pouf/08.jpg",
-      "/catalog/fringes/fringes-pouf/09.jpg",
-      "/catalog/fringes/fringes-pouf/10.jpg",
-      "/catalog/fringes/fringes-pouf/11.jpg"
+      "/catalog/fringes/fringes-pouf/08.jpg"
     ],
     "retro/steel-lounge-chair": [
       "/catalog/retro/steel-lounge-chair/cover.jpg",

@@ -3,6 +3,7 @@ export type SwatchOption = {
   hex: string;
   en: string;
   ar: string;
+  image?: string;
 };
 
 export type ProductDims = {
@@ -90,27 +91,55 @@ const italianVeneer: SwatchOption = {
   ar: "قشرة خشب إيطالية",
 };
 
+const poufFabrics: SwatchOption[] = [
+  { id: "oasis-checkered", hex: "#d9d4cc", en: "Oasis Checkered", ar: "واحة مربعات", image: "/catalog/sphere/pouf-fabrics/oasis-checkered.png" },
+  { id: "geometric-jacquard", hex: "#c4a05a", en: "Geometric Jacquard", ar: "جاكار هندسي", image: "/catalog/sphere/pouf-fabrics/geometric-jacquard.png" },
+  { id: "the-hills", hex: "#c5c0b4", en: "The Hills", ar: "ذا هيلز", image: "/catalog/sphere/pouf-fabrics/the-hills.png" },
+  { id: "youshi", hex: "#d8cbb8", en: "Youshi", ar: "يوشي", image: "/catalog/sphere/pouf-fabrics/youshi.png" },
+  { id: "deeja", hex: "#c4b49a", en: "Deeja", ar: "ديجا", image: "/catalog/sphere/pouf-fabrics/deeja.png" },
+  { id: "oran", hex: "#8aa0ae", en: "Oran", ar: "وهران", image: "/catalog/sphere/pouf-fabrics/oran.png" },
+  { id: "new-london", hex: "#ddd4c4", en: "New London", ar: "نيو لندن", image: "/catalog/sphere/pouf-fabrics/new-london.png" },
+  { id: "carla", hex: "#8a7568", en: "Carla", ar: "كارلا", image: "/catalog/sphere/pouf-fabrics/carla.png" },
+];
+
+const commodeVeneers: SwatchOption[] = [
+  { id: "walnut", hex: "#8a5a2b", en: "Walnut veneer", ar: "قشرة جوز", image: "/catalog/sphere/commode/swatches/walnut.png" },
+  { id: "oak", hex: "#d7b072", en: "Oak veneer", ar: "قشرة بلوط", image: "/catalog/sphere/commode/swatches/oak.png" },
+  { id: "apple", hex: "#e6c48a", en: "Apple veneer", ar: "قشرة تفاح", image: "/catalog/sphere/commode/swatches/apple.png" },
+  { id: "vavona", hex: "#a86a3a", en: "Vavona", ar: "فافونا", image: "/catalog/sphere/commode/swatches/vavona.png" },
+];
+
+const sphereWood: SwatchOption[] = [
+  { id: "walnut", hex: "#6b3e1e", en: "Walnut", ar: "جوز", image: "/catalog/sphere/wood-finishes/walnut.png" },
+  { id: "oak", hex: "#d7b072", en: "Oak", ar: "بلوط", image: "/catalog/sphere/wood-finishes/oak.png" },
+];
+
 export const productFacts: Record<string, ProductFacts> = {
   "folded-pouf": {
     width: 40,
     depth: 40,
     height: 48,
-    colors: studioColors,
-    materials: [wood, elastic, luxuryUpholstery],
+    colors: poufFabrics,
+    materials: [
+      { id: "brown", hex: "#6b4a3a", en: "Leather brown", ar: "جلد بني", image: "/catalog/sphere/folded-pouf/swatches/leather-brown.png" },
+      { id: "burgundy", hex: "#5c2430", en: "Leather burgundy", ar: "جلد عنابي", image: "/catalog/sphere/folded-pouf/swatches/leather-burgundy.png" },
+      { id: "mint", hex: "#b7d2c4", en: "Leather mint", ar: "جلد نعناعي", image: "/catalog/sphere/folded-pouf/swatches/leather-mint.png" },
+      { id: "camel", hex: "#e0b07a", en: "Leather camel", ar: "جلد جملي", image: "/catalog/sphere/folded-pouf/swatches/leather-camel.png" },
+    ],
   },
   "sphere-ottoman": {
     width: 50,
     depth: 50,
     height: 45,
-    colors: studioColors,
-    materials: [wood, elastic, leatherUpholstery],
+    colors: poufFabrics,
+    materials: [],
   },
   "wave-coffee-table": {
     width: 140,
     depth: 75,
     height: 40,
-    colors: woodTones,
-    materials: [glass, beechWood],
+    colors: [],
+    materials: sphereWood,
   },
   "orbit-coffee-table": {
     width: 132,
@@ -130,56 +159,127 @@ export const productFacts: Record<string, ProductFacts> = {
     width: 70,
     depth: 97,
     height: 85,
-    colors: studioColors,
-    materials: [wood, elastic, leatherUpholstery],
+    colors: sphereWood,
+    materials: [
+      { id: "brown", hex: "#6b4a3a", en: "Leather brown", ar: "جلد بني", image: "/catalog/sphere/lounge-chair/swatches/leather-brown.png" },
+      { id: "burgundy", hex: "#5c2430", en: "Leather burgundy", ar: "جلد عنابي", image: "/catalog/sphere/lounge-chair/swatches/leather-burgundy.png" },
+      { id: "mint", hex: "#b7d2c4", en: "Leather mint", ar: "جلد نعناعي", image: "/catalog/sphere/lounge-chair/swatches/leather-mint.png" },
+      { id: "camel", hex: "#e0b07a", en: "Leather camel", ar: "جلد جملي", image: "/catalog/sphere/lounge-chair/swatches/leather-camel.png" },
+      { id: "green", hex: "#5f6b45", en: "Leather green", ar: "جلد أخضر", image: "/catalog/sphere/lounge-chair/swatches/leather-green.png" },
+    ],
   },
   "lobe-coffee-table": {
     width: 95,
     depth: 138,
     height: 40,
-    colors: tileColors,
-    materials: [mosaic, upholstery],
+    colors: [],
+    materials: sphereWood,
   },
   "sphere-bench": {
     width: 190,
     depth: 40,
     height: 48,
-    colors: studioColors,
-    materials: [beechWood, foam, luxuryUpholstery],
+    colors: poufFabrics,
+    materials: sphereWood,
   },
   commode: {
     width: 45,
     depth: 45,
     height: 50,
-    colors: studioColors,
-    materials: [upholstery, beechWood],
+    colors: poufFabrics,
+    materials: commodeVeneers,
+  },
+  "stem-side-table": {
+    colors: [],
+    materials: commodeVeneers,
   },
   "tiled-coffee-table": {
     width: 88,
     depth: 88,
     height: 35,
-    colors: tileColors,
-    materials: [premiumTiles, wood],
+    colors: [
+      { id: "blue", hex: "#1d4e9c", en: "Blue tile", ar: "بلاط أزرق", image: "/catalog/tiles/tiled-coffee-table/swatches/tile-blue.png" },
+      { id: "green", hex: "#1f6b4a", en: "Green tile", ar: "بلاط أخضر", image: "/catalog/tiles/tiled-coffee-table/swatches/tile-green.png" },
+    ],
+    materials: [
+      { id: "walnut", hex: "#8a5a2b", en: "Walnut veneer", ar: "قشرة جوز", image: "/catalog/tiles/tiled-coffee-table/swatches/wood-walnut.png" },
+      { id: "oak", hex: "#d7b072", en: "Oak veneer", ar: "قشرة بلوط", image: "/catalog/tiles/tiled-coffee-table/swatches/wood-oak.png" },
+      { id: "apple", hex: "#e6c48a", en: "Apple veneer", ar: "قشرة تفاح", image: "/catalog/tiles/tiled-coffee-table/swatches/wood-apple.png" },
+      { id: "veneer-7", hex: "#c47a3a", en: "Veneer 7", ar: "قشرة 7", image: "/catalog/tiles/tiled-coffee-table/swatches/wood-veneer-7.png" },
+    ],
   },
   "steel-lounge-chair": {
     width: 60,
     depth: 65,
     height: 28,
-    colors: steelColors,
-    materials: [steel, upholstery],
+    colors: [
+      { id: "orange", hex: "#e25b2a", en: "Orange", ar: "برتقالي", image: "/catalog/retro/steel-lounge-chair/swatches/fabric-orange.png" },
+      { id: "red", hex: "#d32b2b", en: "Red", ar: "أحمر", image: "/catalog/retro/steel-lounge-chair/swatches/fabric-red.png" },
+      { id: "yellow", hex: "#f0c429", en: "Yellow", ar: "أصفر", image: "/catalog/retro/steel-lounge-chair/swatches/fabric-yellow.png" },
+      { id: "charcoal", hex: "#3a3a3a", en: "Charcoal", ar: "فحمي", image: "/catalog/retro/steel-lounge-chair/swatches/fabric-charcoal.png" },
+      { id: "lime", hex: "#b6c94a", en: "Lime", ar: "ليموني", image: "/catalog/retro/steel-lounge-chair/swatches/fabric-lime.png" },
+      { id: "teal", hex: "#1f7a72", en: "Teal", ar: "تركوازي", image: "/catalog/retro/steel-lounge-chair/swatches/fabric-teal.png" },
+      { id: "green", hex: "#3e8f4a", en: "Green", ar: "أخضر", image: "/catalog/retro/steel-lounge-chair/swatches/fabric-green.png" },
+      { id: "turquoise", hex: "#2aa7b8", en: "Turquoise", ar: "فيروزي", image: "/catalog/retro/steel-lounge-chair/swatches/fabric-turquoise.png" },
+      { id: "blue", hex: "#2f5fbf", en: "Blue", ar: "أزرق", image: "/catalog/retro/steel-lounge-chair/swatches/fabric-blue.png" },
+      { id: "burgundy", hex: "#8d2438", en: "Burgundy", ar: "عنابي", image: "/catalog/retro/steel-lounge-chair/swatches/fabric-burgundy.png" },
+      { id: "apple-green", hex: "#8fbf3a", en: "Apple green", ar: "أخضر تفاحي", image: "/catalog/retro/steel-lounge-chair/swatches/fabric-apple-green.png" },
+      { id: "sunflower", hex: "#f0b429", en: "Sunflower", ar: "دوار الشمس", image: "/catalog/retro/steel-lounge-chair/swatches/fabric-sunflower.png" },
+      { id: "grey", hex: "#8d8d8d", en: "Grey", ar: "رمادي", image: "/catalog/retro/steel-lounge-chair/swatches/fabric-grey.png" },
+    ],
+    materials: [
+      { id: "orange", hex: "#e44d16", en: "Orange", ar: "برتقالي" },
+      { id: "red", hex: "#da1b11", en: "Red", ar: "أحمر" },
+      { id: "yellow", hex: "#ffbe02", en: "Yellow", ar: "أصفر" },
+      { id: "charcoal", hex: "#404040", en: "Charcoal", ar: "فحمي" },
+      { id: "lime", hex: "#acc141", en: "Lime", ar: "ليموني" },
+      { id: "teal", hex: "#0d7470", en: "Teal", ar: "تركوازي" },
+      { id: "green", hex: "#1a5a37", en: "Green", ar: "أخضر" },
+      { id: "turquoise", hex: "#038ea2", en: "Turquoise", ar: "فيروزي" },
+      { id: "blue", hex: "#0c3998", en: "Blue", ar: "أزرق" },
+      { id: "burgundy", hex: "#861527", en: "Burgundy", ar: "عنابي" },
+      { id: "apple-green", hex: "#a4b938", en: "Apple green", ar: "أخضر تفاحي" },
+      { id: "sunflower", hex: "#fba905", en: "Sunflower", ar: "دوار الشمس" },
+      { id: "grey", hex: "#7f7f7f", en: "Grey", ar: "رمادي" },
+    ],
   },
   "tiled-bench": {
     width: 192,
     depth: 55,
     height: 45,
-    colors: tileColors,
-    materials: [premiumTiles, upholstery, wood],
+    colors: [
+      { id: "terracotta", hex: "#d96a1e", en: "Terracotta", ar: "تيراكوتا", image: "/catalog/tiles/tiled-bench/swatches/tile-terracotta.png" },
+      { id: "brown", hex: "#a86a3a", en: "Brown", ar: "بني", image: "/catalog/tiles/tiled-bench/swatches/tile-brown.png" },
+      { id: "pink", hex: "#e7c4c4", en: "Pink", ar: "وردي", image: "/catalog/tiles/tiled-bench/swatches/tile-pink.png" },
+      { id: "green", hex: "#3f8f28", en: "Green", ar: "أخضر", image: "/catalog/tiles/tiled-bench/swatches/tile-green.png" },
+      { id: "sage", hex: "#a8b58a", en: "Sage", ar: "مريمي", image: "/catalog/tiles/tiled-bench/swatches/tile-sage.png" },
+    ],
+    materials: [
+      { id: "walnut", hex: "#6b4423", en: "Walnut", ar: "جوز", image: "/catalog/tiles/tiled-bench/swatches/wood-walnut.png" },
+      { id: "oak", hex: "#c4a36a", en: "Oak", ar: "بلوط", image: "/catalog/tiles/tiled-bench/swatches/wood-oak.png" },
+    ],
   },
   "fringes-pouf": {
     diameter: 50,
     height: 45,
-    colors: studioColors,
-    materials: [upholstery],
+    colors: [
+      { id: "ivory", hex: "#f3efe4", en: "Ivory", ar: "عاجي", image: "/catalog/fringes/fringes-pouf/swatches/fabric-ivory.png" },
+      { id: "beige", hex: "#c4ae90", en: "Beige", ar: "بيج", image: "/catalog/fringes/fringes-pouf/swatches/fabric-beige.png" },
+      { id: "brown", hex: "#6a3a28", en: "Brown", ar: "بني", image: "/catalog/fringes/fringes-pouf/swatches/fabric-brown.png" },
+      { id: "olive", hex: "#6d7034", en: "Olive", ar: "زيتوني", image: "/catalog/fringes/fringes-pouf/swatches/fabric-olive.png" },
+      { id: "pink", hex: "#d4899a", en: "Pink", ar: "وردي", image: "/catalog/fringes/fringes-pouf/swatches/fabric-pink.png" },
+      { id: "navy", hex: "#1c2d6b", en: "Navy", ar: "كحلي", image: "/catalog/fringes/fringes-pouf/swatches/fabric-navy.png" },
+      { id: "orange", hex: "#e15a22", en: "Orange", ar: "برتقالي", image: "/catalog/fringes/fringes-pouf/swatches/fabric-orange.png" },
+    ],
+    materials: [
+      { id: "gold", hex: "#c6a15a", en: "Gold", ar: "ذهبي", image: "/catalog/fringes/fringes-pouf/swatches/tassel-gold.png" },
+      { id: "plum", hex: "#5c3048", en: "Plum", ar: "برقوقي", image: "/catalog/fringes/fringes-pouf/swatches/tassel-plum.png" },
+      { id: "burgundy", hex: "#8d2438", en: "Burgundy", ar: "عنابي", image: "/catalog/fringes/fringes-pouf/swatches/tassel-burgundy.png" },
+      { id: "navy", hex: "#1a2744", en: "Navy", ar: "كحلي", image: "/catalog/fringes/fringes-pouf/swatches/tassel-navy.png" },
+      { id: "cream", hex: "#e6d7c3", en: "Cream", ar: "كريمي", image: "/catalog/fringes/fringes-pouf/swatches/tassel-cream.png" },
+      { id: "teal", hex: "#1f7c78", en: "Teal", ar: "تركوازي", image: "/catalog/fringes/fringes-pouf/swatches/tassel-teal.png" },
+      { id: "brown", hex: "#5c3a22", en: "Brown", ar: "بني", image: "/catalog/fringes/fringes-pouf/swatches/tassel-brown.png" },
+    ],
   },
   "tiled-pouf": {
     width: 55,
@@ -192,8 +292,21 @@ export const productFacts: Record<string, ProductFacts> = {
     width: 61,
     depth: 61,
     height: 74,
-    colors: studioColors,
-    materials: [pvcLeather, italianVeneer],
+    colors: [
+      { id: "veneer-01", hex: "#7fa8a4", en: "Veneer 01", ar: "قشرة 01", image: "/catalog/tiles/backgammon-table/swatches/veneer-01.png" },
+      { id: "veneer-02", hex: "#6b4423", en: "Veneer 02", ar: "قشرة 02", image: "/catalog/tiles/backgammon-table/swatches/veneer-02.png" },
+      { id: "veneer-03", hex: "#c4a36a", en: "Veneer 03", ar: "قشرة 03", image: "/catalog/tiles/backgammon-table/swatches/veneer-03.png" },
+      { id: "veneer-04", hex: "#d8c4a0", en: "Veneer 04", ar: "قشرة 04", image: "/catalog/tiles/backgammon-table/swatches/veneer-04.png" },
+      { id: "oak", hex: "#c9a36a", en: "Oak", ar: "بلوط", image: "/catalog/tiles/backgammon-table/swatches/veneer-oak.png" },
+      { id: "veneer-05", hex: "#8a6239", en: "Veneer 05", ar: "قشرة 05", image: "/catalog/tiles/backgammon-table/swatches/veneer-05.png" },
+      { id: "veneer-06", hex: "#6b5a3e", en: "Veneer 06", ar: "قشرة 06", image: "/catalog/tiles/backgammon-table/swatches/veneer-06.png" },
+      { id: "veneer-07", hex: "#a87858", en: "Veneer 07", ar: "قشرة 07", image: "/catalog/tiles/backgammon-table/swatches/veneer-07.png" },
+      { id: "veneer-08", hex: "#9a3030", en: "Veneer 08", ar: "قشرة 08", image: "/catalog/tiles/backgammon-table/swatches/veneer-08.png" },
+    ],
+    materials: [
+      { id: "beige", hex: "#e6d3b8", en: "PVC beige", ar: "بيج PVC", image: "/catalog/tiles/backgammon-table/swatches/pvc-beige.png" },
+      { id: "brown", hex: "#6b4228", en: "PVC brown", ar: "بني PVC", image: "/catalog/tiles/backgammon-table/swatches/pvc-brown.png" },
+    ],
   },
 };
 

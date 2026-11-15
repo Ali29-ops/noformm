@@ -143,27 +143,27 @@
     "sphere-bench": {
       "name": "The Onda Bench",
       "description": "A low seating form draped in a labyrinthine weave, resting on three spherical hardwood volumes.",
-      "materials": ["Beech wood", "High-density foam", "Luxurious upholstery"]
+      "materials": ["Wood", "Fabric"]
     },
     "lounge-chair": {
       "name": "The Boule Lounge Chair",
       "description": "A low sculptural seating form defined by floating arms, olive leather, and a spherical wooden foot.",
-      "materials": ["Wood", "Durable elastic band", "Luxurious leather upholstery"]
+      "materials": ["Leather", "Wood"]
     },
     "commode": {
       "name": "The Forma Commode",
       "description": "A darkened wooden chest whose drawer fronts carry a continuous rust-orange textile field, lifted on spherical feet.",
-      "materials": ["Upholstery", "Beech wood"]
+      "materials": ["Fabric", "Wood veneer"]
     },
     "folded-pouf": {
       "name": "The Folded Pouf",
       "description": "A cylindrical seating volume with a leather wrap that rises into a short back — a fold held by a single metal stud.",
-      "materials": ["Wood", "Durable elastic band", "Luxurious upholstery"]
+      "materials": ["Upholstery", "Leather"]
     },
     "sphere-ottoman": {
       "name": "The Nubo Pouf",
       "description": "A tapered cylindrical ottoman in sketched ivory weave, grounded by four glossed spherical feet.",
-      "materials": ["Wood", "Durable elastic band", "Luxurious leather upholstery"]
+      "materials": ["Upholstery"]
     },
     "orbit-coffee-table": {
       "name": "The Orbit Table",
@@ -178,37 +178,37 @@
     "lobe-coffee-table": {
       "name": "The Sphera Table",
       "description": "Two warm hardwood planes, stacked in an organic drift, held by spherical volumes.",
-      "materials": ["Mosaic", "Upholstery"]
+      "materials": ["Wood"]
     },
     "wave-coffee-table": {
       "name": "The Sphere Table",
       "description": "A glass plane that folds toward the floor, lifted at the far end by a single hardwood sphere.",
-      "materials": ["Glass", "Beech wood"]
+      "materials": ["Glass", "Wood"]
     },
     "stem-side-table": {
       "name": "Stem Side Table",
       "description": "A small circular plane on a slender stem, weighted by a sphere at the base.",
-      "materials": ["Hardwood plane", "Slender stem", "Hardwood sphere"]
+      "materials": ["Wood veneer"]
     },
     "backgammon-table": {
       "name": "The Tawla Table",
       "description": "A pedestal table with a copper playing field set in a rounded white plane, above a relief-cast, earth-toned base.",
-      "materials": ["Premium PVC leather finish", "Italian wood veneer"]
+      "materials": ["Wood veneer", "PVC"]
     },
     "steel-lounge-chair": {
       "name": "The Steel Chair",
       "description": "Tubular steel in orange, striped cushions, shade cut across colour — a lounge for outdoor light.",
-      "materials": ["Steel", "Upholstery"]
+      "materials": ["Striped fabric", "Steel"]
     },
     "tiled-bench": {
       "name": "The Tiled Bench",
       "description": "Cushioned linen volumes on a walnut plane, supported by a glazed ceramic plinth — architecture at seating height.",
-      "materials": ["Premium tiles", "Upholstery", "Wood"]
+      "materials": ["Spanish imported tiles", "Wood"]
     },
     "tiled-coffee-table": {
       "name": "The Tiled Coffee Table",
       "description": "A dark wood frame carrying a field of standing ceramic blocks — glaze, grout, and geometric rhythm.",
-      "materials": ["Premium tiles", "Wood"]
+      "materials": ["Tile", "Wood veneer"]
     },
     "tiled-pouf": {
       "name": "The Tiled Pouf",
@@ -218,7 +218,7 @@
     "fringes-pouf": {
       "name": "The Tango Pouf",
       "description": "A cylindrical seating form split between burnt-orange pile and a falling field of teal fringe.",
-      "materials": ["Upholstery"]
+      "materials": ["Velvet upholstery", "Beaded tassels"]
     }
   },
   "about": {
@@ -490,6 +490,13 @@
     "delivery": "Delivery across Egypt. Returns within {days} days.",
     "deliveryLink": "Delivery & returns",
     "color": "Colour",
+    "fabric": "Fabric",
+    "leather": "Leather",
+    "tassels": "Tassels",
+    "wood": "Wood",
+    "steel": "Steel",
+    "veneer": "Veneer",
+    "pvc": "PVC",
     "chooseColor": "Choose a colour",
     "chooseMaterial": "Choose a material",
     "previousPicture": "Previous picture",
