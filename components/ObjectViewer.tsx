@@ -121,9 +121,9 @@ export function ObjectViewer({
             <button
               type="button"
               onClick={close}
-              className="draw-underline font-sans text-[11px] uppercase tracking-label"
+              className="border border-ivory px-4 py-2 font-sans text-[11px] uppercase tracking-label"
             >
-              {t("close")}
+              × {t("close")}
             </button>
           </div>
           <div

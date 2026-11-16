@@ -6,7 +6,7 @@ import { createPortal } from "react-dom";
 import { useLocale, useTranslations } from "next-intl";
 import { addToCartAction } from "@/app/shop-actions";
 import { Link, useRouter } from "@/i18n/navigation";
-import type { SwatchOption } from "@/lib/product-options";
+import { colorLegendKey, materialLegendKey, type SwatchOption } from "@/lib/product-options";
 
 export type ComplementCard = {
   slug: string;
@@ -49,10 +49,10 @@ function Circles({
               aria-pressed={on}
               aria-label={name}
               title={name}
-              className={`h-7 w-7 rounded-full border transition-transform duration-300 ${
+              className={`h-11 w-11 rounded-full border bg-cover bg-center transition-transform duration-300 ${
                 on ? "scale-110 border-charcoal ring-1 ring-charcoal ring-offset-2 ring-offset-ivory" : "border-hardwood/35"
               }`}
-              style={{ backgroundColor: option.hex }}
+              style={option.image ? { backgroundImage: `url(${option.image})` } : { backgroundColor: option.hex }}
             />
           );
         })}
@@ -88,6 +88,7 @@ export function CartComplements({
 
   const count = items.length;
   const item = items[index] ?? items[0];
+  const materialKey = item ? materialLegendKey(item.slug) : "materials";
   const done = item ? Boolean(held[item.slug]) : false;
   const rtl = locale === "ar";
 
@@ -226,27 +227,36 @@ export function CartComplements({
                     <p id="complete-room-title" className="font-serif text-2xl leading-snug md:text-3xl">
                       {t("title")}
                     </p>
-                    <button
-                      type="button"
-                      onClick={checkout}
-                      className="shrink-0 pt-1 font-sans text-[11px] uppercase tracking-label"
-                    >
-                      {t("skip")}
-                    </button>
+                    <div className="flex shrink-0 items-center gap-5 pt-1">
+                      <button
+                        type="button"
+                        onClick={() => setOpen(false)}
+                        className="border border-charcoal px-3 py-2 font-sans text-[11px] uppercase tracking-label"
+                      >
+                        × {t("exit")}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={checkout}
+                        className="font-sans text-[11px] uppercase tracking-label"
+                      >
+                        {t("skip")}
+                      </button>
+                    </div>
                   </div>
 
                   <p className="mt-10 font-serif text-2xl leading-snug md:text-3xl">{item.name}</p>
                   <p className="mt-2 text-sm text-hardwood">{item.priceLabel}</p>
 
                   <Circles
-                    legend={productT("color")}
+                    legend={productT(colorLegendKey(item.slug))}
                     options={item.colors}
                     value={color}
                     locale={locale}
                     onChange={setColor}
                   />
                   <Circles
-                    legend={common("materials")}
+                    legend={materialKey === "materials" ? common("materials") : productT(materialKey)}
                     options={item.materials}
                     value={material}
                     locale={locale}

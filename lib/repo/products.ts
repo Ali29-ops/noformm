@@ -59,8 +59,8 @@ export type ProductInput = {
   descriptionAr: string;
   materials: string[];
   materialsAr: string[];
-  colorSwatches: { id: string; hex: string; en: string; ar: string }[];
-  materialSwatches: { id: string; hex: string; en: string; ar: string }[];
+  colorSwatches: { id: string; hex: string; en: string; ar: string; image?: string }[];
+  materialSwatches: { id: string; hex: string; en: string; ar: string; image?: string }[];
   images: string[];
   sku: string;
   price: number;
@@ -75,8 +75,8 @@ export type ProductInput = {
   care: string;
   careAr: string;
   active: boolean;
-  floorX: number | null;
-  floorY: number | null;
+  floorX?: number | null;
+  floorY?: number | null;
   sortOrder: number;
 };
 

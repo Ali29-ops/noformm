@@ -15,6 +15,7 @@ import { collectionIds, type CollectionId } from "@/lib/catalog";
 import {
   createProduct,
   deleteProduct,
+  getAllProducts,
   getProductBySlug,
   setOnHand,
   slugify,
@@ -53,6 +54,7 @@ import {
   collectImageFiles,
   collectImageUrls,
   nextImageIndex,
+  saveSwatchImage,
   removeOwnedImage,
   removeProductMedia,
   saveUploadedImages,
@@ -188,8 +190,6 @@ function readProductInput(formData: FormData, images: string[]): ProductInput {
     care: str(formData, "care"),
     careAr: str(formData, "careAr"),
     active: bool(formData, "active"),
-    floorX: num(formData, "floorX"),
-    floorY: num(formData, "floorY"),
     sortOrder: num(formData, "sortOrder") ?? 0,
   };
 }
@@ -204,6 +204,33 @@ export async function updateOnHandAction(formData: FormData) {
   revalidatePath("/admin/products");
 }
 
+const skuCode: Record<CollectionId, string> = {
+  sphere: "SPH",
+  retro: "RET",
+  tiles: "TIL",
+  fringes: "FRG",
+};
+
+async function nextSku(collection: CollectionId) {
+  const products = await getAllProducts({ includeInactive: true });
+  const prefix = `NF-${skuCode[collection]}-`;
+  let max = 0;
+  for (const product of products) {
+    if (!product.sku?.startsWith(prefix)) continue;
+    const n = Number(product.sku.slice(prefix.length));
+    if (Number.isFinite(n)) max = Math.max(max, n);
+  }
+  return `${prefix}${String(max + 1).padStart(3, "0")}`;
+}
+
+async function attachMaterialPhotos(slug: string, formData: FormData, materials: ProductInput["materialSwatches"]) {
+  for (let index = 0; index < materials.length; index += 1) {
+    const file = formData.get(`materialPhoto-${index}`);
+    if (!(file instanceof File) || file.size === 0) continue;
+    materials[index].image = await saveSwatchImage(slug, materials[index].id, file);
+  }
+}
+
 export async function addProductAction(formData: FormData) {
   const admin = await requireAdmin();
   const name = str(formData, "name");
@@ -215,6 +242,8 @@ export async function addProductAction(formData: FormData) {
   const urls = collectImageUrls(str(formData, "imageUrls"));
   const uploaded = await saveUploadedImages(slug, collectImageFiles(formData), nextImageIndex(urls, slug));
   const input = readProductInput(formData, [...uploaded, ...urls]);
+  if (!input.sku) input.sku = await nextSku(input.collection);
+  await attachMaterialPhotos(slug, formData, input.materialSwatches);
   await createProduct(slug, input);
   await audit(admin.email, "product.create", "product", slug);
   refreshCatalog(input.collection);
@@ -236,6 +265,8 @@ export async function updateProductAction(formData: FormData) {
   const urls = collectImageUrls(str(formData, "imageUrls"));
   const uploaded = await saveUploadedImages(slug, collectImageFiles(formData), nextImageIndex([...kept, ...urls], slug));
   const input = readProductInput(formData, [...kept, ...uploaded, ...urls]);
+  if (!input.sku) input.sku = await nextSku(input.collection);
+  await attachMaterialPhotos(slug, formData, input.materialSwatches);
   await updateProduct(slug, input);
   await audit(admin.email, "product.update", "product", slug, { price: input.price, onHand: input.onHand, active: input.active });
   refreshCatalog(input.collection, current.collection);

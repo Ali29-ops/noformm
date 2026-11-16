@@ -58,6 +58,32 @@ export function materialName(id: string | undefined, locale: string, extras: rea
   return nameFrom(extras, id, locale) || nameIn(productMaterials, id, locale);
 }
 
+export function materialLegendKey(slug: string) {
+  if (slug === "fringes-pouf") return "tassels";
+  if (slug === "tiled-bench" || slug === "wave-coffee-table" || slug === "lobe-coffee-table" || slug === "sphere-bench") return "wood";
+  if (slug === "folded-pouf" || slug === "lounge-chair") return "leather";
+  if (slug === "steel-lounge-chair") return "steel";
+  if (slug === "backgammon-table") return "pvc";
+  if (slug === "tiled-coffee-table" || slug === "commode" || slug === "stem-side-table") return "veneer";
+  return "materials";
+}
+
+export function colorLegendKey(slug: string) {
+  if (
+    slug === "fringes-pouf" ||
+    slug === "steel-lounge-chair" ||
+    slug === "folded-pouf" ||
+    slug === "sphere-ottoman" ||
+    slug === "commode" ||
+    slug === "sphere-bench"
+  ) {
+    return "fabric";
+  }
+  if (slug === "backgammon-table") return "veneer";
+  if (slug === "lounge-chair") return "wood";
+  return "color";
+}
+
 export function lineKey(slug: string, color?: string, material?: string) {
   return [slug, color ?? "", material ?? ""].join("::");
 }
@@ -91,7 +117,7 @@ export function parseSwatches(raw: string): SwatchOption[] {
   const out: SwatchOption[] = [];
   for (const item of parsed) {
     if (!item || typeof item !== "object") continue;
-    const row = item as { id?: unknown; hex?: unknown; en?: unknown; ar?: unknown };
+    const row = item as { id?: unknown; hex?: unknown; en?: unknown; ar?: unknown; image?: unknown };
     const en = String(row.en ?? "").trim();
     const ar = String(row.ar ?? "").trim();
     const hexRaw = String(row.hex ?? "").trim();
@@ -104,11 +130,13 @@ export function parseSwatches(raw: string): SwatchOption[] {
       .toLowerCase()
       .replace(/[^a-z0-9-]+/g, "-")
       .replace(/^-|-$/g, "");
+    const image = String(row.image ?? "").trim();
     out.push({
       id: given && !used.has(given) ? (used.add(given), given) : uniqueId(en, used),
       hex: hex.toLowerCase(),
       en,
       ar: ar || en,
+      ...(image.startsWith("/") || image.startsWith("http://") || image.startsWith("https://") ? { image } : {}),
     });
   }
   return out;

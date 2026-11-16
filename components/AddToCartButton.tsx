@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { addToCartAction } from "@/app/shop-actions";
-import type { SwatchOption } from "@/lib/product-options";
+import { colorLegendKey, materialLegendKey, type SwatchOption } from "@/lib/product-options";
 
 function Swatches({
   legend,
@@ -101,25 +101,13 @@ export function AddToCartButton({
     }
   }
 
+  const materialKey = materialLegendKey(slug);
+
   return (
     <div className="mt-10">
       {materials.length > 0 ? (
         <Swatches
-          legend={
-            slug === "fringes-pouf"
-              ? t("tassels")
-              : slug === "tiled-bench" || slug === "wave-coffee-table" || slug === "lobe-coffee-table" || slug === "sphere-bench"
-                ? t("wood")
-                : slug === "folded-pouf" || slug === "lounge-chair"
-                  ? t("leather")
-                  : slug === "steel-lounge-chair"
-                  ? t("steel")
-                  : slug === "backgammon-table"
-                    ? t("pvc")
-                    : slug === "tiled-coffee-table" || slug === "commode" || slug === "stem-side-table"
-                      ? t("veneer")
-                      : common("materials")
-          }
+          legend={materialKey === "materials" ? common("materials") : t(materialKey)}
           options={materials}
           value={material}
           locale={locale}
@@ -128,15 +116,7 @@ export function AddToCartButton({
       ) : null}
       {colors.length > 0 ? (
         <Swatches
-          legend={
-            slug === "fringes-pouf" || slug === "steel-lounge-chair" || slug === "folded-pouf" || slug === "sphere-ottoman" || slug === "commode" || slug === "sphere-bench"
-              ? t("fabric")
-              : slug === "backgammon-table"
-                ? t("veneer")
-                : slug === "lounge-chair"
-                  ? t("wood")
-                  : t("color")
-          }
+          legend={t(colorLegendKey(slug))}
           options={colors}
           value={color}
           locale={locale}

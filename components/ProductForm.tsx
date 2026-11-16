@@ -72,10 +72,11 @@ export function ProductForm({
               ))}
             </select>
           </label>
-          <label className="block">
+          <div className="block">
             <span className="label">SKU / reference</span>
-            <input name="sku" defaultValue={product?.sku ?? ""} placeholder="NF-SPH-001" className={inputCls} />
-          </label>
+            <p className="mt-2 text-sm">{product?.sku || "Assigned from the collection when you save, for example NF-SPH-001."}</p>
+            <input type="hidden" name="sku" value={product?.sku ?? ""} />
+          </div>
           <label className="block md:col-span-2">
             <span className="label">Description (EN)</span>
             <textarea name="description" rows={3} defaultValue={product?.description ?? ""} placeholder={defaults?.description} className={`${inputCls} resize-none`} />
@@ -99,7 +100,7 @@ export function ProductForm({
         title="Colours & materials"
         hint="Small circles on the product page. Add one row for each option the customer can pick before checkout. Leave empty if this piece has no choice."
       >
-        <SwatchEditor name="materialSwatches" label="Materials" initial={product ? resolveMaterials(product) : []} />
+        <SwatchEditor name="materialSwatches" label="Materials" photo initial={product ? resolveMaterials(product) : []} />
         <div className="mt-10">
           <SwatchEditor name="colorSwatches" label="Colours" initial={product ? resolveColors(product) : []} />
         </div>
@@ -166,22 +167,7 @@ export function ProductForm({
         </div>
       </Section>
 
-      <Section title="Floor placement" hint="Position of the pin on the collection floor, as a percentage of the image. Leave empty to use the default position.">
-        <div className="grid gap-6 md:grid-cols-3">
-          <label className="block">
-            <span className="label">X %</span>
-            <input name="floorX" type="number" min={0} max={100} step="0.5" defaultValue={product?.floorX ?? ""} className={inputCls} />
-          </label>
-          <label className="block">
-            <span className="label">Y %</span>
-            <input name="floorY" type="number" min={0} max={100} step="0.5" defaultValue={product?.floorY ?? ""} className={inputCls} />
-          </label>
-          <label className="block">
-            <span className="label">Sort order</span>
-            <input name="sortOrder" type="number" defaultValue={product?.sortOrder ?? 0} className={inputCls} />
-          </label>
-        </div>
-      </Section>
+      <input type="hidden" name="sortOrder" value={product?.sortOrder ?? 0} />
 
       <Section title="Photos">
         <div className="grid gap-6 md:grid-cols-2">
@@ -230,10 +216,12 @@ function SwatchEditor({
   name,
   label,
   initial,
+  photo = false,
 }: {
   name: string;
   label: string;
   initial: SwatchOption[];
+  photo?: boolean;
 }) {
   const [rows, setRows] = useState<SwatchOption[]>(() => initial.map((row) => ({ ...row })));
 
@@ -247,20 +235,40 @@ function SwatchEditor({
       <input type="hidden" name={name} value={JSON.stringify(rows)} />
       <ul className="mt-4 space-y-4">
         {rows.map((row, index) => (
-          <li key={`${name}-${index}`} className="grid items-end gap-3 md:grid-cols-[auto_1fr_1fr_1fr_auto]">
-            <label className="block">
-              <span className="label">Swatch</span>
-              <span className="mt-2 flex items-center gap-3">
-                <span className="h-8 w-8 shrink-0 rounded-full border border-hardwood/40" style={{ background: row.hex || "#ccc" }} />
-                <input
-                  type="color"
-                  value={/^#[0-9a-fA-F]{6}$/.test(row.hex) ? row.hex : "#8b5a2b"}
-                  onChange={(event) => update(index, { hex: event.target.value })}
-                  className="h-8 w-10 cursor-pointer border border-hardwood/25 bg-transparent p-0"
-                  aria-label={`${label} colour ${index + 1}`}
-                />
-              </span>
-            </label>
+          <li key={`${name}-${index}`} className="grid items-end gap-3 md:grid-cols-[auto_1fr_1fr_auto]">
+            {photo ? (
+              <label className="block">
+                <span className="label">Photo</span>
+                <span className="mt-2 flex items-center gap-3">
+                  <span
+                    className="h-11 w-11 shrink-0 rounded-full border border-hardwood/40 bg-cover bg-center"
+                    style={row.image ? { backgroundImage: `url(${row.image})` } : { background: row.hex || "#ccc" }}
+                  />
+                  <input
+                    name={`materialPhoto-${index}`}
+                    type="file"
+                    accept="image/*"
+                    className="max-w-[12rem]"
+                    aria-label={`${label} photo ${index + 1}`}
+                  />
+                </span>
+              </label>
+            ) : (
+              <label className="block">
+                <span className="label">Swatch</span>
+                <span className="mt-2 flex items-center gap-3">
+                  <span className="h-8 w-8 shrink-0 rounded-full border border-hardwood/40" style={{ background: row.hex || "#ccc" }} />
+                  <input
+                    type="color"
+                    value={/^#[0-9a-fA-F]{6}$/.test(row.hex) ? row.hex : "#8b5a2b"}
+                    onChange={(event) => update(index, { hex: event.target.value })}
+                    className="h-8 w-10 cursor-pointer border border-hardwood/25 bg-transparent p-0"
+                    aria-label={`${label} colour ${index + 1}`}
+                  />
+                </span>
+              </label>
+            )}
+            {photo ? null : (
             <label className="block">
               <span className="label">Hex</span>
               <input
@@ -270,6 +278,7 @@ function SwatchEditor({
                 className="mt-2"
               />
             </label>
+            )}
             <label className="block">
               <span className="label">Name (EN)</span>
               <input

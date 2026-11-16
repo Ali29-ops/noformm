@@ -52,6 +52,14 @@ export async function saveUploadedImages(slug: string, files: File[], start = 1)
   return paths;
 }
 
+export async function saveSwatchImage(slug: string, id: string, file: File) {
+  const dir = path.join(mediaDir(slug), "swatches");
+  await mkdir(dir, { recursive: true });
+  const filename = `${id}${safeExt(file.name)}`;
+  await writeFile(path.join(dir, filename), Buffer.from(await file.arrayBuffer()));
+  return `/catalog/custom/${slug}/swatches/${filename}`;
+}
+
 export async function removeOwnedImage(src: string, slug: string) {
   if (!src.startsWith(`/catalog/custom/${slug}/`)) return;
   const filename = path.basename(src);
