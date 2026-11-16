@@ -6,6 +6,8 @@ type RlGlobal = typeof globalThis & { __noformRl?: Map<string, Bucket> };
 const g = globalThis as RlGlobal;
 const buckets = (g.__noformRl ??= new Map<string, Bucket>());
 
+export const rateLimitMessage = "Too many attempts. Please wait a moment and try again.";
+
 export async function clientIp() {
   const h = await headers();
   return (
@@ -20,7 +22,7 @@ export async function clientIp() {
  * Simple in-memory sliding window. Suitable for a single Node instance;
  * swap for Redis/Upstash when running multiple instances.
  */
-export async function rateLimit(scope: string, limit: number, windowSeconds: number) {
+export async function allowAttempt(scope: string, limit: number, windowSeconds: number) {
   const ip = await clientIp();
   const key = `${scope}:${ip}`;
   const now = Date.now();
@@ -30,10 +32,12 @@ export async function rateLimit(scope: string, limit: number, windowSeconds: num
   const bucket = buckets.get(key);
   if (!bucket || bucket.resetAt < now) {
     buckets.set(key, { count: 1, resetAt: now + windowSeconds * 1000 });
-    return;
+    return true;
   }
   bucket.count += 1;
-  if (bucket.count > limit) {
-    throw new Error("Too many attempts. Please wait a moment and try again.");
-  }
+  return bucket.count <= limit;
+}
+
+export async function rateLimit(scope: string, limit: number, windowSeconds: number) {
+  if (!(await allowAttempt(scope, limit, windowSeconds))) throw new Error(rateLimitMessage);
 }

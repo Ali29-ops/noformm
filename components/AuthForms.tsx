@@ -20,11 +20,12 @@ export function AuthForms({ next }: { next?: string }) {
     setError("");
     const data = new FormData(event.currentTarget);
     try {
-      if (mode === "in") await signInAction(data);
-      else await registerAction(data);
+      const result = await (mode === "in" ? signInAction(data) : registerAction(data));
+      if (result?.error) setError(result.error);
     } catch (err) {
       unstable_rethrow(err);
-      setError(err instanceof Error ? err.message : t("failed"));
+      setError(t("failed"));
+    } finally {
       setPending(false);
     }
   }
@@ -92,7 +93,7 @@ export function AuthForms({ next }: { next?: string }) {
             </label>
           </>
         )}
-        {error ? <p className="text-sm text-burgundy">{error}</p> : null}
+        {error ? <p role="alert" className="text-sm text-burgundy">{error}</p> : null}
         <button
           type="submit"
           disabled={pending}

@@ -23,7 +23,7 @@ import { getDb } from "@/lib/db";
 import { customers } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { notifyPasswordReset, notifyWelcome } from "@/lib/email/notify";
-import { rateLimit } from "@/lib/rate-limit";
+import { allowAttempt, rateLimit, rateLimitMessage } from "@/lib/rate-limit";
 import { addressSchema, emailSchema, firstIssue, formToObject, registerSchema } from "@/lib/validation";
 
 type Locale = "en" | "ar";
@@ -37,11 +37,12 @@ export async function getAccount() {
 }
 
 export async function registerAction(formData: FormData) {
-  await rateLimit("register", 5, 300);
+  if (!(await allowAttempt("register", 5, 300))) return { error: rateLimitMessage };
   const parsed = registerSchema.safeParse(formToObject(formData));
-  if (!parsed.success) throw new Error(firstIssue(parsed.error));
+  if (!parsed.success) return { error: firstIssue(parsed.error) };
   const loc = await locale();
   const customer = await createCustomer({ ...parsed.data, locale: loc });
+  if (!customer) return { error: "An account with this email already exists. Try signing in." };
   await claimGuestOrders(customer.id, customer.email);
   await writeCustomerSession(customer);
   await notifyWelcome(loc, customer.email, customer.name);
@@ -49,12 +50,12 @@ export async function registerAction(formData: FormData) {
 }
 
 export async function signInAction(formData: FormData) {
-  await rateLimit("signin", 10, 300);
+  if (!(await allowAttempt("signin", 10, 300))) return { error: rateLimitMessage };
   const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "");
   const customer = await getCustomerByEmail(email);
   if (!customer || !verifyPassword(password, customer)) {
-    throw new Error("Email or password is not correct.");
+    return { error: "Email or password is not correct." };
   }
   if (customer.hashScheme !== "scrypt") {
     // Upgrade legacy hash transparently.

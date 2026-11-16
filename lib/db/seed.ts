@@ -231,7 +231,7 @@ async function ensureAdmin(db: Db) {
   if (any) return;
   const password = process.env.ADMIN_PASSWORD;
   if (!password) return;
-  const email = (process.env.ADMIN_EMAIL ?? "studio@noform.design").toLowerCase();
+  const email = (process.env.ADMIN_EMAIL ?? "studio@noform.design").trim().toLowerCase();
   const { salt, hash } = hashPassword(password);
   await db.insert(schema.adminUsers).values({
     id: prefixedId("AD"),
@@ -240,7 +240,7 @@ async function ensureAdmin(db: Db) {
     passwordHash: hash,
     salt,
     role: "owner",
-  });
+  }).onConflictDoNothing({ target: schema.adminUsers.email });
 }
 
 async function ensureShippingRates(db: Db) {

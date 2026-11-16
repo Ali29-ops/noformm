@@ -32,21 +32,23 @@ export async function createCustomer(input: {
 }) {
   const db = await getDb();
   const email = normalizeEmail(input.email);
-  if (await getCustomerByEmail(email)) throw new Error("An account with this email already exists.");
   const { salt, hash } = hashPassword(input.password);
-  const id = prefixedId("CU");
-  await db.insert(customers).values({
-    id,
-    name: input.name.trim(),
-    email,
-    phone: input.phone.trim(),
-    city: input.city.trim(),
-    locale: input.locale,
-    salt,
-    passwordHash: hash,
-    hashScheme: "scrypt",
-  });
-  return (await getCustomerById(id))!;
+  const [customer] = await db
+    .insert(customers)
+    .values({
+      id: prefixedId("CU"),
+      name: input.name.trim(),
+      email,
+      phone: input.phone.trim(),
+      city: input.city.trim(),
+      locale: input.locale,
+      salt,
+      passwordHash: hash,
+      hashScheme: "scrypt",
+    })
+    .onConflictDoNothing({ target: customers.email })
+    .returning();
+  return customer ?? null;
 }
 
 export async function updateCustomerProfile(
