@@ -186,16 +186,16 @@ export function CartComplements({
 
       {mounted && open && item
         ? createPortal(
-            <div className="fixed inset-0 z-[200] flex items-center justify-center p-5 md:p-10">
+            <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-8">
               <button type="button" aria-label={t("skip")} onClick={checkout} className="absolute inset-0 bg-charcoal/50" />
               <div
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="complete-room-title"
-                className="relative z-10 grid max-h-[88dvh] w-full max-w-4xl overflow-hidden bg-ivory text-charcoal md:grid-cols-2"
+                className="relative z-10 grid h-[min(36rem,calc(100dvh-2rem))] w-[min(64rem,calc(100vw-2rem))] overflow-hidden bg-ivory text-charcoal md:grid-cols-2"
               >
                 <div
-                  className="relative h-[46vh] overflow-hidden bg-[#1c1a18] md:h-full md:min-h-[34rem]"
+                  className="relative h-44 shrink-0 overflow-hidden bg-[#1c1a18] sm:h-56 md:h-full"
                   onPointerDown={onPointerDown}
                   onPointerUp={onPointerUp}
                 >
@@ -222,27 +222,18 @@ export function CartComplements({
                   </div>
                 </div>
 
-                <div className="flex min-h-0 flex-col overflow-y-auto px-8 py-7 md:px-12 md:py-10">
-                  <div className="flex items-start justify-between gap-8">
+                <div className="flex min-h-0 flex-col overflow-y-auto px-6 py-6 sm:px-8 md:px-10 md:py-8">
+                  <div className="flex items-start justify-between gap-6">
                     <p id="complete-room-title" className="font-serif text-2xl leading-snug md:text-3xl">
                       {t("title")}
                     </p>
-                    <div className="flex shrink-0 items-center gap-5 pt-1">
-                      <button
-                        type="button"
-                        onClick={() => setOpen(false)}
-                        className="border border-charcoal px-3 py-2 font-sans text-[11px] uppercase tracking-label"
-                      >
-                        × {t("exit")}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={checkout}
-                        className="font-sans text-[11px] uppercase tracking-label"
-                      >
-                        {t("skip")}
-                      </button>
-                    </div>
+                    <button
+                      type="button"
+                      onClick={checkout}
+                      className="shrink-0 pt-1 font-sans text-[11px] uppercase tracking-label"
+                    >
+                      {t("skip")}
+                    </button>
                   </div>
 
                   <p className="mt-10 font-serif text-2xl leading-snug md:text-3xl">{item.name}</p>

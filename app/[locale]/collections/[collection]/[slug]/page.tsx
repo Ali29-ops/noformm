@@ -65,12 +65,13 @@ export default async function ProductPage({
   const product = await getLiveProduct(collection, slug);
   if (!product) notFound();
 
-  const [collectionsT, common, showroom, pt, shop, settings, walk] = await Promise.all([
+  const [collectionsT, common, showroom, pt, shop, nav, settings, walk] = await Promise.all([
     getTranslations("collections"),
     getTranslations("common"),
     getTranslations("showroom"),
     getTranslations("product"),
     getTranslations("shop"),
+    getTranslations("nav"),
     getSettings(),
     getLiveAdjacent(product),
   ]);
@@ -132,7 +133,10 @@ export default async function ProductPage({
 
       <div className="relative z-10 mx-auto grid min-h-svh max-w-editorial gap-10 px-6 pb-28 pt-28 md:grid-cols-8 md:items-center md:gap-16 md:px-20 md:pb-16">
         <aside className="order-2 md:sticky md:top-28 md:order-1 md:col-span-3 md:self-start">
-          <p className="label text-ivory/60">
+          <Link href="/products" className="font-sans text-[11px] uppercase tracking-label text-ivory/80">
+            ‹ {nav("back")}
+          </Link>
+          <p className="label mt-6 text-ivory/60">
             <Link href={collectionEnterHref(product.collection)} className="draw-underline">
               {collectionsT(`${product.collection}.name`)}
             </Link>
