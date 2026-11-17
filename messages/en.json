@@ -141,7 +141,7 @@
   },
   "products": {
     "sphere-bench": {
-      "name": "The Onda Bench",
+      "name": "The Marea Bench",
       "description": "A low seating form draped in a labyrinthine weave, resting on three spherical hardwood volumes.",
       "materials": ["Wood", "Fabric"]
     },
@@ -151,7 +151,7 @@
       "materials": ["Leather", "Wood"]
     },
     "commode": {
-      "name": "The Forma Commode",
+      "name": "The Ritmo Commode",
       "description": "A darkened wooden chest whose drawer fronts carry a continuous rust-orange textile field, lifted on spherical feet.",
       "materials": ["Fabric", "Wood veneer"]
     },
@@ -161,12 +161,12 @@
       "materials": ["Upholstery", "Leather"]
     },
     "sphere-ottoman": {
-      "name": "The Nubo Pouf",
+      "name": "The Nube Pouf",
       "description": "A tapered cylindrical ottoman in sketched ivory weave, grounded by four glossed spherical feet.",
       "materials": ["Upholstery"]
     },
     "orbit-coffee-table": {
-      "name": "The Orbit Table",
+      "name": "The Tria Table",
       "description": "A low table whose mass orbits a spherical presence — proportion over ornament.",
       "materials": ["Beech wood"]
     },
@@ -176,12 +176,12 @@
       "materials": ["Beech wood"]
     },
     "lobe-coffee-table": {
-      "name": "The Sphera Table",
+      "name": "The Sfera Table",
       "description": "Two warm hardwood planes, stacked in an organic drift, held by spherical volumes.",
       "materials": ["Wood"]
     },
     "wave-coffee-table": {
-      "name": "The Sphere Table",
+      "name": "The Astra Table",
       "description": "A glass plane that folds toward the floor, lifted at the far end by a single hardwood sphere.",
       "materials": ["Glass", "Wood"]
     },
@@ -196,7 +196,7 @@
       "materials": ["Wood veneer", "PVC"]
     },
     "steel-lounge-chair": {
-      "name": "The Steel Chair",
+      "name": "The Sling Chair",
       "description": "Tubular steel in orange, striped cushions, shade cut across colour — a lounge for outdoor light.",
       "materials": ["Striped fabric", "Steel"]
     },
@@ -270,7 +270,7 @@
       "night": {
         "kicker": "Sphere",
         "title": "Night, composed.",
-        "body": "A bed that is a volume. A commode like a small planet. The Onda bench waits at the foot of sleep."
+        "body": "A bed that is a volume. A commode like a small planet. The Marea bench waits at the foot of sleep."
       },
       "sitting": {
         "kicker": "Sphere",
