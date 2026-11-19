@@ -116,8 +116,8 @@ const sphereWood: SwatchOption[] = [
 
 export const productFacts: Record<string, ProductFacts> = {
   "folded-pouf": {
-    width: 40,
-    depth: 40,
+    width: 45,
+    depth: 45,
     height: 48,
     colors: poufFabrics,
     materials: [
@@ -128,8 +128,7 @@ export const productFacts: Record<string, ProductFacts> = {
     ],
   },
   "sphere-ottoman": {
-    width: 50,
-    depth: 50,
+    diameter: 50,
     height: 45,
     colors: poufFabrics,
     materials: [],
@@ -149,9 +148,9 @@ export const productFacts: Record<string, ProductFacts> = {
     materials: [beechWood],
   },
   "coffee-table-iii": {
-    width: 120,
-    depth: 30,
-    height: 90,
+    width: 140,
+    depth: 50,
+    height: 83,
     colors: woodTones,
     materials: [beechWood],
   },
@@ -169,33 +168,36 @@ export const productFacts: Record<string, ProductFacts> = {
     ],
   },
   "lobe-coffee-table": {
-    width: 95,
-    depth: 138,
-    height: 40,
+    width: 140,
+    depth: 90,
+    height: 35,
     colors: [],
     materials: sphereWood,
   },
   "sphere-bench": {
-    width: 190,
-    depth: 40,
-    height: 48,
+    width: 170,
+    depth: 45,
+    height: 45,
     colors: poufFabrics,
     materials: sphereWood,
   },
   commode: {
-    width: 45,
-    depth: 45,
+    width: 50,
+    depth: 50,
     height: 50,
     colors: poufFabrics,
     materials: commodeVeneers,
   },
   "stem-side-table": {
+    width: 40,
+    depth: 40,
+    height: 55,
     colors: [],
     materials: commodeVeneers,
   },
   "tiled-coffee-table": {
     width: 88,
-    depth: 88,
+    depth: 90,
     height: 35,
     colors: [
       { id: "blue", hex: "#1d4e9c", en: "Blue tile", ar: "بلاط أزرق", image: "/catalog/tiles/tiled-coffee-table/swatches/tile-blue.png" },
@@ -209,9 +211,9 @@ export const productFacts: Record<string, ProductFacts> = {
     ],
   },
   "steel-lounge-chair": {
-    width: 60,
-    depth: 65,
-    height: 28,
+    width: 65,
+    depth: 76,
+    height: 65,
     colors: [
       { id: "orange", hex: "#e25b2a", en: "Orange", ar: "برتقالي", image: "/catalog/retro/steel-lounge-chair/swatches/fabric-orange.png" },
       { id: "red", hex: "#d32b2b", en: "Red", ar: "أحمر", image: "/catalog/retro/steel-lounge-chair/swatches/fabric-red.png" },
@@ -244,9 +246,9 @@ export const productFacts: Record<string, ProductFacts> = {
     ],
   },
   "tiled-bench": {
-    width: 192,
-    depth: 55,
-    height: 45,
+    width: 190,
+    depth: 60,
+    height: 40,
     colors: [
       { id: "terracotta", hex: "#d96a1e", en: "Terracotta", ar: "تيراكوتا", image: "/catalog/tiles/tiled-bench/swatches/tile-terracotta.png" },
       { id: "brown", hex: "#a86a3a", en: "Brown", ar: "بني", image: "/catalog/tiles/tiled-bench/swatches/tile-brown.png" },
@@ -260,7 +262,7 @@ export const productFacts: Record<string, ProductFacts> = {
     ],
   },
   "fringes-pouf": {
-    diameter: 50,
+    diameter: 45,
     height: 45,
     colors: [
       { id: "ivory", hex: "#f3efe4", en: "Ivory", ar: "عاجي", image: "/catalog/fringes/fringes-pouf/swatches/fabric-ivory.png" },
@@ -289,9 +291,9 @@ export const productFacts: Record<string, ProductFacts> = {
     materials: [mosaic, upholstery],
   },
   "backgammon-table": {
-    width: 61,
-    depth: 61,
-    height: 74,
+    width: 62,
+    depth: 62,
+    height: 60,
     colors: [
       { id: "veneer-01", hex: "#7fa8a4", en: "Veneer 01", ar: "قشرة 01", image: "/catalog/tiles/backgammon-table/swatches/veneer-01.png" },
       { id: "veneer-02", hex: "#6b4423", en: "Veneer 02", ar: "قشرة 02", image: "/catalog/tiles/backgammon-table/swatches/veneer-02.png" },
