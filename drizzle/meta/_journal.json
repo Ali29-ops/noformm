@@ -50,6 +50,13 @@
       "when": 1795478400000,
       "tag": "0006_catalog_cover_images",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1795478400001,
+      "tag": "0007_sync_local_catalog",
+      "breakpoints": true
     }
   ]
 }
