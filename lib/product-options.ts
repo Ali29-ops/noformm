@@ -12,8 +12,8 @@ export const productMaterials: Record<string, readonly SwatchOption[]> = Object.
 
 export type SwatchSource = {
   slug: string;
-  colorSwatches?: readonly SwatchOption[] | null;
-  materialSwatches?: readonly SwatchOption[] | null;
+  colorSwatches?: readonly SwatchOption[] | "none" | null;
+  materialSwatches?: readonly SwatchOption[] | "none" | null;
 };
 
 export function colorsFor(slug: string) {
@@ -25,11 +25,14 @@ export function materialsFor(slug: string) {
 }
 
 export function resolveColors(product: SwatchSource): SwatchOption[] {
+  // An empty legacy array inherits the studio defaults. "none" records an explicit removal.
+  if (product.colorSwatches === "none") return [];
   if (product.colorSwatches?.length) return [...product.colorSwatches];
   return [...(productColors[product.slug] ?? [])];
 }
 
 export function resolveMaterials(product: SwatchSource): SwatchOption[] {
+  if (product.materialSwatches === "none") return [];
   if (product.materialSwatches?.length) return [...product.materialSwatches];
   return [...(productMaterials[product.slug] ?? [])];
 }
@@ -117,7 +120,14 @@ export function parseSwatches(raw: string): SwatchOption[] {
   const out: SwatchOption[] = [];
   for (const item of parsed) {
     if (!item || typeof item !== "object") continue;
-    const row = item as { id?: unknown; hex?: unknown; en?: unknown; ar?: unknown; image?: unknown };
+    const row = item as {
+      id?: unknown;
+      hex?: unknown;
+      en?: unknown;
+      ar?: unknown;
+      image?: unknown;
+      productImage?: unknown;
+    };
     const en = String(row.en ?? "").trim();
     const ar = String(row.ar ?? "").trim();
     const hexRaw = String(row.hex ?? "").trim();
@@ -131,12 +141,16 @@ export function parseSwatches(raw: string): SwatchOption[] {
       .replace(/[^a-z0-9-]+/g, "-")
       .replace(/^-|-$/g, "");
     const image = String(row.image ?? "").trim();
+    const productImage = String(row.productImage ?? "").trim();
+    const publicPath = (value: string) =>
+      value.startsWith("/") || value.startsWith("http://") || value.startsWith("https://");
     out.push({
       id: given && !used.has(given) ? (used.add(given), given) : uniqueId(en, used),
       hex: hex.toLowerCase(),
       en,
       ar: ar || en,
-      ...(image.startsWith("/") || image.startsWith("http://") || image.startsWith("https://") ? { image } : {}),
+      ...(publicPath(image) ? { image } : {}),
+      ...(publicPath(productImage) ? { productImage } : {}),
     });
   }
   return out;

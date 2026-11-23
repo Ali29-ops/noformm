@@ -45,11 +45,11 @@ export default async function HomePage({
       </section>
 
       <section className="grid items-center gap-12 px-6 py-20 md:grid-cols-12 md:gap-12 md:px-16 md:py-28">
-        <div className="md:col-span-4">
-          <p className="label">{tc("tiles.mood")}</p>
-          <h2 className="mt-4 font-serif text-5xl md:text-6xl">{tc("tiles.name")}</h2>
+        <div className="md:col-span-5">
+          <h2 className="font-serif text-5xl md:text-6xl">{tc("tiles.name")}</h2>
           <p className="mt-8 text-lg leading-relaxed text-hardwood">{tc("tiles.lede")}</p>
-          <p className="mt-6 max-w-sm leading-relaxed text-hardwood/90">{tc("tiles.manifesto")}</p>
+          <p className="mt-6 max-w-md leading-relaxed text-hardwood/90">{tc("tiles.manifesto")}</p>
+          <p className="mt-4 max-w-md leading-relaxed text-hardwood/90">{tc("tiles.body")}</p>
           <ul className="mt-8 flex flex-wrap gap-x-5 gap-y-2">
             {tilesKeywords.map((word) => (
               <li key={word} className="label">
@@ -61,10 +61,10 @@ export default async function HomePage({
             href={collectionEnterHref("tiles")}
             className="mt-10 inline-block draw-underline font-sans text-[11px] uppercase tracking-label"
           >
-            {common("enter")}
+            {tc("tiles.cta")} →
           </Link>
         </div>
-        <RevealObject className="min-w-0 w-full max-w-[calc(26rem*2+0.5rem)] justify-self-center md:col-span-8 md:justify-self-end">
+        <RevealObject className="min-w-0 w-full max-w-[calc(26rem*2+0.5rem)] justify-self-center md:col-span-7 md:justify-self-end">
           <ImageCarousel
             slides={homeTilesCarousel.map((slide) => ({
               src: slide.src,
@@ -75,7 +75,7 @@ export default async function HomePage({
       </section>
 
       <section className="grid items-center gap-12 px-6 py-20 md:grid-cols-12 md:gap-12 md:px-16 md:py-28">
-        <RevealObject className="min-w-0 w-full max-w-[calc(26rem*2+0.5rem)] justify-self-center md:col-span-8 md:justify-self-start">
+        <RevealObject className="min-w-0 w-full max-w-[calc(26rem*2+0.5rem)] justify-self-center md:col-span-7 md:justify-self-start">
           <ImageCarousel
             slides={homeSphereCarousel.map((slide) => ({
               src: slide.src,
@@ -83,11 +83,11 @@ export default async function HomePage({
             }))}
           />
         </RevealObject>
-        <div className="md:col-span-4">
-          <p className="label">{tc("sphere.mood")}</p>
-          <h2 className="mt-4 font-serif text-5xl md:text-6xl">{tc("sphere.name")}</h2>
+        <div className="md:col-span-5">
+          <h2 className="font-serif text-5xl md:text-6xl">{tc("sphere.name")}</h2>
           <p className="mt-8 text-lg leading-relaxed text-hardwood">{tc("sphere.lede")}</p>
-          <p className="mt-6 max-w-sm leading-relaxed text-hardwood/90">{tc("sphere.manifesto")}</p>
+          <p className="mt-6 max-w-md leading-relaxed text-hardwood/90">{tc("sphere.manifesto")}</p>
+          <p className="mt-4 max-w-md leading-relaxed text-hardwood/90">{tc("sphere.body")}</p>
           <ul className="mt-8 flex flex-wrap gap-x-5 gap-y-2">
             {sphereKeywords.map((word) => (
               <li key={word} className="label">

@@ -1,31 +1,42 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent } from "react";
 import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
 
 export function ObjectViewer({
   images,
   name,
+  featured = null,
 }: {
   images: readonly string[];
   name: string;
+  /** Full product photo for the selected swatch. Replaces the gallery while set. */
+  featured?: string | null;
 }) {
   const t = useTranslations("showroom");
   const picture = useTranslations("product");
+  const frames = useMemo(() => {
+    if (featured) return [featured];
+    return images;
+  }, [featured, images]);
   const [open, setOpen] = useState(false);
   const [index, setIndex] = useState(0);
   const touchX = useRef<number | null>(null);
 
+  useEffect(() => {
+    setIndex(0);
+  }, [featured]);
+
   const close = useCallback(() => setOpen(false), []);
   const prev = useCallback(
-    () => setIndex((i) => (i + images.length - 1) % images.length),
-    [images.length],
+    () => setIndex((i) => (i + frames.length - 1) % frames.length),
+    [frames.length],
   );
   const next = useCallback(
-    () => setIndex((i) => (i + 1) % images.length),
-    [images.length],
+    () => setIndex((i) => (i + 1) % frames.length),
+    [frames.length],
   );
 
   useEffect(() => {
@@ -49,7 +60,7 @@ export function ObjectViewer({
   }
 
   function onPointerUp(event: PointerEvent) {
-    if (touchX.current === null || images.length < 2) return;
+    if (touchX.current === null || frames.length < 2) return;
     const delta = event.clientX - touchX.current;
     touchX.current = null;
     if (Math.abs(delta) < 40) return;
@@ -57,7 +68,8 @@ export function ObjectViewer({
     else next();
   }
 
-  if (images.length === 0) return null;
+  if (frames.length === 0) return null;
+  const safeIndex = index % frames.length;
 
   return (
     <>
@@ -74,7 +86,9 @@ export function ObjectViewer({
             aria-label={`${t("observe")} — ${name}`}
           >
             <Image
-              src={images[index]}
+              key={frames[safeIndex]}
+              src={frames[safeIndex]}
+              unoptimized={!frames[safeIndex].startsWith("/") || frames[safeIndex].startsWith("//")}
               alt={name}
               fill
               priority
@@ -83,7 +97,7 @@ export function ObjectViewer({
             />
           </button>
         </div>
-        {images.length > 1 ? (
+        {frames.length > 1 ? (
           <>
             <button
               type="button"
@@ -102,7 +116,7 @@ export function ObjectViewer({
               ›
             </button>
             <p className="label mt-4 text-center text-ivory/55">
-              {index + 1} {t("of")} {images.length}
+              {safeIndex + 1} {t("of")} {frames.length}
             </p>
           </>
         ) : null}
@@ -133,7 +147,9 @@ export function ObjectViewer({
           >
             <div className="relative h-full w-full max-w-5xl">
               <Image
-                src={images[index]}
+                key={frames[safeIndex]}
+                src={frames[safeIndex]}
+                unoptimized={!frames[safeIndex].startsWith("/") || frames[safeIndex].startsWith("//")}
                 alt={name}
                 fill
                 className="object-contain fade-in"
@@ -141,7 +157,7 @@ export function ObjectViewer({
                 priority
               />
             </div>
-            {images.length > 1 && (
+            {frames.length > 1 && (
               <>
                 <button
                   type="button"
@@ -161,7 +177,7 @@ export function ObjectViewer({
             )}
           </div>
           <p className="label pb-6 text-center text-ivory/55">
-            {index + 1} {t("of")} {images.length}
+            {safeIndex + 1} {t("of")} {frames.length}
           </p>
         </div>,
         document.body,

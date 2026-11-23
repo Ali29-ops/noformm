@@ -83,13 +83,19 @@ function list(raw: string) {
     .filter(Boolean);
 }
 
-function refreshCatalog(collection: string, extra?: string) {
+function refreshCatalog(collection: string, slug: string, previousCollection?: string) {
   revalidatePath("/admin");
   revalidatePath("/admin/products");
+  revalidatePath(`/admin/products/${slug}`);
   for (const locale of ["en", "ar"]) {
+    revalidatePath(`/${locale}/products`);
     revalidatePath(`/${locale}/collections`);
     revalidatePath(`/${locale}/collections/${collection}`);
-    if (extra && extra !== collection) revalidatePath(`/${locale}/collections/${extra}`);
+    revalidatePath(`/${locale}/collections/${collection}/${slug}`);
+    if (previousCollection && previousCollection !== collection) {
+      revalidatePath(`/${locale}/collections/${previousCollection}`);
+      revalidatePath(`/${locale}/collections/${previousCollection}/${slug}`);
+    }
   }
 }
 
@@ -182,6 +188,7 @@ function readProductInput(formData: FormData, images: string[]): ProductInput {
     compareAtPrice: num(formData, "compareAtPrice"),
     onHand: num(formData, "onHand") ?? 0,
     madeToOrder: bool(formData, "madeToOrder"),
+    readyToShip: bool(formData, "readyToShip"),
     leadTimeDays: num(formData, "leadTimeDays"),
     widthCm: num(formData, "widthCm"),
     depthCm: num(formData, "depthCm"),
@@ -197,11 +204,13 @@ function readProductInput(formData: FormData, images: string[]): ProductInput {
 export async function updateOnHandAction(formData: FormData) {
   const admin = await requireAdmin();
   const slug = str(formData, "slug");
-  const onHand = num(formData, "onHand") ?? 0;
+  const onHand = num(formData, "onHand");
+  const product = await getProductBySlug(slug, { includeInactive: true });
+  if (!product) throw new Error("Product not found.");
+  if (onHand === null || product.madeToOrder) return;
   await setOnHand(slug, onHand);
   await audit(admin.email, "stock.set", "product", slug, { onHand });
-  revalidatePath("/admin");
-  revalidatePath("/admin/products");
+  refreshCatalog(product.collection, slug);
 }
 
 const skuCode: Record<CollectionId, string> = {
@@ -223,11 +232,18 @@ async function nextSku(collection: CollectionId) {
   return `${prefix}${String(max + 1).padStart(3, "0")}`;
 }
 
-async function attachMaterialPhotos(slug: string, formData: FormData, materials: ProductInput["materialSwatches"]) {
-  for (let index = 0; index < materials.length; index += 1) {
-    const file = formData.get(`materialPhoto-${index}`);
-    if (!(file instanceof File) || file.size === 0) continue;
-    materials[index].image = await saveSwatchImage(slug, materials[index].id, file);
+async function attachSwatchPhotos(slug: string, formData: FormData, input: ProductInput) {
+  for (const group of ["materialSwatches", "colorSwatches"] as const) {
+    for (const [index, swatch] of input[group].entries()) {
+      const thumbnail = formData.get(`${group}Photo-${index}`);
+      if (thumbnail instanceof File && thumbnail.size > 0) {
+        swatch.image = await saveSwatchImage(slug, swatch.id, thumbnail);
+      }
+      const productPhoto = formData.get(`${group}ProductPhoto-${index}`);
+      if (productPhoto instanceof File && productPhoto.size > 0) {
+        swatch.productImage = await saveSwatchImage(slug, swatch.id, productPhoto);
+      }
+    }
   }
 }
 
@@ -243,10 +259,10 @@ export async function addProductAction(formData: FormData) {
   const uploaded = await saveUploadedImages(slug, collectImageFiles(formData), nextImageIndex(urls, slug));
   const input = readProductInput(formData, [...uploaded, ...urls]);
   if (!input.sku) input.sku = await nextSku(input.collection);
-  await attachMaterialPhotos(slug, formData, input.materialSwatches);
+  await attachSwatchPhotos(slug, formData, input);
   await createProduct(slug, input);
   await audit(admin.email, "product.create", "product", slug);
-  refreshCatalog(input.collection);
+  refreshCatalog(input.collection, slug);
   redirect("/admin/products");
 }
 
@@ -259,18 +275,21 @@ export async function updateProductAction(formData: FormData) {
     .getAll("keep")
     .map((value) => String(value))
     .filter((src) => current.images.includes(src));
-  for (const src of current.images) {
-    if (!kept.includes(src)) await removeOwnedImage(src, slug);
-  }
   const urls = collectImageUrls(str(formData, "imageUrls"));
-  const uploaded = await saveUploadedImages(slug, collectImageFiles(formData), nextImageIndex([...kept, ...urls], slug));
+  const uploaded = await saveUploadedImages(slug, collectImageFiles(formData), nextImageIndex([...current.images, ...urls], slug));
   const input = readProductInput(formData, [...kept, ...uploaded, ...urls]);
   if (!input.sku) input.sku = await nextSku(input.collection);
-  await attachMaterialPhotos(slug, formData, input.materialSwatches);
-  await updateProduct(slug, input);
-  await audit(admin.email, "product.update", "product", slug, { price: input.price, onHand: input.onHand, active: input.active });
-  refreshCatalog(input.collection, current.collection);
-  for (const locale of ["en", "ar"]) revalidatePath(`/${locale}/collections/${input.collection}/${slug}`);
+  await attachSwatchPhotos(slug, formData, input);
+  const updated = await updateProduct(slug, { ...input, onHand: formData.has("onHand") ? input.onHand : undefined });
+  const retainedImages = new Set([
+    ...input.images,
+    ...[...input.colorSwatches, ...input.materialSwatches].flatMap(({ image, productImage }) => [image, productImage]),
+  ]);
+  for (const src of current.images) {
+    if (!retainedImages.has(src)) await removeOwnedImage(src, slug);
+  }
+  await audit(admin.email, "product.update", "product", slug, { price: updated.price, onHand: updated.onHand, active: updated.active });
+  refreshCatalog(input.collection, slug, current.collection);
   redirect("/admin/products");
 }
 
@@ -282,7 +301,7 @@ export async function deleteProductAction(formData: FormData) {
   await deleteProduct(slug);
   await removeProductMedia(slug);
   await audit(admin.email, "product.delete", "product", slug);
-  refreshCatalog(product.collection);
+  refreshCatalog(product.collection, slug);
   redirect("/admin/products");
 }
 
@@ -292,7 +311,7 @@ export async function toggleProductActiveAction(formData: FormData) {
   const active = bool(formData, "active");
   const product = await updateProduct(slug, { active });
   await audit(admin.email, active ? "product.activate" : "product.deactivate", "product", slug);
-  refreshCatalog(product.collection);
+  refreshCatalog(product.collection, slug);
 }
 
 /* ---------------- orders ---------------- */

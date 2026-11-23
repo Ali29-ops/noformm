@@ -209,6 +209,7 @@ async function ensureCatalogProducts(db: Db, legacyInventory: LegacyStock | unde
     if (existing.has(product.slug)) continue;
     const stock = inventory[product.slug];
     const facts = productFacts[product.slug];
+    const defaultStock = product.slug === "totem-table" ? { price: 0, quantity: 0 } : { price: 2800, quantity: 4 };
     await db.insert(schema.products).values({
       slug: product.slug,
       collection: product.collection,
@@ -219,8 +220,8 @@ async function ensureCatalogProducts(db: Db, legacyInventory: LegacyStock | unde
       widthCm: facts?.width ?? facts?.diameter ?? null,
       depthCm: facts?.depth ?? facts?.diameter ?? null,
       heightCm: facts?.height ?? null,
-      price: stock?.price ?? 2800,
-      onHand: stock?.quantity ?? 4,
+      price: stock?.price ?? defaultStock.price,
+      onHand: stock?.quantity ?? defaultStock.quantity,
       sortOrder: order,
     });
   }

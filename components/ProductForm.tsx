@@ -1,10 +1,11 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { unstable_rethrow } from "next/navigation";
 import { addProductAction, updateProductAction } from "@/app/admin/actions";
 import type { CollectionId } from "@/lib/catalog";
-import { resolveColors, resolveMaterials, type SwatchOption } from "@/lib/product-options";
+import { colorLegendKey, materialLegendKey, resolveColors, resolveMaterials, type SwatchOption } from "@/lib/product-options";
+import en from "@/messages/en.json";
 import type { LiveProduct } from "@/lib/repo/products";
 
 export function ProductForm({
@@ -20,6 +21,8 @@ export function ProductForm({
   defaults?: { name: string; description: string; materials: string[]; nameAr: string; descriptionAr: string; materialsAr: string[] };
   currency: string;
 }) {
+  const materialKey = materialLegendKey(product?.slug ?? "");
+  const materialLabel = materialKey === "materials" ? en.common.materials : en.product[materialKey];
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
   const [fileCount, setFileCount] = useState(0);
@@ -72,11 +75,11 @@ export function ProductForm({
               ))}
             </select>
           </label>
-          <div className="block">
+          <label className="block">
             <span className="label">SKU / reference</span>
-            <p className="mt-2 text-sm">{product?.sku || "Assigned from the collection when you save, for example NF-SPH-001."}</p>
-            <input type="hidden" name="sku" value={product?.sku ?? ""} />
-          </div>
+            <input name="sku" defaultValue={product?.sku ?? ""} className={inputCls} />
+            <p className="mt-2 text-sm text-hardwood">Leave blank to assign a reference from the collection, such as NF-SPH-001.</p>
+          </label>
           <label className="block md:col-span-2">
             <span className="label">Description (EN)</span>
             <textarea name="description" rows={3} defaultValue={product?.description ?? ""} placeholder={defaults?.description} className={`${inputCls} resize-none`} />
@@ -100,9 +103,9 @@ export function ProductForm({
         title="Colours & materials"
         hint="Small circles on the product page. Add one row for each option the customer can pick before checkout. Leave empty if this piece has no choice."
       >
-        <SwatchEditor name="materialSwatches" label="Materials" photo initial={product ? resolveMaterials(product) : []} />
+        <SwatchEditor name="materialSwatches" label={materialLabel} initial={product ? resolveMaterials(product) : []} />
         <div className="mt-10">
-          <SwatchEditor name="colorSwatches" label="Colours" initial={product ? resolveColors(product) : []} />
+          <SwatchEditor name="colorSwatches" label={en.product[colorLegendKey(product?.slug ?? "")]} initial={product ? resolveColors(product) : []} />
         </div>
       </Section>
 
@@ -134,6 +137,11 @@ export function ProductForm({
           <label className="flex items-center gap-3 text-sm">
             <input type="checkbox" name="active" defaultChecked={product?.active ?? true} className="h-4 w-4" />
             Visible on the site
+          </label>
+          <label className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
+            <input type="checkbox" name="readyToShip" defaultChecked={product?.readyToShip ?? false} className="h-4 w-4" />
+            Ready to ship
+            <span className="w-full text-hardwood">Shows a stamp on All Products when stock is available and the product is not made to order.</span>
           </label>
         </div>
       </Section>
@@ -167,7 +175,13 @@ export function ProductForm({
         </div>
       </Section>
 
-      <input type="hidden" name="sortOrder" value={product?.sortOrder ?? 0} />
+      <Section title="Catalog order">
+        <label className="block max-w-xs">
+          <span className="label">Featured position</span>
+          <input name="sortOrder" type="number" step="1" required defaultValue={product?.sortOrder ?? 0} className={inputCls} />
+          <p className="mt-2 text-sm text-hardwood">Lower numbers appear first in the featured sort.</p>
+        </label>
+      </Section>
 
       <Section title="Photos">
         <div className="grid gap-6 md:grid-cols-2">
@@ -216,14 +230,13 @@ function SwatchEditor({
   name,
   label,
   initial,
-  photo = false,
 }: {
-  name: string;
+  name: "materialSwatches" | "colorSwatches";
   label: string;
   initial: SwatchOption[];
-  photo?: boolean;
 }) {
-  const [rows, setRows] = useState<SwatchOption[]>(() => initial.map((row) => ({ ...row })));
+  const [rows, setRows] = useState(() => initial.map((row, index) => ({ ...row, rowKey: index })));
+  const nextRowKey = useRef(initial.length);
 
   function update(index: number, patch: Partial<SwatchOption>) {
     setRows((prev) => prev.map((row, i) => (i === index ? { ...row, ...patch } : row)));
@@ -232,43 +245,26 @@ function SwatchEditor({
   return (
     <div>
       <p className="label">{label}</p>
-      <input type="hidden" name={name} value={JSON.stringify(rows)} />
+      <input type="hidden" name={name} value={JSON.stringify(rows.map(({ rowKey, ...row }) => row))} />
       <ul className="mt-4 space-y-4">
         {rows.map((row, index) => (
-          <li key={`${name}-${index}`} className="grid items-end gap-3 md:grid-cols-[auto_1fr_1fr_auto]">
-            {photo ? (
-              <label className="block">
-                <span className="label">Photo</span>
-                <span className="mt-2 flex items-center gap-3">
-                  <span
-                    className="h-11 w-11 shrink-0 rounded-full border border-hardwood/40 bg-cover bg-center"
-                    style={row.image ? { backgroundImage: `url(${row.image})` } : { background: row.hex || "#ccc" }}
-                  />
-                  <input
-                    name={`materialPhoto-${index}`}
-                    type="file"
-                    accept="image/*"
-                    className="max-w-[12rem]"
-                    aria-label={`${label} photo ${index + 1}`}
-                  />
-                </span>
-              </label>
-            ) : (
-              <label className="block">
-                <span className="label">Swatch</span>
-                <span className="mt-2 flex items-center gap-3">
-                  <span className="h-8 w-8 shrink-0 rounded-full border border-hardwood/40" style={{ background: row.hex || "#ccc" }} />
-                  <input
-                    type="color"
-                    value={/^#[0-9a-fA-F]{6}$/.test(row.hex) ? row.hex : "#8b5a2b"}
-                    onChange={(event) => update(index, { hex: event.target.value })}
-                    className="h-8 w-10 cursor-pointer border border-hardwood/25 bg-transparent p-0"
-                    aria-label={`${label} colour ${index + 1}`}
-                  />
-                </span>
-              </label>
-            )}
-            {photo ? null : (
+          <li key={row.rowKey} className="grid items-end gap-3 md:grid-cols-[minmax(0,1.5fr)_minmax(0,0.65fr)_1fr_1fr_auto]">
+            <label className="block">
+              <span className="label">Swatch image</span>
+              <span className="mt-2 flex items-center gap-3">
+                <span
+                  className="h-11 w-11 shrink-0 rounded-full border border-hardwood/40 bg-cover bg-center"
+                  style={row.image ? { backgroundImage: `url(${row.image})` } : { background: row.hex || "#ccc" }}
+                />
+                <input
+                  name={`${name}Photo-${index}`}
+                  type="file"
+                  accept="image/*"
+                  className="min-w-0 w-full"
+                  aria-label={`${label} photo ${index + 1}`}
+                />
+              </span>
+            </label>
             <label className="block">
               <span className="label">Hex</span>
               <input
@@ -278,7 +274,6 @@ function SwatchEditor({
                 className="mt-2"
               />
             </label>
-            )}
             <label className="block">
               <span className="label">Name (EN)</span>
               <input
@@ -304,15 +299,43 @@ function SwatchEditor({
             >
               Remove
             </button>
+            <div className="grid items-start gap-3 md:col-span-full md:grid-cols-2">
+              <label className="block">
+                <span className="label">Product photo URL</span>
+                <input
+                  value={row.productImage ?? ""}
+                  onChange={(event) => update(index, { productImage: event.target.value })}
+                  placeholder="/catalog/product.jpg or https://example.com/product.jpg"
+                  className="mt-2"
+                />
+              </label>
+              <label className="block">
+                <span className="label">Upload product photo</span>
+                <span className="mt-2 flex items-center gap-3">
+                  {row.productImage ? (
+                    <img src={row.productImage} alt="" className="h-16 w-12 shrink-0 object-cover" />
+                  ) : null}
+                  <input
+                    name={`${name}ProductPhoto-${index}`}
+                    type="file"
+                    accept="image/*"
+                    className="w-full min-w-0"
+                  />
+                </span>
+              </label>
+            </div>
           </li>
         ))}
       </ul>
       <button
         type="button"
-        onClick={() => setRows((prev) => [...prev, emptySwatch()])}
+        onClick={() => {
+          const rowKey = nextRowKey.current++;
+          setRows((prev) => [...prev, { ...emptySwatch(), rowKey }]);
+        }}
         className="mt-4 border border-charcoal px-4 py-2 font-sans text-[11px] uppercase tracking-label"
       >
-        Add {label === "Colours" ? "colour" : "material"}
+        Add option
       </button>
     </div>
   );

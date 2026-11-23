@@ -2,6 +2,9 @@
 
 import { getLocale } from "next-intl/server";
 import { revalidatePath } from "next/cache";
+import { redirect as redirectToAdmin } from "next/navigation";
+import { adminLogin } from "@/lib/admin-auth";
+import { audit } from "@/lib/repo/audit";
 import { redirect } from "@/i18n/navigation";
 import { clearCustomerSession, readCustomerSession, writeCustomerSession } from "@/lib/customer-auth";
 import {
@@ -53,6 +56,11 @@ export async function signInAction(formData: FormData) {
   if (!(await allowAttempt("signin", 10, 300))) return { error: rateLimitMessage };
   const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "");
+  const admin = await adminLogin(email, password);
+  if (admin) {
+    await audit(admin.email, "login", "admin", admin.id);
+    redirectToAdmin("/admin");
+  }
   const customer = await getCustomerByEmail(email);
   if (!customer || !verifyPassword(password, customer)) {
     return { error: "Email or password is not correct." };

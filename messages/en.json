@@ -21,6 +21,7 @@
     "close": "Close"
   },
   "common": {
+    "priceOnRequest": "Price on request",
     "enter": "Enter",
     "enquire": "Enquire",
     "addToCart": "Add to cart",
@@ -82,6 +83,7 @@
     "lede": "Each collection is a spatial landscape — entered, not browsed."
   },
   "productsPage": {
+    "readyToShip": "Ready to ship",
     "metaTitle": "All products",
     "kicker": "The studio",
     "title": "All products.",
@@ -109,9 +111,10 @@
     "sphere": {
       "name": "Sphere",
       "mood": "Calm",
-      "keywords": ["Soft", "Organic", "Sculptural", "Calm"],
-      "manifesto": "Rounded geometry and quiet volume. Sphere holds space with softness — bouclé, ball feet, and silhouettes that settle rather than announce.",
-      "lede": "Four volumes, one curve. Table, orbit, pouf, and bench — bouclé and stone held in quiet roundness.",
+      "keywords": ["Soft", "Organic", "Sculptural", "Playful"],
+      "lede": "One form, reimagined through endless possibilities.",
+      "manifesto": "The Sphere Collection revolves around one essential element: the sphere. A simple form reimagined through different shapes, materials and compositions, exploring the relationship between organic geometry and sculptural form.",
+      "body": "Through playful proportions, rounded volumes and contrasting textures, each piece brings a sense of softness, character and quiet presence to its surroundings.",
       "interiorKicker": "In the room",
       "interiorTitle": "Objects among objects.",
       "materials": ["Bouclé and ivory textiles", "Rounded stone", "Matte warm woods", "Spherical hardwood feet"]
@@ -126,9 +129,11 @@
     "tiles": {
       "name": "Tiles",
       "mood": "Structured",
-      "keywords": ["Structured", "Architectural", "Geometric", "Precise"],
-      "manifesto": "Rhythm, grid, and glaze. Tiles is an exploration of presence — ceramic, walnut, and a playing field held in exact proportion.",
-      "lede": "Four objects, one grid. Bench, table, pouf, and Rove — glaze standing in wood, grout holding the measure.",
+      "keywords": ["Geometric", "Tactile", "Material-led", "Playful"],
+      "lede": "A study of pattern, material and form.",
+      "manifesto": "Rooted in the simplicity of a grid, Tiles explores the relationship between ceramic, walnut and geometry.",
+      "body": "Through repetition, texture and proportion, familiar materials take on a new character. Where structure meets play, and function becomes an expression of design.",
+      "cta": "Explore the collection",
       "materials": ["Ceramic and mosaic", "Structured wood grain", "Matte stone", "Geometric grout and glaze"]
     },
     "fringes": {
@@ -152,12 +157,12 @@
     },
     "commode": {
       "name": "The Ritmo Commode",
-      "description": "A darkened wooden chest whose drawer fronts carry a continuous rust-orange textile field, lifted on spherical feet.",
+      "description": "A playful composition of rich walnut, upholstered drawer fronts and sculptural spherical feet, featuring soft-close drawers for a seamless and effortless everyday experience.",
       "materials": ["Fabric", "Wood veneer"]
     },
     "folded-pouf": {
       "name": "The Folded Pouf",
-      "description": "A cylindrical seating volume with a leather wrap that rises into a short back — a fold held by a single metal stud.",
+      "description": "A sculptural upholstered seat featuring bold patterned fabric, rich leather side panels with distinctive folded detailing and a polished steel button accent, all resting on spherical hardwood feet.",
       "materials": ["Upholstery", "Leather"]
     },
     "sphere-ottoman": {
@@ -210,6 +215,10 @@
       "description": "A dark wood frame carrying a field of standing ceramic blocks — glaze, grout, and geometric rhythm.",
       "materials": ["Tile", "Wood veneer"]
     },
+    "totem-table": {
+      "name": "Totem Table",
+      "description": "The Totem side table from the Tiles collection."
+    },
     "tiled-pouf": {
       "name": "The Tiled Pouf",
       "description": "A mosaic cube in coral glaze, capped with a powder-blue cushion. Grid below, softness above.",
@@ -228,13 +237,14 @@
     "lede": "NO FORM explores the space between sculpture and function. Each piece is a functional object and an artistic statement — defined by bold silhouettes, refined detailing, tactile richness, and architectural presence.",
     "body": "Luxury is found in restraint: in proportion, material honesty, precision, and atmosphere. We create collectible furniture designed to be experienced, remembered, and lived with.",
     "madeToLast": "Made to last",
-    "craftLine": "Burl, inlay, and the patience of the studio — pieces meant to be lived with daily.",
+    "craftLine": "Where materials meet artistry, and every detail has a purpose.",
+    "craftDetail": "An exploration of material, precision and craftsmanship. From expressive wood grains to intricate inlays and carefully considered finishes, every detail contributes to the character of a piece.",
     "close": "We do not simply furnish spaces. We shape them.",
     "pillarsTitle": "Essence",
     "pillars": {
       "artistic": {
         "title": "Artistic expression",
-        "body": "Every piece is an exploration of form, movement, and emotion."
+        "body": "Every piece is an opportunity to rethink the familiar and transform it into something unexpected."
       },
       "sculptural": {
         "title": "Sculptural design",
@@ -262,8 +272,36 @@
     "kicker": "Styling — the designer’s vision",
     "index": "Four rooms",
     "title": "How a room begins to breathe.",
-    "lede": "Four compositions. Not a catalogue — a way of seeing.",
-    "body": "These are rooms the studio imagined until the pieces found each other. Sit with them. Let the light do the introducing.",
+    "lede": "Not a catalogue, but a way of seeing.",
+    "body": "Spaces imagined by the studio, where furniture, materials and light come together to create a sense of place. Each composition offers a different perspective on how a room can feel, function and come to life.",
+    "reviewsTitle": "Clients\nStyling & Reviews.",
+    "reviewsNote": "Real spaces, shared by our clients.",
+    "previous": "Previous",
+    "next": "Next",
+    "clientPhotos": {
+      "benchEntry": "The Tiled Bench in a planted entry at a client's home",
+      "benchHome": "The Tiled Bench delivered to a client's home",
+      "pouf": "A client unwrapping the Tiled Pouf",
+      "totem": "A client's review of the Totem Table"
+    },
+    "reviews": [
+      {
+        "quote": "The Tiled Bench in a planted entry.",
+        "name": "Client home"
+      },
+      {
+        "quote": "The Tiled Bench, delivered to its new home.",
+        "name": "Client home"
+      },
+      {
+        "quote": "I'm unwrapping it now. Love it.",
+        "name": "A client"
+      },
+      {
+        "quote": "I loved the table. Thank you for the very smooth experience and for compensating the late delivery. I truly appreciate it.",
+        "name": "A client"
+      }
+    ],
     "close": "We do not decorate. We see.",
     "continue": "Enter the collections",
     "scenes": {
@@ -290,10 +328,15 @@
     }
   },
   "designer": {
-    "kicker": "Designer",
-    "title": "Meet our designer.",
-    "lede": "A conversation with the studio designer — about a piece, a room, or a commission.",
-    "talk": "Talk on WhatsApp",
+    "kicker": "The designer",
+    "title": "Meet Zeina.",
+    "lede": "My journey into design began with architecture, where I developed an appreciation for space, proportion and detail.",
+    "paragraphs": [
+      "My journey into design began with architecture, where I developed an appreciation for space, proportion and detail. After graduating from the American University in Cairo in 2022, I spent two years working in architecture before pursuing a Master's degree in Furniture Design in Florence, Italy.",
+      "I have always been drawn to exploring the relationship between furniture, art and everyday living. I am particularly interested in distinctive forms, unexpected material combinations and the small details that give an object its character.",
+      "Through NO FORM, I translate this perspective into furniture that goes beyond function, pieces that express an idea, tell a story and become part of the spaces we live in."
+    ],
+    "talk": "Let's talk",
     "write": "Or write a message below.",
     "intent": "Meet our designer",
     "send": "Write to the designer",

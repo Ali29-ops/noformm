@@ -59,14 +59,15 @@ export type ProductInput = {
   descriptionAr: string;
   materials: string[];
   materialsAr: string[];
-  colorSwatches: { id: string; hex: string; en: string; ar: string; image?: string }[];
-  materialSwatches: { id: string; hex: string; en: string; ar: string; image?: string }[];
+  colorSwatches: { id: string; hex: string; en: string; ar: string; image?: string; productImage?: string }[];
+  materialSwatches: { id: string; hex: string; en: string; ar: string; image?: string; productImage?: string }[];
   images: string[];
   sku: string;
   price: number;
   compareAtPrice: number | null;
   onHand: number;
   madeToOrder: boolean;
+  readyToShip?: boolean;
   leadTimeDays: number | null;
   widthCm: number | null;
   depthCm: number | null;
@@ -89,14 +90,15 @@ function clean(input: Partial<ProductInput>) {
   if (input.descriptionAr !== undefined) out.descriptionAr = input.descriptionAr.trim() || null;
   if (input.materials !== undefined) out.materials = input.materials.filter(Boolean);
   if (input.materialsAr !== undefined) out.materialsAr = input.materialsAr.filter(Boolean);
-  if (input.colorSwatches !== undefined) out.colorSwatches = input.colorSwatches;
-  if (input.materialSwatches !== undefined) out.materialSwatches = input.materialSwatches;
+  if (input.colorSwatches !== undefined) out.colorSwatches = input.colorSwatches.length ? input.colorSwatches : "none";
+  if (input.materialSwatches !== undefined) out.materialSwatches = input.materialSwatches.length ? input.materialSwatches : "none";
   if (input.images !== undefined) out.images = input.images;
   if (input.sku !== undefined) out.sku = input.sku.trim() || null;
   if (input.price !== undefined) out.price = Math.max(0, Math.round(input.price * 100) / 100);
   if (input.compareAtPrice !== undefined)
     out.compareAtPrice = input.compareAtPrice && input.compareAtPrice > 0 ? input.compareAtPrice : null;
   if (input.onHand !== undefined) out.onHand = Math.max(0, Math.floor(input.onHand));
+  if (input.readyToShip !== undefined) out.readyToShip = input.readyToShip;
   if (input.madeToOrder !== undefined) out.madeToOrder = input.madeToOrder;
   if (input.leadTimeDays !== undefined) out.leadTimeDays = input.leadTimeDays;
   if (input.widthCm !== undefined) out.widthCm = input.widthCm;

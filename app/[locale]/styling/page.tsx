@@ -1,53 +1,18 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
+import { ReviewRail, type ReviewCard } from "@/components/ReviewRail";
+import { getStylingReviews } from "@/lib/styling-reviews";
 import type { Locale } from "@/i18n/routing";
 
 const scenes = [
-  {
-    id: "night",
-    src: "/styling/night-room.jpeg",
-    width: 1284,
-    height: 1225,
-    mat: "bg-sage",
-    tilt: "-rotate-2",
-    print: "md:col-span-5 md:col-start-1",
-    text: "md:col-span-5 md:col-start-8 md:self-center",
-  },
-  {
-    id: "sitting",
-    src: "/styling/sitting-room.jpeg",
-    width: 1121,
-    height: 1403,
-    mat: "bg-hardwood",
-    tilt: "rotate-[1.5deg]",
-    print: "md:col-span-4 md:col-start-8 md:row-start-1",
-    text: "md:col-span-5 md:col-start-2 md:row-start-1 md:self-end",
-  },
-  {
-    id: "terrace",
-    src: "/styling/terrace.jpeg",
-    width: 1536,
-    height: 1024,
-    mat: "bg-charcoal",
-    tilt: "-rotate-1",
-    print: "md:col-span-7 md:col-start-2",
-    text: "md:col-span-3 md:col-start-10 md:self-start md:pt-10",
-  },
-  {
-    id: "threshold",
-    src: "/styling/threshold.jpeg",
-    width: 1341,
-    height: 1173,
-    mat: "bg-hardwood/30",
-    tilt: "rotate-2",
-    print: "md:col-span-5 md:col-start-7",
-    text: "md:col-span-4 md:col-start-2 md:row-start-1 md:self-center",
-  },
+  { id: "night", src: "/styling/night-room.jpeg" },
+  { id: "sitting", src: "/styling/sitting-room.jpeg" },
+  { id: "terrace", src: "/styling/terrace.jpeg" },
+  { id: "threshold", src: "/styling/threshold.jpeg" },
 ] as const;
 
-const outlined = { WebkitTextStroke: "1px var(--hardwood)", color: "transparent" };
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -58,7 +23,7 @@ export async function generateMetadata({
   const t = await getTranslations({ locale: locale as Locale, namespace: "styling" });
   return {
     title: t("title").replace(/\.$/, ""),
-    description: t("lede"),
+    description: t("body"),
   };
 }
 
@@ -70,82 +35,66 @@ export default async function StylingPage({
   const { locale } = await params;
   setRequestLocale(locale as Locale);
   const t = await getTranslations("styling");
-  const serifLead = locale === "ar" ? "leading-[1.55]" : "leading-snug";
+  const { heading, reviews: entries } = await getStylingReviews();
+  const language = locale === "ar" ? "ar" : "en";
+  const reviews: ReviewCard[] = entries.filter((entry) => entry.visible).map((entry) => ({
+    id: entry.id,
+    quote: entry[language].quote || entry.en.quote,
+    name: entry[language].name || entry.en.name,
+    alt: entry[language].alt || entry.en.alt,
+    image: entry.image,
+    position: entry.position,
+    rating: entry.rating,
+  }));
 
   return (
-    <div className="overflow-x-clip pb-28">
-      <section className="px-6 pb-16 pt-32 md:px-12 md:pb-24 md:pt-40">
-        <div className="mx-auto grid max-w-6xl gap-14 md:grid-cols-12 md:items-end">
-          <div className="md:col-span-7">
-            <p className="label">{t("kicker")}</p>
-            <h1 className="editorial-title mt-6">{t("title")}</h1>
-            <p className={`mt-10 max-w-xl font-serif text-2xl text-charcoal md:text-3xl ${serifLead}`}>{t("lede")}</p>
-            <p className="mt-8 max-w-lg text-lg text-hardwood">{t("body")}</p>
+    <div className="bg-ivory pb-28 text-charcoal">
+      <section className="px-6 pb-12 pt-36 md:px-12 md:pb-16 md:pt-44">
+        <div className="mx-auto max-w-6xl">
+          <p className="label">{t("kicker")}</p>
+          <div className="mt-8 grid items-end gap-10 md:grid-cols-12">
+            <h1 className="font-serif text-5xl leading-[1.05] md:col-span-7 md:text-7xl">{t("title")}</h1>
+            <p className="border-s border-charcoal/25 ps-6 font-serif text-xl italic leading-snug text-charcoal/80 md:col-span-4 md:col-start-9 md:text-2xl">
+              {t("lede")}
+            </p>
           </div>
-
-          <nav aria-label={t("index")} className="md:col-span-4 md:col-start-9">
-            <p className="label">{t("index")}</p>
-            <ul className="mt-5 grid grid-cols-4 gap-3">
-              {scenes.map((scene, i) => (
-                <li key={scene.id}>
-                  <a href={`#${scene.id}`} className="group block">
-                    <span className={`block p-1 ${scene.mat} transition-transform duration-500 group-hover:-translate-y-1`}>
-                      <span className="relative block aspect-square overflow-hidden">
-                        <Image src={scene.src} alt="" fill sizes="80px" className="object-cover" />
-                      </span>
-                    </span>
-                    <span className="mt-2 block font-sans text-[10px] tracking-label text-hardwood">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <p className="mt-10 max-w-3xl text-lg leading-relaxed text-hardwood">{t("body")}</p>
         </div>
       </section>
 
-      <div className="mx-auto flex max-w-6xl flex-col gap-24 px-6 md:gap-36 md:px-12">
+      <section className="mx-auto grid max-w-6xl gap-4 px-6 sm:grid-cols-2 md:gap-5 md:px-12">
         {scenes.map((scene, i) => (
-          <section
-            key={scene.id}
-            id={scene.id}
-            className="grid scroll-mt-28 grid-cols-1 gap-10 md:grid-cols-12 md:gap-x-8"
-          >
-            <figure
-              className={`${scene.print} ${scene.mat} ${scene.tilt} w-[88%] p-3 shadow-[0_30px_60px_-30px_rgba(30,32,31,0.45)] transition-transform duration-700 ease-out hover:rotate-0 hover:scale-[1.015] md:w-auto md:p-4 ${
-                i % 2 ? "justify-self-end" : "justify-self-start"
-              } md:justify-self-auto`}
-            >
+          <a key={scene.id} href={`#${scene.id}`} id={scene.id} className="group relative block scroll-mt-28 overflow-hidden">
+            <span className="relative block aspect-[4/3]">
               <Image
                 src={scene.src}
                 alt={t(`scenes.${scene.id}.title`)}
-                width={scene.width}
-                height={scene.height}
-                priority={i === 0}
-                sizes="(min-width: 768px) 45vw, 88vw"
-                className="block h-auto w-full"
+                fill
+                priority={i < 2}
+                sizes="(min-width: 768px) 40vw, 100vw"
+                className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
               />
-            </figure>
-
-            <div className={scene.text}>
-              <p className="font-serif text-[5.5rem] leading-none md:text-[8rem]" style={outlined} aria-hidden>
-                {String(i + 1).padStart(2, "0")}
-              </p>
-              <p className="label mt-4">{t(`scenes.${scene.id}.kicker`)}</p>
-              <p className={`mt-4 font-serif text-3xl md:text-4xl ${serifLead}`}>{t(`scenes.${scene.id}.title`)}</p>
-              <p className="mt-5 max-w-sm text-lg text-hardwood">{t(`scenes.${scene.id}.body`)}</p>
-            </div>
-          </section>
+            </span>
+            <span className="absolute start-5 top-5 text-ivory">
+              <span className="block font-serif text-3xl leading-none">{String(i + 1).padStart(2, "0")}</span>
+              <span className="mt-2 block font-sans text-[11px] uppercase tracking-label">{t(`scenes.${scene.id}.kicker`)}</span>
+              <span className="mt-2 block h-px w-8 bg-ivory/80" />
+            </span>
+          </a>
         ))}
-      </div>
+      </section>
 
-      <div className="mx-auto mt-32 max-w-3xl px-6 text-center md:px-12">
-        <p className={`font-serif text-4xl md:text-5xl ${serifLead}`}>{t("close")}</p>
-        <Link href="/collections" className="mt-10 inline-block draw-underline font-sans text-[11px] uppercase tracking-label">
-          {t("continue")}
-        </Link>
-      </div>
+      {reviews.length > 0 && <section className="mx-auto mt-24 max-w-6xl px-6 md:mt-32 md:px-12">
+        <div className="grid items-center gap-8 md:grid-cols-12">
+          <h2 className="whitespace-pre-line font-serif text-5xl leading-[1.05] md:col-span-7 md:text-6xl">
+            {heading[language].title}
+          </h2>
+          <p className="border-s border-charcoal/25 ps-6 font-serif text-xl italic leading-snug text-charcoal/80 md:col-span-4 md:col-start-9 md:text-2xl">
+            {heading[language].note}
+          </p>
+        </div>
+        <ReviewRail reviews={reviews} previousLabel={t("previous")} nextLabel={t("next")} locale={locale} />
+      </section>}
     </div>
   );
 }

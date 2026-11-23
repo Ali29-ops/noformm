@@ -25,7 +25,7 @@ export default async function AdminProductsPage({
     <div>
       <PageTitle
         title="Products."
-        lede="Every piece — studio and added — is editable here: price, stock, facts, translations, photos, and its pin on the floor."
+        lede="Every piece — studio and added — is editable here: price, stock, facts, translations, photos, and featured order."
         action={
           <Link href="/admin/products/new" className="border border-charcoal px-5 py-2.5 font-sans text-[11px] uppercase tracking-label">
             Add a product

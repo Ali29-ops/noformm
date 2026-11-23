@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { mkdir, rm, unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
 
@@ -55,7 +56,7 @@ export async function saveUploadedImages(slug: string, files: File[], start = 1)
 export async function saveSwatchImage(slug: string, id: string, file: File) {
   const dir = path.join(mediaDir(slug), "swatches");
   await mkdir(dir, { recursive: true });
-  const filename = `${id}${safeExt(file.name)}`;
+  const filename = `${id}-${randomUUID()}${safeExt(file.name)}`;
   await writeFile(path.join(dir, filename), Buffer.from(await file.arrayBuffer()));
   return `/catalog/custom/${slug}/swatches/${filename}`;
 }

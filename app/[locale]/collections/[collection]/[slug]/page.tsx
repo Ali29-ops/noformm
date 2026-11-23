@@ -4,9 +4,9 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { FloorSides } from "@/components/FloorStage";
-import { ObjectViewer } from "@/components/ObjectViewer";
 import { WalkNav } from "@/components/WalkNav";
 import { AddToCartButton } from "@/components/AddToCartButton";
+import { MaterialViewProvider, ProductHero } from "@/components/ProductView";
 import { RecordView } from "@/components/RecordIntent";
 import { collectionEnterHref, collectionFloor, getAdjacentCollection, products, type CollectionId } from "@/lib/catalog";
 import { dimsFor } from "@/lib/product-facts";
@@ -81,6 +81,9 @@ export default async function ProductPage({
   const prevName = productCopy(walk.prev, locale).name;
   const nextName = productCopy(walk.next, locale).name;
   const care = locale === "ar" ? product.careAr || product.care : product.care;
+  const colors = resolveColors(product);
+  const materials = resolveMaterials(product);
+  const initialView = materials[0]?.productImage || colors[0]?.productImage || null;
   const dims = dimsFor(product);
   const hasDims = dims.width != null || dims.depth != null || dims.height != null || dims.diameter != null;
   const availability = product.madeToOrder
@@ -91,6 +94,7 @@ export default async function ProductPage({
         ? pt("lowStock", { count: product.available })
         : pt("inStock");
 
+  const priceOnRequest = product.price === 0 && product.available < 1;
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -99,7 +103,7 @@ export default async function ProductPage({
     image: product.images,
     sku: product.sku ?? product.slug,
     brand: { "@type": "Brand", name: "NO FORM" },
-    offers: {
+    offers: priceOnRequest ? undefined : {
       "@type": "Offer",
       priceCurrency: settings.currency,
       price: product.price,
@@ -114,6 +118,7 @@ export default async function ProductPage({
   };
 
   return (
+    <MaterialViewProvider initialView={initialView}>
     <div
       data-floor-stage
       data-world={product.collection}
@@ -146,7 +151,7 @@ export default async function ProductPage({
           <h1 className="mt-5 font-serif text-5xl leading-tight md:text-6xl">{copy.name}</h1>
           <p className="mt-8 text-lg leading-relaxed text-ivory/75">{copy.description}</p>
           <p className="mt-8 flex items-baseline gap-4 font-serif text-2xl">
-            {formatMoney(product.price, settings.currency, locale)}
+            {priceOnRequest ? common("priceOnRequest") : formatMoney(product.price, settings.currency, locale)}
             {product.compareAtPrice && product.compareAtPrice > product.price ? (
               <span className="text-lg text-ivory/45 line-through">
                 {formatMoney(product.compareAtPrice, settings.currency, locale)}
@@ -155,7 +160,7 @@ export default async function ProductPage({
           </p>
           <p className="label mt-2 text-ivory/55">{availability}</p>
 
-          {resolveMaterials(product).length === 0 && copy.materials.length > 0 ? (
+          {materials.length === 0 && copy.materials.length > 0 ? (
             <div className="mt-10">
               <p className="label text-ivory/55">{common("materials")}</p>
               <ul className="mt-4 space-y-2">
@@ -190,8 +195,8 @@ export default async function ProductPage({
             available={product.available}
             label={common("addToCart")}
             soldOut={common("soldOut")}
-            colors={resolveColors(product)}
-            materials={resolveMaterials(product)}
+            colors={colors}
+            materials={materials}
             locale={locale}
           />
           <p className="mt-6 text-sm text-ivory/55">
@@ -210,11 +215,7 @@ export default async function ProductPage({
         </aside>
 
         <div className="order-1 md:order-2 md:col-span-5">
-          {product.images.length > 0 ? (
-            <ObjectViewer images={product.images} name={copy.name} />
-          ) : (
-            <div className="object-stage relative aspect-[4/5] bg-[#1c1a18]" />
-          )}
+          <ProductHero images={product.images} name={copy.name} />
         </div>
       </div>
 
@@ -228,6 +229,7 @@ export default async function ProductPage({
         />
       </div>
     </div>
+    </MaterialViewProvider>
   );
 }
 

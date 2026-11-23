@@ -16,6 +16,7 @@ export type ProductId =
   | "stem-side-table"
   | "tiled-bench"
   | "tiled-coffee-table"
+  | "totem-table"
   | "tiled-pouf"
   | "backgammon-table"
   | "fringes-pouf"
@@ -55,6 +56,7 @@ export const products: Product[] = [
   { slug: "stem-side-table", collection: "sphere", images: img("sphere/stem-side-table") },
   { slug: "tiled-bench", collection: "tiles", images: img("tiles/tiled-bench") },
   { slug: "tiled-coffee-table", collection: "tiles", images: img("tiles/tiled-coffee-table") },
+  { slug: "totem-table", collection: "tiles", images: img("tiles/totem-table") },
   { slug: "tiled-pouf", collection: "tiles", images: img("tiles/tiled-pouf") },
   { slug: "backgammon-table", collection: "tiles", images: img("tiles/backgammon-table") },
   { slug: "fringes-pouf", collection: "fringes", images: img("fringes/fringes-pouf") },

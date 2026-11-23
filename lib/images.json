@@ -1,6 +1,7 @@
 {
   "products": {
     "sphere/sphere-bench": [
+      "/catalog/sphere/sphere-bench/cover.png",
       "/catalog/sphere/sphere-bench/01.jpg",
       "/catalog/sphere/sphere-bench/02.jpg",
       "/catalog/sphere/sphere-bench/03.jpg",
@@ -13,6 +14,7 @@
       "/catalog/sphere/sphere-bench/10.jpg"
     ],
     "sphere/coffee-table-iii": [
+      "/catalog/sphere/coffee-table-iii/views/sage-green.png",
       "/catalog/sphere/coffee-table-iii/cover.jpg",
       "/catalog/sphere/coffee-table-iii/02.jpg",
       "/catalog/sphere/coffee-table-iii/03.jpg",
@@ -31,14 +33,14 @@
       "/catalog/sphere/lobe-coffee-table/01.jpg"
     ],
     "sphere/wave-coffee-table": [
-      "/catalog/sphere/wave-coffee-table/cover.jpeg",
-      "/catalog/sphere/wave-coffee-table/01.jpg"
+      "/catalog/sphere/wave-coffee-table/cover.jpeg"
     ],
     "sphere/stem-side-table": [
       "/catalog/sphere/stem-side-table/cover.jpeg",
       "/catalog/sphere/stem-side-table/01.jpg"
     ],
     "sphere/commode": [
+      "/catalog/sphere/commode/cover.jpg",
       "/catalog/sphere/commode/01.jpg",
       "/catalog/sphere/commode/02.jpg",
       "/catalog/sphere/commode/03.jpg",
@@ -74,10 +76,7 @@
       "/catalog/sphere/lounge-chair/06.jpg",
       "/catalog/sphere/lounge-chair/07.jpg",
       "/catalog/sphere/lounge-chair/08.jpg",
-      "/catalog/sphere/lounge-chair/09.jpg",
-      "/catalog/sphere/lounge-chair/10.jpg",
-      "/catalog/sphere/lounge-chair/11.jpg",
-      "/catalog/sphere/lounge-chair/12.jpg"
+      "/catalog/sphere/lounge-chair/09.jpg"
     ],
     "sphere/orbit-coffee-table": [
       "/catalog/sphere/orbit-coffee-table/cover.jpg",
@@ -121,6 +120,10 @@
       "/catalog/tiles/tiled-coffee-table/06.jpg",
       "/catalog/tiles/tiled-coffee-table/07.jpg",
       "/catalog/tiles/tiled-coffee-table/08.jpg"
+    ],
+    "tiles/totem-table": [
+      "/catalog/tiles/totem-table/cover.png",
+      "/catalog/tiles/totem-table/02.png"
     ],
     "tiles/tiled-pouf": [
       "/catalog/tiles/tiled-pouf/01.jpg",

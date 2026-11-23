@@ -3,7 +3,10 @@ export type SwatchOption = {
   hex: string;
   en: string;
   ar: string;
+  /** Small circle shown in the swatch picker. */
   image?: string;
+  /** Full product photo shown in the hero when this swatch is selected. */
+  productImage?: string;
 };
 
 export type ProductDims = {
@@ -114,18 +117,33 @@ const sphereWood: SwatchOption[] = [
   { id: "oak", hex: "#d7b072", en: "Oak", ar: "بلوط", image: "/catalog/sphere/wood-finishes/oak.png" },
 ];
 
+function withViews(options: readonly SwatchOption[], views: Record<string, string>): SwatchOption[] {
+  return options.map((option) => (views[option.id] ? { ...option, productImage: views[option.id] } : { ...option }));
+}
+
 export const productFacts: Record<string, ProductFacts> = {
   "folded-pouf": {
     width: 45,
     depth: 45,
     height: 48,
     colors: poufFabrics,
-    materials: [
-      { id: "brown", hex: "#6b4a3a", en: "Leather brown", ar: "جلد بني", image: "/catalog/sphere/folded-pouf/swatches/leather-brown.png" },
-      { id: "burgundy", hex: "#5c2430", en: "Leather burgundy", ar: "جلد عنابي", image: "/catalog/sphere/folded-pouf/swatches/leather-burgundy.png" },
-      { id: "mint", hex: "#b7d2c4", en: "Leather mint", ar: "جلد نعناعي", image: "/catalog/sphere/folded-pouf/swatches/leather-mint.png" },
-      { id: "camel", hex: "#e0b07a", en: "Leather camel", ar: "جلد جملي", image: "/catalog/sphere/folded-pouf/swatches/leather-camel.png" },
-    ],
+    materials: withViews(
+      [
+        { id: "brown", hex: "#6b4a3a", en: "Leather brown", ar: "جلد بني", image: "/catalog/sphere/folded-pouf/swatches/leather-brown.png" },
+        { id: "burgundy", hex: "#5c2430", en: "Leather burgundy", ar: "جلد عنابي", image: "/catalog/sphere/folded-pouf/swatches/leather-burgundy.png" },
+        { id: "mint", hex: "#b7d2c4", en: "Leather mint", ar: "جلد نعناعي", image: "/catalog/sphere/folded-pouf/swatches/leather-mint.png" },
+        { id: "camel", hex: "#e0b07a", en: "Leather camel", ar: "جلد جملي", image: "/catalog/sphere/folded-pouf/swatches/leather-camel.png" },
+        { id: "terracotta", hex: "#a75033", en: "Terracotta leather", ar: "جلد تراكوتا", image: "/catalog/sphere/folded-pouf/swatches/leather-terracotta.png" },
+        { id: "beige", hex: "#9e887a", en: "Beige leather", ar: "جلد بيج", image: "/catalog/sphere/folded-pouf/swatches/leather-beige.png" },
+      ],
+      {
+        brown: "/catalog/sphere/folded-pouf/views/brown.jpg",
+        burgundy: "/catalog/sphere/folded-pouf/views/burgundy.jpg",
+        mint: "/catalog/sphere/folded-pouf/views/mint.png",
+        terracotta: "/catalog/sphere/folded-pouf/views/terracotta.png",
+        beige: "/catalog/sphere/folded-pouf/views/beige.jpg",
+      },
+    ),
   },
   "sphere-ottoman": {
     diameter: 50,
@@ -144,14 +162,20 @@ export const productFacts: Record<string, ProductFacts> = {
     width: 132,
     depth: 124,
     height: 47,
-    colors: woodTones,
+    colors: withViews(woodTones, {
+      walnut: "/catalog/sphere/orbit-coffee-table/views/walnut.png",
+    }),
     materials: [beechWood],
   },
   "coffee-table-iii": {
     width: 140,
     depth: 50,
     height: 83,
-    colors: woodTones,
+    colors: [
+      { id: "sage", hex: "#7d8f62", en: "Sage", ar: "مريمي" },
+      { id: "walnut", hex: "#6b4423", en: "Walnut", ar: "جوز", productImage: "/catalog/sphere/coffee-table-iii/views/walnut-bubble.png" },
+      { id: "oak", hex: "#d7b072", en: "Oak", ar: "بلوط", productImage: "/catalog/sphere/coffee-table-iii/views/oak-soft-light.png" },
+    ],
     materials: [beechWood],
   },
   "lounge-chair": {
@@ -160,10 +184,10 @@ export const productFacts: Record<string, ProductFacts> = {
     height: 85,
     colors: sphereWood,
     materials: [
-      { id: "brown", hex: "#6b4a3a", en: "Leather brown", ar: "جلد بني", image: "/catalog/sphere/lounge-chair/swatches/leather-brown.png" },
-      { id: "burgundy", hex: "#5c2430", en: "Leather burgundy", ar: "جلد عنابي", image: "/catalog/sphere/lounge-chair/swatches/leather-burgundy.png" },
-      { id: "mint", hex: "#b7d2c4", en: "Leather mint", ar: "جلد نعناعي", image: "/catalog/sphere/lounge-chair/swatches/leather-mint.png" },
-      { id: "camel", hex: "#e0b07a", en: "Leather camel", ar: "جلد جملي", image: "/catalog/sphere/lounge-chair/swatches/leather-camel.png" },
+      { id: "brown", hex: "#6b4a3a", en: "Leather brown", ar: "جلد بني", image: "/catalog/sphere/lounge-chair/swatches/leather-brown.png", productImage: "/catalog/sphere/lounge-chair/leather-brown.png" },
+      { id: "burgundy", hex: "#5c2430", en: "Leather burgundy", ar: "جلد عنابي", image: "/catalog/sphere/lounge-chair/swatches/leather-burgundy.png", productImage: "/catalog/sphere/lounge-chair/leather-burgundy.png" },
+      { id: "mint", hex: "#b7d2c4", en: "Leather mint", ar: "جلد نعناعي", image: "/catalog/sphere/lounge-chair/swatches/leather-mint.png", productImage: "/catalog/sphere/lounge-chair/leather-mint.png" },
+      { id: "camel", hex: "#e0b07a", en: "Leather camel", ar: "جلد جملي", image: "/catalog/sphere/lounge-chair/swatches/leather-camel.png", productImage: "/catalog/sphere/lounge-chair/leather-camel-beige.png" },
       { id: "green", hex: "#5f6b45", en: "Leather green", ar: "جلد أخضر", image: "/catalog/sphere/lounge-chair/swatches/leather-green.png" },
     ],
   },
@@ -178,7 +202,16 @@ export const productFacts: Record<string, ProductFacts> = {
     width: 170,
     depth: 45,
     height: 45,
-    colors: poufFabrics,
+    colors: [
+      { id: "geometric-jacquard", hex: "#c45c28", en: "Geometric Jacquard", ar: "جاكار هندسي", image: "/catalog/sphere/sphere-bench/swatches/fabric/geometric.png" },
+      { id: "new-london", hex: "#ddd4c4", en: "New London", ar: "نيو لندن", image: "/catalog/sphere/sphere-bench/swatches/fabric/new-london.png", productImage: "/catalog/sphere/sphere-bench/views/new-london.png" },
+      { id: "oasis-checkered", hex: "#d9d4cc", en: "Oasis Checkered", ar: "واحة مربعات", image: "/catalog/sphere/sphere-bench/swatches/fabric/oasis-checkered.png", productImage: "/catalog/sphere/sphere-bench/views/oasis-checkered.png" },
+      { id: "olive", hex: "#5c6b32", en: "Olive", ar: "زيتوني", image: "/catalog/sphere/sphere-bench/swatches/fabric/olive.png", productImage: "/catalog/sphere/sphere-bench/views/olive.png" },
+      { id: "oran", hex: "#c5b56a", en: "Oran", ar: "وهران", image: "/catalog/sphere/sphere-bench/swatches/fabric/oran.png", productImage: "/catalog/sphere/sphere-bench/views/oran.png" },
+      { id: "the-hills", hex: "#c5c0b4", en: "The Hills", ar: "ذا هيلز", image: "/catalog/sphere/sphere-bench/swatches/fabric/the-hills.png", productImage: "/catalog/sphere/sphere-bench/views/the-hills.png" },
+      { id: "carla", hex: "#8a7568", en: "Carla", ar: "كارلا", image: "/catalog/sphere/sphere-bench/swatches/fabric/carla.png", productImage: "/catalog/sphere/sphere-bench/views/carla.png" },
+      { id: "cedar-brown", hex: "#6b4e3a", en: "Cedar Brown", ar: "بني أرز", image: "/catalog/sphere/sphere-bench/swatches/fabric/cedar-brown.png", productImage: "/catalog/sphere/sphere-bench/views/cedar-brown.png" },
+    ],
     materials: sphereWood,
   },
   commode: {
@@ -186,14 +219,19 @@ export const productFacts: Record<string, ProductFacts> = {
     depth: 50,
     height: 50,
     colors: poufFabrics,
-    materials: commodeVeneers,
+    materials: withViews(commodeVeneers, {
+      apple: "/catalog/sphere/commode/views/apple.png",
+      oak: "/catalog/sphere/commode/views/oak.png",
+    }),
   },
   "stem-side-table": {
     width: 40,
     depth: 40,
     height: 55,
     colors: [],
-    materials: commodeVeneers,
+    materials: withViews(commodeVeneers, {
+      walnut: "/catalog/sphere/stem-side-table/views/walnut.png",
+    }),
   },
   "tiled-coffee-table": {
     width: 88,

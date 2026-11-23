@@ -20,6 +20,7 @@
 /data/*.db-journal
 /data/*.db-wal
 /data/*.db-shm
+/data/review-photos/
 
 # debug
 npm-debug.log*

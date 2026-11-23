@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { addToCartAction } from "@/app/shop-actions";
+import { useMaterialView } from "@/components/ProductView";
 import { colorLegendKey, materialLegendKey, type SwatchOption } from "@/lib/product-options";
 
 function Swatches({
@@ -73,11 +74,21 @@ export function AddToCartButton({
 }) {
   const t = useTranslations("product");
   const common = useTranslations("common");
+  const materialView = useMaterialView();
   const [color, setColor] = useState(colors[0]?.id ?? "");
   const [material, setMaterial] = useState(materials[0]?.id ?? "");
   const [message, setMessage] = useState("");
   const [pending, setPending] = useState(false);
   const empty = available < 1;
+  const [lastSwatch, setLastSwatch] = useState<"material" | "color">("material");
+
+  useEffect(() => {
+    if (!materialView) return;
+    const materialPhoto = materials.find((option) => option.id === material)?.productImage;
+    const colorPhoto = colors.find((option) => option.id === color)?.productImage;
+    const chosen = lastSwatch === "color" ? colorPhoto || materialPhoto : materialPhoto || colorPhoto;
+    materialView.setView(chosen ?? null);
+  }, [materialView, material, color, materials, colors, lastSwatch]);
 
   async function onAdd() {
     if (materials.length && !material) {
@@ -111,7 +122,10 @@ export function AddToCartButton({
           options={materials}
           value={material}
           locale={locale}
-          onChange={setMaterial}
+          onChange={(id) => {
+            setMaterial(id);
+            setLastSwatch("material");
+          }}
         />
       ) : null}
       {colors.length > 0 ? (
@@ -120,7 +134,10 @@ export function AddToCartButton({
           options={colors}
           value={color}
           locale={locale}
-          onChange={setColor}
+          onChange={(id) => {
+            setColor(id);
+            setLastSwatch("color");
+          }}
         />
       ) : null}
       <button

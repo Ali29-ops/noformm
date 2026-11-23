@@ -61,6 +61,7 @@ export default async function ProductsPage({
       compareAtPrice: product.compareAtPrice,
       available: product.available,
       madeToOrder: product.madeToOrder,
+      readyToShip: product.readyToShip && !product.madeToOrder && product.available > 0,
     };
   });
 

@@ -26,6 +26,7 @@ export type CatalogItem = {
   compareAtPrice: number | null;
   available: number;
   madeToOrder: boolean;
+  readyToShip: boolean;
 };
 
 type SortKey = "featured" | "price-asc" | "price-desc" | "name";
@@ -233,17 +234,23 @@ export function ProductCatalog({
                     {item.image ? (
                       <Image
                         src={item.image}
+                        unoptimized={!item.image.startsWith("/") || item.image.startsWith("//")}
                         alt=""
                         fill
                         sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                         className="object-cover img-zoom"
                       />
                     ) : null}
+                    {item.readyToShip && (
+                      <span className="pointer-events-none absolute right-3 top-3 z-10 rotate-[-4deg] border-2 border-red-800 bg-ivory px-2 py-1 text-center font-sans text-[10px] font-bold uppercase leading-tight tracking-wide text-red-800 md:right-4 md:top-4 md:text-xs">
+                        {t.has("readyToShip") ? t("readyToShip") : locale === "ar" ? "جاهز للشحن" : "Ready to ship"}
+                      </span>
+                    )}
                   </div>
                   <p className="label mt-5">{tc(`${item.collection}.name`)}</p>
                   <h2 className="mt-2 font-serif text-2xl leading-snug md:text-3xl">{item.name}</h2>
                   <p className="mt-3 flex items-baseline gap-3 font-serif text-lg">
-                    {formatMoney(item.price, currency, locale)}
+                    {item.price === 0 && item.available < 1 ? common("priceOnRequest") : formatMoney(item.price, currency, locale)}
                     {item.compareAtPrice && item.compareAtPrice > item.price ? (
                       <span className="text-base text-hardwood line-through">
                         {formatMoney(item.compareAtPrice, currency, locale)}

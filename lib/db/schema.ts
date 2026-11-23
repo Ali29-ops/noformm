@@ -1,7 +1,14 @@
 import { sql } from "drizzle-orm";
 import { index, integer, real, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
-export type ProductSwatch = { id: string; hex: string; en: string; ar: string; image?: string };
+export type ProductSwatch = {
+  id: string;
+  hex: string;
+  en: string;
+  ar: string;
+  image?: string;
+  productImage?: string;
+};
 
 const now = sql`(strftime('%Y-%m-%dT%H:%M:%fZ','now'))`;
 
@@ -18,13 +25,14 @@ export const products = sqliteTable(
     descriptionAr: text("description_ar"),
     materials: text("materials", { mode: "json" }).$type<string[]>().notNull().default(sql`'[]'`),
     materialsAr: text("materials_ar", { mode: "json" }).$type<string[]>().notNull().default(sql`'[]'`),
-    colorSwatches: text("color_swatches", { mode: "json" }).$type<ProductSwatch[]>().notNull().default(sql`'[]'`),
-    materialSwatches: text("material_swatches", { mode: "json" }).$type<ProductSwatch[]>().notNull().default(sql`'[]'`),
+    colorSwatches: text("color_swatches", { mode: "json" }).$type<ProductSwatch[] | "none">().notNull().default(sql`'[]'`),
+    materialSwatches: text("material_swatches", { mode: "json" }).$type<ProductSwatch[] | "none">().notNull().default(sql`'[]'`),
     images: text("images", { mode: "json" }).$type<string[]>().notNull().default(sql`'[]'`),
     price: real("price").notNull().default(0),
     compareAtPrice: real("compare_at_price"),
     onHand: integer("on_hand").notNull().default(0),
     reserved: integer("reserved").notNull().default(0),
+    readyToShip: integer("ready_to_ship", { mode: "boolean" }).notNull().default(false),
     madeToOrder: integer("made_to_order", { mode: "boolean" }).notNull().default(false),
     leadTimeDays: integer("lead_time_days"),
     widthCm: real("width_cm"),

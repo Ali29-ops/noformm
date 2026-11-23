@@ -10,12 +10,14 @@ function PhotoCopySplit({
   src,
   title,
   body,
+  detail,
   reverse,
   locale,
 }: {
   src?: string;
   title: string;
   body: string;
+  detail?: string;
   reverse?: boolean;
   locale: string;
 }) {
@@ -29,6 +31,7 @@ function PhotoCopySplit({
       >
         {body}
       </p>
+      {detail ? <p className="mt-6 max-w-md text-lg leading-relaxed text-hardwood">{detail}</p> : null}
     </div>
   );
 
@@ -102,6 +105,7 @@ export default async function AboutPage({
           src={aboutCraft}
           title={t("pillars.craft.title")}
           body={t("craftLine")}
+          detail={t("craftDetail")}
           locale={locale}
         />
 
