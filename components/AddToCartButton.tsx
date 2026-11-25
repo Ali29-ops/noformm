@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import { sizesFor } from "@/lib/product-sizes";
 import { addToCartAction } from "@/app/shop-actions";
 import { useMaterialView } from "@/components/ProductView";
 import { colorLegendKey, materialLegendKey, type SwatchOption } from "@/lib/product-options";
@@ -77,6 +78,14 @@ export function AddToCartButton({
   const materialView = useMaterialView();
   const [color, setColor] = useState(colors[0]?.id ?? "");
   const [material, setMaterial] = useState(materials[0]?.id ?? "");
+  const sizes = sizesFor(slug);
+  const [size, setSize] = useState("");
+  const selectedSize = sizes.find((option) => option.id === size);
+  const measurements = selectedSize ? [
+    [locale === "ar" ? "العرض" : "Width", selectedSize.width],
+    [locale === "ar" ? "ارتفاع الظهر" : "Back height", selectedSize.backHeight],
+    [locale === "ar" ? "ارتفاع المقعد" : "Seat height", selectedSize.seatHeight],
+  ] as const : [];
   const [message, setMessage] = useState("");
   const [pending, setPending] = useState(false);
   const empty = available < 1;
@@ -91,6 +100,10 @@ export function AddToCartButton({
   }, [materialView, material, color, materials, colors, lastSwatch]);
 
   async function onAdd() {
+    if (sizes.length && !size) {
+      setMessage(locale === "ar" ? "اختر المقاس." : "Choose a size.");
+      return;
+    }
     if (materials.length && !material) {
       setMessage(t("chooseMaterial"));
       return;
@@ -102,7 +115,7 @@ export function AddToCartButton({
     setPending(true);
     setMessage("");
     try {
-      await addToCartAction(slug, collection, color || undefined, material || undefined);
+      await addToCartAction(slug, collection, color || undefined, material || undefined, size || undefined);
       setMessage("Added.");
       window.dispatchEvent(new Event("nf-cart"));
     } catch (error) {
@@ -116,6 +129,33 @@ export function AddToCartButton({
 
   return (
     <div className="mt-10">
+      {sizes.length > 0 && (
+        <fieldset className="mb-6">
+          <legend className="label text-ivory/70">{locale === "ar" ? "المقاس" : "Size"}</legend>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {sizes.map((option) => (
+              <label key={option.id} className="cursor-pointer">
+                <input className="peer sr-only" type="radio" name={`size-${slug}`} value={option.id} checked={size === option.id} onChange={() => { setSize(option.id); setMessage(""); }} />
+                <span className="block border border-ivory/35 px-4 py-2 text-sm peer-checked:bg-ivory peer-checked:text-charcoal peer-focus-visible:outline peer-focus-visible:outline-offset-2">
+                  {locale === "ar" ? option.ar : option.en}
+                </span>
+              </label>
+            ))}
+          </div>
+          <div aria-live="polite">
+            {selectedSize && (
+              <dl className="mt-3 space-y-1 text-sm text-ivory/80">
+                {measurements.map(([name, value]) => value != null && (
+                  <div key={name} className="flex gap-2">
+                    <dt>{name}</dt>
+                    <dd>{value} {locale === "ar" ? "سم" : "cm"}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
+          </div>
+        </fieldset>
+      )}
       {materials.length > 0 ? (
         <Swatches
           legend={materialKey === "materials" ? common("materials") : t(materialKey)}

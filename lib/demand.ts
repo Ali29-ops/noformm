@@ -58,6 +58,7 @@ export async function saveOpenCart(lines: CartLine[]) {
     quantity: line.quantity,
     color: line.color,
     material: line.material,
+    size: line.size,
   }));
   await db
     .insert(openCarts)

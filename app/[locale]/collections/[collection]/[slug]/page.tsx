@@ -9,6 +9,7 @@ import { AddToCartButton } from "@/components/AddToCartButton";
 import { MaterialViewProvider, ProductHero } from "@/components/ProductView";
 import { RecordView } from "@/components/RecordIntent";
 import { collectionEnterHref, collectionFloor, getAdjacentCollection, products, type CollectionId } from "@/lib/catalog";
+import { sizesFor } from "@/lib/product-sizes";
 import { dimsFor } from "@/lib/product-facts";
 import { resolveColors, resolveMaterials } from "@/lib/product-options";
 import { getLiveAdjacent, getLiveProduct } from "@/lib/live-catalog";
@@ -84,7 +85,9 @@ export default async function ProductPage({
   const colors = resolveColors(product);
   const materials = resolveMaterials(product);
   const initialView = materials[0]?.productImage || colors[0]?.productImage || null;
-  const dims = dimsFor(product);
+  const dims = sizesFor(product.slug).length
+    ? { width: null, depth: null, height: null, diameter: null }
+    : dimsFor(product);
   const hasDims = dims.width != null || dims.depth != null || dims.height != null || dims.diameter != null;
   const availability = product.madeToOrder
     ? pt("madeToOrder")

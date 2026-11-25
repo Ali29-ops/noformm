@@ -321,7 +321,7 @@ export const openCarts = sqliteTable("open_carts", {
   updatedAt: text("updated_at").notNull().default(now),
 });
 
-export type CartLineJson = { slug: string; quantity: number; color?: string; material?: string };
+export type CartLineJson = { slug: string; quantity: number; color?: string; material?: string; size?: string };
 
 export const auditLog = sqliteTable(
   "audit_log",

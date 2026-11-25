@@ -39,6 +39,8 @@ export function CartEditor({
     color?: string;
     colorLabel?: string;
     material?: string;
+    size?: string;
+    sizeLabel?: string;
     materialLabel?: string;
   }[];
   totalLabel: string;
@@ -52,12 +54,12 @@ export function CartEditor({
   const [error, setError] = useState("");
   const [busy, setBusy] = useState<string | null>(null);
 
-  async function change(slug: string, quantity: number, color?: string, material?: string) {
-    const key = lineKey(slug, color, material);
+  async function change(slug: string, quantity: number, color?: string, material?: string, size?: string) {
+    const key = lineKey(slug, color, material, size);
     setError("");
     setBusy(key);
     try {
-      await setCartQtyAction(slug, quantity, color, material);
+      await setCartQtyAction(slug, quantity, color, material, size);
       window.dispatchEvent(new Event("nf-cart"));
       router.refresh();
     } catch (err) {
@@ -71,7 +73,7 @@ export function CartEditor({
     <div>
       <ul className="divide-y divide-hardwood/20 border-y border-hardwood/20">
         {rows.map((row) => (
-          <li key={lineKey(row.slug, row.color, row.material)} className="flex items-center gap-6 py-6">
+          <li key={lineKey(row.slug, row.color, row.material, row.size)} className="flex items-center gap-6 py-6">
             {row.image ? (
               <div className="relative h-24 w-20 shrink-0 overflow-hidden bg-charcoal">
                 <Image src={row.image} alt="" fill className="object-cover" sizes="80px" />
@@ -79,9 +81,9 @@ export function CartEditor({
             ) : null}
             <div className="min-w-0 flex-1">
               <p className="font-serif text-2xl">{row.name}</p>
-              {row.materialLabel || row.colorLabel ? (
+              {row.sizeLabel || row.materialLabel || row.colorLabel ? (
                 <p className="mt-1 text-sm text-hardwood">
-                  {[row.materialLabel, row.colorLabel].filter(Boolean).join(" · ")}
+                  {[row.sizeLabel, row.materialLabel, row.colorLabel].filter(Boolean).join(" · ")}
                 </p>
               ) : null}
               <p className="mt-1 text-sm text-hardwood">{formatMoney(row.price, currency, locale)}</p>
@@ -92,8 +94,8 @@ export function CartEditor({
                     <button
                       type="button"
                       aria-label={t("qtyMore")}
-                      disabled={busy === lineKey(row.slug, row.color, row.material) || row.quantity >= row.max}
-                      onClick={() => change(row.slug, row.quantity + 1, row.color, row.material)}
+                      disabled={busy === lineKey(row.slug, row.color, row.material, row.size) || row.quantity >= row.max}
+                      onClick={() => change(row.slug, row.quantity + 1, row.color, row.material, row.size)}
                       className="text-charcoal disabled:text-hardwood/30"
                     >
                       <Chevron dir="up" />
@@ -101,15 +103,15 @@ export function CartEditor({
                     <button
                       type="button"
                       aria-label={t("qtyFewer")}
-                      disabled={busy === lineKey(row.slug, row.color, row.material) || row.quantity <= 1}
-                      onClick={() => change(row.slug, row.quantity - 1, row.color, row.material)}
+                      disabled={busy === lineKey(row.slug, row.color, row.material, row.size) || row.quantity <= 1}
+                      onClick={() => change(row.slug, row.quantity - 1, row.color, row.material, row.size)}
                       className="text-charcoal disabled:text-hardwood/30"
                     >
                       <Chevron dir="down" />
                     </button>
                   </div>
                 </div>
-                <button type="button" className="label" onClick={() => change(row.slug, 0, row.color, row.material)}>
+                <button type="button" className="label" onClick={() => change(row.slug, 0, row.color, row.material, row.size)}>
                   {removeLabel}
                 </button>
               </div>

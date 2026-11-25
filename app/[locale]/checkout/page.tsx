@@ -4,6 +4,7 @@ import { getCartLines, quoteAction } from "@/app/shop-actions";
 import { getProductsBySlugs } from "@/lib/repo/products";
 import { listAddresses } from "@/lib/repo/customers";
 import { productCopy } from "@/lib/product-copy";
+import { sizeLabel } from "@/lib/product-sizes";
 import { colorName, materialName, resolveColors, resolveMaterials } from "@/lib/product-options";
 import { CheckoutForm, type CheckoutLine } from "@/components/CheckoutForm";
 import { RecordCheckout } from "@/components/RecordIntent";
@@ -38,6 +39,8 @@ export default async function CheckoutPage({
         name: productCopy(product, locale).name,
         color: line.color,
         colorLabel: colorName(line.color, locale, resolveColors(product)),
+        size: line.size,
+        sizeLabel: sizeLabel(line.slug, line.size, locale),
         material: line.material,
         materialLabel: materialName(line.material, locale, resolveMaterials(product)),
         quantity: line.quantity,

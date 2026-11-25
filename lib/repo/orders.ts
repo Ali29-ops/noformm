@@ -19,6 +19,7 @@ import {
 import { nowIso, orderId as newOrderId, secretToken } from "../ids";
 import { roundMoney } from "../money";
 import { productCopy } from "../product-copy";
+import { sizeLabel, sizesFor } from "../product-sizes";
 import { colorName, materialName, resolveColors, resolveMaterials } from "../product-options";
 import { computeTotals, shippingFeeFor } from "../pricing";
 import { getSettings } from "../settings";
@@ -203,7 +204,7 @@ export type CreateOrderInput = {
   notes: string;
   paymentMethod: PaymentMethod;
   couponCode?: string;
-  lines: { slug: string; quantity: number; color?: string; material?: string }[];
+  lines: { slug: string; quantity: number; color?: string; material?: string; size?: string }[];
 };
 
 export async function createOrder(input: CreateOrderInput): Promise<Order> {
@@ -214,14 +215,19 @@ export async function createOrder(input: CreateOrderInput): Promise<Order> {
   const lines = input.lines.map((line) => {
     const product = catalog.find((p) => p.slug === line.slug);
     if (!product || !product.active) throw new Error(`Piece ${line.slug} is no longer available.`);
+    if (line.size && !sizesFor(line.slug).some((option) => option.id === line.size)) {
+      throw new Error("Choose a valid size.");
+    }
     const quantity = Math.max(1, Math.floor(line.quantity));
     const en = productCopy(product, "en");
     const ar = productCopy(product, "ar");
     const extrasEn = [
+      sizeLabel(line.slug, line.size, "en"),
       materialName(line.material, "en", resolveMaterials(product)),
       colorName(line.color, "en", resolveColors(product)),
     ].filter(Boolean);
     const extrasAr = [
+      sizeLabel(line.slug, line.size, "ar"),
       materialName(line.material, "ar", resolveMaterials(product)),
       colorName(line.color, "ar", resolveColors(product)),
     ].filter(Boolean);

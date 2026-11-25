@@ -4,6 +4,7 @@ import { getCartLines } from "@/app/shop-actions";
 import { formatMoney } from "@/lib/money";
 import { getAllProducts, getProductsBySlugs } from "@/lib/repo/products";
 import { productCopy } from "@/lib/product-copy";
+import { sizeLabel, sizesFor } from "@/lib/product-sizes";
 import { colorName, materialName, resolveColors, resolveMaterials } from "@/lib/product-options";
 import { pickComplements } from "@/lib/cart-complements";
 import { getSettings } from "@/lib/settings";
@@ -29,19 +30,24 @@ export default async function CartPage({
   const rows = lines.flatMap((line) => {
     const product = products.find((item) => item.slug === line.slug);
     if (!product) return [];
+    const otherQuantity = sizesFor(line.slug).length
+      ? lines.filter((other) => other.slug === line.slug && other !== line).reduce((sum, other) => sum + other.quantity, 0)
+      : 0;
     return [
       {
         ...line,
         name: productCopy(product, locale).name,
         color: line.color,
         colorLabel: colorName(line.color, locale, resolveColors(product)),
+        size: line.size,
+        sizeLabel: sizeLabel(line.slug, line.size, locale),
         material: line.material,
         materialLabel: materialName(line.material, locale, resolveMaterials(product)),
         collection: product.collection,
         image: product.images[0] ?? "",
         price: product.price,
         priceLabel: formatMoney(product.price, settings.currency, locale),
-        max: Math.min(product.available, 20),
+        max: Math.min(product.available - otherQuantity, 20),
       },
     ];
   });

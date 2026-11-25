@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { getLocale } from "next-intl/server";
 import { CART_COOKIE, parseCart, sameLine, type CartLine } from "@/lib/cart";
+import { sizesFor } from "@/lib/product-sizes";
 import { resolveColors, resolveMaterials } from "@/lib/product-options";
 import { readCustomerSession } from "@/lib/customer-auth";
 import { getProductBySlug, getProductsBySlugs } from "@/lib/repo/products";
@@ -35,7 +36,7 @@ export async function getCartLines() {
   return parseCart(jar.get(CART_COOKIE)?.value);
 }
 
-export async function addToCartAction(slug: string, collection: string, color?: string, material?: string) {
+export async function addToCartAction(slug: string, collection: string, color?: string, material?: string, size?: string) {
   const product = await getProductBySlug(slug);
   if (!product || product.collection !== collection) throw new Error("Product not found.");
   if (product.available < 1) throw new Error("This piece is no longer available.");
@@ -43,6 +44,10 @@ export async function addToCartAction(slug: string, collection: string, color?: 
   const materialOptions = resolveMaterials(product);
   const chosenColor = color?.trim() || undefined;
   const chosenMaterial = material?.trim() || undefined;
+  const sizes = sizesFor(slug);
+  if ((sizes.length || size) && !sizes.some((option) => option.id === size)) {
+    throw new Error("Choose a size.");
+  }
   if (colorOptions.length && (!chosenColor || !colorOptions.some((item) => item.id === chosenColor))) {
     throw new Error("Choose a colour.");
   }
@@ -50,26 +55,33 @@ export async function addToCartAction(slug: string, collection: string, color?: 
     throw new Error("Choose a material.");
   }
   const lines = await getCartLines();
-  const existing = lines.find((line) => sameLine(line, slug, chosenColor, chosenMaterial));
+  const existing = lines.find((line) => sameLine(line, slug, chosenColor, chosenMaterial, size));
   const quantity = (existing?.quantity ?? 0) + 1;
-  if (quantity > product.available) throw new Error("Not enough pieces in studio.");
+  const heldQuantity = lines.filter((line) => line.slug === slug).reduce((sum, line) => sum + line.quantity, 0);
+  if ((sizes.length ? heldQuantity + 1 : quantity) > product.available) throw new Error("Not enough pieces in studio.");
   const next = existing
-    ? lines.map((line) => (sameLine(line, slug, chosenColor, chosenMaterial) ? { ...line, quantity } : line))
-    : [...lines, { slug, quantity: 1, color: chosenColor, material: chosenMaterial }];
+    ? lines.map((line) => (sameLine(line, slug, chosenColor, chosenMaterial, size) ? { ...line, quantity } : line))
+    : [...lines, { slug, quantity: 1, color: chosenColor, material: chosenMaterial, size }];
   await writeCart(next);
   await recordShopEvent("add", slug);
   revalidatePath("/", "layout");
   return { ok: true as const, count: next.reduce((sum, line) => sum + line.quantity, 0) };
 }
 
-export async function setCartQtyAction(slug: string, quantity: number, color?: string, material?: string) {
+export async function setCartQtyAction(slug: string, quantity: number, color?: string, material?: string, size?: string) {
   const product = await getProductBySlug(slug);
   const nextQty = Math.max(0, Math.floor(quantity));
   if (product && nextQty > product.available) throw new Error("Not enough pieces in studio.");
   const current = await getCartLines();
-  const before = current.find((line) => sameLine(line, slug, color, material))?.quantity ?? 0;
+  if (product && sizesFor(slug).length && nextQty > 0) {
+    const otherQuantity = current
+      .filter((line) => line.slug === slug && !sameLine(line, slug, color, material, size))
+      .reduce((sum, line) => sum + line.quantity, 0);
+    if (otherQuantity + nextQty > product.available) throw new Error("Not enough pieces in studio.");
+  }
+  const before = current.find((line) => sameLine(line, slug, color, material, size))?.quantity ?? 0;
   const lines = current
-    .map((line) => (sameLine(line, slug, color, material) ? { ...line, quantity: nextQty } : line))
+    .map((line) => (sameLine(line, slug, color, material, size) ? { ...line, quantity: nextQty } : line))
     .filter((line) => line.quantity > 0);
   await writeCart(lines);
   if (before > 0 && nextQty === 0) await recordShopEvent("remove", slug);

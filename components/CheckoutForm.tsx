@@ -24,6 +24,8 @@ export type CheckoutLine = {
   color?: string;
   colorLabel?: string;
   material?: string;
+  size?: string;
+  sizeLabel?: string;
   materialLabel?: string;
 };
 
@@ -318,13 +320,13 @@ export function CheckoutForm({
         <p className="label">{t("summary")}</p>
         <ul className="mt-6 space-y-4">
           {lines.map((line) => (
-            <li key={`${line.slug}::${line.color ?? ""}::${line.material ?? ""}`} className="flex justify-between gap-4 border-b border-hardwood/20 py-3 text-sm">
+            <li key={`${line.slug}::${line.color ?? ""}::${line.material ?? ""}::${line.size ?? ""}`} className="flex justify-between gap-4 border-b border-hardwood/20 py-3 text-sm">
               <span>
                 {line.name}
-                {line.materialLabel || line.colorLabel ? (
+                {line.sizeLabel || line.materialLabel || line.colorLabel ? (
                   <span className="text-hardwood">
                     {" "}
-                    · {[line.materialLabel, line.colorLabel].filter(Boolean).join(" · ")}
+                    · {[line.sizeLabel, line.materialLabel, line.colorLabel].filter(Boolean).join(" · ")}
                   </span>
                 ) : null}
                 <span className="text-hardwood"> × {line.quantity}</span>

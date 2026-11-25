@@ -1,3 +1,4 @@
+import { sizesFor } from "./product-sizes";
 import type { CollectionId } from "./catalog";
 import type { LiveProduct } from "./repo/products";
 
@@ -20,7 +21,7 @@ export function pickComplements(cartSlugs: string[], catalog: LiveProduct[], lim
   const primary = cartCollections[0] as CollectionId;
 
   return catalog
-    .filter((item) => !held.has(item.slug) && item.available > 0)
+    .filter((item) => !held.has(item.slug) && item.available > 0 && !sizesFor(item.slug).length)
     .map((item) => {
       let score = 0;
       if (item.collection === primary) score += 6;

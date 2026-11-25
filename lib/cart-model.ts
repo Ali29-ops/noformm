@@ -5,10 +5,11 @@ export type CartLine = {
   quantity: number;
   color?: string;
   material?: string;
+  size?: string;
 };
 
-export function sameLine(a: CartLine, slug: string, color?: string, material?: string) {
-  return a.slug === slug && (a.color ?? "") === (color ?? "") && (a.material ?? "") === (material ?? "");
+export function sameLine(a: CartLine, slug: string, color?: string, material?: string, size?: string) {
+  return a.slug === slug && (a.color ?? "") === (color ?? "") && (a.material ?? "") === (material ?? "") && (a.size ?? "") === (size ?? "");
 }
 
 export function parseCart(raw: string | undefined): CartLine[] {
@@ -22,6 +23,7 @@ export function parseCart(raw: string | undefined): CartLine[] {
         slug: line.slug,
         quantity: Math.max(1, Math.floor(line.quantity)),
         color: typeof line.color === "string" && line.color ? line.color : undefined,
+        size: typeof line.size === "string" && line.size ? line.size : undefined,
         material: typeof line.material === "string" && line.material ? line.material : undefined,
       }));
   } catch {

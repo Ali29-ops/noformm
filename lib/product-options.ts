@@ -87,8 +87,8 @@ export function colorLegendKey(slug: string) {
   return "color";
 }
 
-export function lineKey(slug: string, color?: string, material?: string) {
-  return [slug, color ?? "", material ?? ""].join("::");
+export function lineKey(slug: string, color?: string, material?: string, size?: string) {
+  return [slug, color ?? "", material ?? "", size ?? ""].join("::");
 }
 
 const HEX = /^#([0-9a-fA-F]{6})$/;
