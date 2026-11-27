@@ -1,7 +1,8 @@
 import { and, asc, eq, sql } from "drizzle-orm";
-import { getDb } from "../db";
+import { getDb, type Db } from "../db";
 import { products, type ProductRow } from "../db/schema";
 import { collectionIds, type CollectionId } from "../catalog";
+import { publishProductPhotos } from "./product-photos";
 
 export type LiveProduct = Omit<ProductRow, "collection"> & {
   collection: CollectionId;
@@ -114,21 +115,40 @@ function clean(input: Partial<ProductInput>) {
   return out;
 }
 
-export async function createProduct(slug: string, input: ProductInput) {
+type ProductPhotoDrafts = { uploaderId: string; ids: string[] };
+
+export async function createProduct(slug: string, input: ProductInput, photos?: ProductPhotoDrafts) {
   const db = await getDb();
   const existing = await getProductBySlug(slug, { includeInactive: true });
   if (existing) throw new Error("A product with this name already exists.");
-  await db.insert(products).values({ slug, source: "custom", ...clean(input), collection: input.collection });
+  const values = { slug, source: "custom" as const, ...clean(input), collection: input.collection };
+  if (photos?.ids.length) {
+    await db.transaction(async (tx) => {
+      await publishProductPhotos(tx, photos.uploaderId, photos.ids);
+      await tx.insert(products).values(values);
+    });
+  } else {
+    await db.insert(products).values(values);
+  }
   return (await getProductBySlug(slug, { includeInactive: true }))!;
 }
 
-export async function updateProduct(slug: string, input: Partial<ProductInput>) {
+export async function updateProduct(slug: string, input: Partial<ProductInput>, photos?: ProductPhotoDrafts) {
   const db = await getDb();
-  const result = await db
-    .update(products)
-    .set({ ...clean(input), updatedAt: new Date().toISOString() })
-    .where(eq(products.slug, slug));
-  if (result.rowsAffected === 0) throw new Error("Product not found.");
+  const update = async (writer: Pick<Db, "update">) => {
+    const result = await writer.update(products)
+      .set({ ...clean(input), updatedAt: new Date().toISOString() })
+      .where(eq(products.slug, slug));
+    if (result.rowsAffected === 0) throw new Error("Product not found.");
+  };
+  if (photos?.ids.length) {
+    await db.transaction(async (tx) => {
+      await publishProductPhotos(tx, photos.uploaderId, photos.ids);
+      await update(tx);
+    });
+  } else {
+    await update(db);
+  }
   return (await getProductBySlug(slug, { includeInactive: true }))!;
 }
 

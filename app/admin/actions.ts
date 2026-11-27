@@ -50,15 +50,9 @@ import { shippingRates, type OrderStatus, type PaymentKind, type PaymentRecordMe
 import { governorateIds } from "@/lib/egypt";
 import { parseSwatches } from "@/lib/product-options";
 import { rateLimit } from "@/lib/rate-limit";
-import {
-  collectImageFiles,
-  collectImageUrls,
-  nextImageIndex,
-  saveSwatchImage,
-  removeOwnedImage,
-  removeProductMedia,
-  saveUploadedImages,
-} from "@/lib/product-media";
+import { collectImageUrls, removeOwnedImage, removeProductMedia } from "@/lib/product-media";
+import { productPhotoPrefix } from "@/lib/product-photo-upload";
+import { ProductPhotoExpiredError, stageProductPhoto } from "@/lib/repo/product-photos";
 
 function str(formData: FormData, key: string) {
   return String(formData.get(key) ?? "").trim();
@@ -232,23 +226,36 @@ async function nextSku(collection: CollectionId) {
   return `${prefix}${String(max + 1).padStart(3, "0")}`;
 }
 
-async function attachSwatchPhotos(slug: string, formData: FormData, input: ProductInput) {
-  for (const group of ["materialSwatches", "colorSwatches"] as const) {
-    for (const [index, swatch] of input[group].entries()) {
-      const thumbnail = formData.get(`${group}Photo-${index}`);
-      if (thumbnail instanceof File && thumbnail.size > 0) {
-        swatch.image = await saveSwatchImage(slug, swatch.id, thumbnail);
-      }
-      const productPhoto = formData.get(`${group}ProductPhoto-${index}`);
-      if (productPhoto instanceof File && productPhoto.size > 0) {
-        swatch.productImage = await saveSwatchImage(slug, swatch.id, productPhoto);
-      }
-    }
+export async function uploadProductPhotoAction(formData: FormData) {
+  const admin = await requireAdmin();
+  const file = formData.get("photo");
+  if (!(file instanceof File)) return { error: "Choose a photo to upload." };
+  try {
+    const id = await stageProductPhoto(admin.id, file);
+    return id ? { id } : { error: "This photo could not be uploaded. Choose a supported image under 900 KB." };
+  } catch (error) {
+    console.error("Could not store a product photo", error);
+    return { error: "Could not upload the photo. Please try saving again." };
   }
+}
+
+function uploadedProductPhotos(formData: FormData, input: ProductInput, uploaderId: string) {
+  const referenced = new Set([
+    ...input.images,
+    ...[...input.colorSwatches, ...input.materialSwatches].flatMap(({ image, productImage }) => [image, productImage]),
+  ]);
+  const ids = [...new Set(formData.getAll("photoDraft").map(String))]
+    .filter((id) => referenced.has(productPhotoPrefix + id));
+  return { uploaderId, ids };
+}
+
+function hasUnprocessedProductPhotos(formData: FormData) {
+  return [...formData.values()].some((value) => value instanceof File && value.size > 0);
 }
 
 export async function addProductAction(formData: FormData) {
   const admin = await requireAdmin();
+  if (hasUnprocessedProductPhotos(formData)) return { error: "Refresh the product editor before uploading photos." };
   const name = str(formData, "name");
   if (!name) throw new Error("Name is required.");
   const slug = slugify(name);
@@ -256,11 +263,15 @@ export async function addProductAction(formData: FormData) {
     throw new Error("A product with this name already exists.");
   }
   const urls = collectImageUrls(str(formData, "imageUrls"));
-  const uploaded = await saveUploadedImages(slug, collectImageFiles(formData), nextImageIndex(urls, slug));
+  const uploaded = formData.getAll("galleryPhotoDraft").map((id) => productPhotoPrefix + id);
   const input = readProductInput(formData, [...uploaded, ...urls]);
   if (!input.sku) input.sku = await nextSku(input.collection);
-  await attachSwatchPhotos(slug, formData, input);
-  await createProduct(slug, input);
+  try {
+    await createProduct(slug, input, uploadedProductPhotos(formData, input, admin.id));
+  } catch (error) {
+    if (error instanceof ProductPhotoExpiredError) return { error: "An upload expired. Click Add product to upload the photos again." };
+    throw error;
+  }
   await audit(admin.email, "product.create", "product", slug);
   refreshCatalog(input.collection, slug);
   redirect("/admin/products");
@@ -268,6 +279,7 @@ export async function addProductAction(formData: FormData) {
 
 export async function updateProductAction(formData: FormData) {
   const admin = await requireAdmin();
+  if (hasUnprocessedProductPhotos(formData)) return { error: "Refresh the product editor before uploading photos." };
   const slug = str(formData, "slug");
   const current = await getProductBySlug(slug, { includeInactive: true });
   if (!current) throw new Error("Product not found.");
@@ -276,11 +288,20 @@ export async function updateProductAction(formData: FormData) {
     .map((value) => String(value))
     .filter((src) => current.images.includes(src));
   const urls = collectImageUrls(str(formData, "imageUrls"));
-  const uploaded = await saveUploadedImages(slug, collectImageFiles(formData), nextImageIndex([...current.images, ...urls], slug));
+  const uploaded = formData.getAll("galleryPhotoDraft").map((id) => productPhotoPrefix + id);
   const input = readProductInput(formData, [...kept, ...uploaded, ...urls]);
   if (!input.sku) input.sku = await nextSku(input.collection);
-  await attachSwatchPhotos(slug, formData, input);
-  const updated = await updateProduct(slug, { ...input, onHand: formData.has("onHand") ? input.onHand : undefined });
+  let updated;
+  try {
+    updated = await updateProduct(
+      slug,
+      { ...input, onHand: formData.has("onHand") ? input.onHand : undefined },
+      uploadedProductPhotos(formData, input, admin.id),
+    );
+  } catch (error) {
+    if (error instanceof ProductPhotoExpiredError) return { error: "An upload expired. Click Save product to upload the photos again." };
+    throw error;
+  }
   const retainedImages = new Set([
     ...input.images,
     ...[...input.colorSwatches, ...input.materialSwatches].flatMap(({ image, productImage }) => [image, productImage]),

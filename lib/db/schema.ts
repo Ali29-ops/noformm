@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { index, integer, real, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { blob, index, integer, real, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 export type ProductSwatch = {
   id: string;
@@ -49,6 +49,18 @@ export const products = sqliteTable(
     updatedAt: text("updated_at").notNull().default(now),
   },
   (t) => [index("products_collection_idx").on(t.collection)],
+);
+
+export const productPhotos = sqliteTable(
+  "product_photos",
+  {
+    id: text("id").primaryKey(),
+    contentType: text("content_type").notNull(),
+    bytes: blob("bytes", { mode: "buffer" }).notNull(),
+    uploaderId: text("uploader_id"),
+    uploadedAt: integer("uploaded_at").notNull(),
+  },
+  (t) => [index("product_photos_drafts_idx").on(t.uploaderId, t.uploadedAt)],
 );
 
 export const customers = sqliteTable("customers", {

@@ -2,9 +2,11 @@
 
 import { FormEvent, useRef, useState } from "react";
 import { unstable_rethrow } from "next/navigation";
-import { addProductAction, updateProductAction } from "@/app/admin/actions";
+import { addProductAction, updateProductAction, uploadProductPhotoAction } from "@/app/admin/actions";
 import type { CollectionId } from "@/lib/catalog";
+import { prepareProductPhoto } from "@/lib/prepare-product-photo";
 import { colorLegendKey, materialLegendKey, resolveColors, resolveMaterials, type SwatchOption } from "@/lib/product-options";
+import { productPhotoAccept, productPhotoPrefix } from "@/lib/product-photo-upload";
 import en from "@/messages/en.json";
 import type { LiveProduct } from "@/lib/repo/products";
 
@@ -24,27 +26,58 @@ export function ProductForm({
   const materialKey = materialLegendKey(product?.slug ?? "");
   const materialLabel = materialKey === "materials" ? en.common.materials : en.product[materialKey];
   const [error, setError] = useState("");
-  const [pending, setPending] = useState(false);
+  const [progress, setProgress] = useState("");
   const [fileCount, setFileCount] = useState(0);
   const [madeToOrder, setMadeToOrder] = useState(product?.madeToOrder ?? false);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setPending(true);
+    setProgress("Saving product…");
     setError("");
     const data = new FormData(event.currentTarget);
+    let uploading: File | undefined;
     try {
-      if (mode === "edit") await updateProductAction(data);
-      else await addProductAction(data);
+      const files = [...data].filter((entry): entry is [string, File] => entry[1] instanceof File);
+      for (const [key] of files) data.delete(key);
+      const selected = files.filter(([, file]) => file.size > 0);
+      const swatches = {
+        materialSwatches: JSON.parse(String(data.get("materialSwatches"))) as SwatchOption[],
+        colorSwatches: JSON.parse(String(data.get("colorSwatches"))) as SwatchOption[],
+      };
+      for (const [index, [key, file]] of selected.entries()) {
+        uploading = file;
+        setProgress(`Uploading photo ${index + 1} of ${selected.length}…`);
+        const body = new FormData();
+        body.set("photo", await prepareProductPhoto(file));
+        const result = await uploadProductPhotoAction(body);
+        if (!result.id) throw new Error(result.error);
+        if (key === "images") {
+          data.append("galleryPhotoDraft", result.id);
+        } else {
+          const match = /^(materialSwatches|colorSwatches)(Photo|ProductPhoto)-(\d+)$/.exec(key);
+          if (!match) throw new Error("This photo is missing its colour or material option.");
+          const group = match[1] === "materialSwatches" ? swatches.materialSwatches : swatches.colorSwatches;
+          const row = group[Number(match[3])];
+          if (!row) throw new Error("This photo is missing its colour or material option.");
+          row[match[2] === "Photo" ? "image" : "productImage"] = productPhotoPrefix + result.id;
+        }
+        data.append("photoDraft", result.id);
+      }
+      uploading = undefined;
+      for (const [key, rows] of Object.entries(swatches)) data.set(key, JSON.stringify(rows));
+      setProgress("Saving product…");
+      const result = await (mode === "edit" ? updateProductAction(data) : addProductAction(data));
+      if (result?.error) setError(result.error);
     } catch (err) {
       unstable_rethrow(err);
-      const message = err instanceof Error ? err.message : "Could not save the product.";
-      setError(
-        /body exceeded|1 mb|413/i.test(message)
-          ? "The photos were too large to send together. Try a smaller batch, or smaller files."
-          : message,
-      );
-      setPending(false);
+      const message = err instanceof Error ? err.message : "";
+      if (/Server Components render|unexpected response/i.test(message)) {
+        setError(uploading ? `Could not upload “${uploading.name}”. Try saving again.` : "Could not save the product. Please try again.");
+      } else {
+        setError(uploading ? `“${uploading.name}” — ${message || "Could not upload this photo."}` : message || "Could not save the product.");
+      }
+    } finally {
+      setProgress("");
     }
   }
 
@@ -191,7 +224,7 @@ export function ProductForm({
           </label>
           <label className="block">
             <span className="label">Upload photos</span>
-            <input name="images" type="file" accept="image/*" multiple className={inputCls} onChange={(event) => setFileCount(event.currentTarget.files?.length ?? 0)} />
+            <input name="images" type="file" accept={productPhotoAccept} multiple className={inputCls} onChange={(event) => setFileCount(event.currentTarget.files?.length ?? 0)} />
             <p className="mt-2 text-sm text-hardwood">{fileCount > 0 ? `${fileCount} selected.` : "Select as many as you need, in one go."}</p>
           </label>
         </div>
@@ -214,9 +247,9 @@ export function ProductForm({
         ) : null}
       </Section>
 
-      {error ? <p className="text-sm text-burgundy">{error}</p> : null}
-      <button type="submit" disabled={pending} className="border border-charcoal px-6 py-3 font-sans text-[11px] uppercase tracking-label disabled:opacity-40">
-        {pending ? "…" : mode === "edit" ? "Save product" : "Add product"}
+      {error ? <p role="alert" className="text-sm text-burgundy">{error}</p> : null}
+      <button type="submit" disabled={Boolean(progress)} className="border border-charcoal px-6 py-3 font-sans text-[11px] uppercase tracking-label disabled:opacity-40">
+        {progress || (mode === "edit" ? "Save product" : "Add product")}
       </button>
     </form>
   );
@@ -259,7 +292,7 @@ function SwatchEditor({
                 <input
                   name={`${name}Photo-${index}`}
                   type="file"
-                  accept="image/*"
+                  accept={productPhotoAccept}
                   className="min-w-0 w-full"
                   aria-label={`${label} photo ${index + 1}`}
                 />
@@ -318,7 +351,7 @@ function SwatchEditor({
                   <input
                     name={`${name}ProductPhoto-${index}`}
                     type="file"
-                    accept="image/*"
+                accept={productPhotoAccept}
                     className="w-full min-w-0"
                   />
                 </span>
