@@ -1,6 +1,6 @@
 import { productPhotoAccept, productPhotoMaxBytes } from "./product-photo-upload";
 
-export async function prepareProductPhoto(file: File) {
+export async function preparePhotoUpload(file: File) {
   if (!productPhotoAccept.split(",").includes(file.type)) {
     throw new Error("Choose a JPEG, PNG, WebP, GIF or AVIF image.");
   }

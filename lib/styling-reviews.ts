@@ -1,8 +1,9 @@
+import { randomUUID } from "node:crypto";
 import { like } from "drizzle-orm";
 import en from "@/messages/en.json";
 import ar from "@/messages/ar.json";
-import { getDb } from "./db";
-import { settings } from "./db/schema";
+import { getDb, type Db } from "./db";
+import { productPhotos, settings } from "./db/schema";
 
 export type Review = {
   id: string;
@@ -58,10 +59,23 @@ export async function getStylingReviews() {
   return { heading, reviews: [...reviews.values()].sort((a, b) => a.order - b.order || a.id.localeCompare(b.id)) };
 }
 
-export async function saveStylingReview(value: Review | ReviewHeading) {
+export async function saveStylingReview(value: Review | ReviewHeading, photo?: File) {
   const db = await getDb();
   const key = `${prefix}${"id" in value ? `item.${value.id}` : "heading"}`;
   const updatedAt = new Date().toISOString();
-  await db.insert(settings).values({ key, value, updatedAt })
-    .onConflictDoUpdate({ target: settings.key, set: { value, updatedAt } });
+  const save = (writer: Pick<Db, "insert">, entry: Review | ReviewHeading) =>
+    writer.insert(settings).values({ key, value: entry, updatedAt })
+      .onConflictDoUpdate({ target: settings.key, set: { value: entry, updatedAt } });
+
+  if (!photo || !("id" in value)) {
+    await save(db, value);
+    return;
+  }
+
+  const id = randomUUID();
+  const bytes = Buffer.from(await photo.arrayBuffer());
+  await db.transaction(async (tx) => {
+    await tx.insert(productPhotos).values({ id, contentType: photo.type, bytes, uploadedAt: Date.now() });
+    await save(tx, { ...value, image: `/api/review-photos/${id}` });
+  });
 }

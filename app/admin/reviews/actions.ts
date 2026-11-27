@@ -5,7 +5,8 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/admin-auth";
 import { getStylingReviews, saveStylingReview } from "@/lib/styling-reviews";
-import { saveReviewPhoto } from "@/lib/review-photos";
+import { reviewPhotoTypes } from "@/lib/review-photos";
+import { productPhotoMaxBytes } from "@/lib/product-photo-upload";
 
 function field(form: FormData, name: string) {
   return String(form.get(name) ?? "").trim();
@@ -40,20 +41,25 @@ export async function saveReview(form: FormData) {
   const position = Number(field(form, "position"));
   const rating = Number(field(form, "rating"));
   const file = form.get("photo");
-  const hasUpload = file instanceof File && file.size > 0;
-  let image = field(form, "image");
+  const photo = file instanceof File && file.size > 0 ? file : undefined;
+  const image = field(form, "image");
   if (!en.quote || !en.name || !Number.isSafeInteger(order) || !Number.isInteger(position) ||
       position < 0 || position > 100 || !Number.isInteger(rating) || rating < 1 || rating > 5) finish("invalid");
 
-  if (hasUpload) {
-    try {
-      image = await saveReviewPhoto(file);
-    } catch (error) {
-      if (error instanceof Error && error.message.startsWith("Choose a JPEG")) finish("invalid");
-      throw error;
-    }
+  if (photo && (!Object.values(reviewPhotoTypes).includes(photo.type) || photo.size > productPhotoMaxBytes)) {
+    return { error: "Could not prepare this photo. Refresh the editor and choose a JPEG, PNG, WebP or AVIF image." };
   }
-  if (!/^\/(?![/\\])/.test(image) && !/^https?:\/\/[^\s]+$/i.test(image)) finish("invalid");
-  await saveStylingReview({ id: current?.id ?? randomUUID(), image, position, order, rating, visible: form.has("visible"), en, ar });
+  if (!photo && !/^\/(?![/\\])/.test(image) && !/^https?:\/\/[^\s]+$/i.test(image)) {
+    return { error: "Choose a photo or enter a valid photo URL." };
+  }
+  try {
+    await saveStylingReview(
+      { id: current?.id ?? randomUUID(), image, position, order, rating, visible: form.has("visible"), en, ar },
+      photo,
+    );
+  } catch (error) {
+    console.error("Could not save a styling review", error);
+    return { error: "Could not save this review. Please try again." };
+  }
   finish();
 }

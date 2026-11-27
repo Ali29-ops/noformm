@@ -4,7 +4,7 @@ import { FormEvent, useRef, useState } from "react";
 import { unstable_rethrow } from "next/navigation";
 import { addProductAction, updateProductAction, uploadProductPhotoAction } from "@/app/admin/actions";
 import type { CollectionId } from "@/lib/catalog";
-import { prepareProductPhoto } from "@/lib/prepare-product-photo";
+import { preparePhotoUpload } from "@/lib/prepare-photo-upload";
 import { colorLegendKey, materialLegendKey, resolveColors, resolveMaterials, type SwatchOption } from "@/lib/product-options";
 import { productPhotoAccept, productPhotoPrefix } from "@/lib/product-photo-upload";
 import en from "@/messages/en.json";
@@ -48,7 +48,7 @@ export function ProductForm({
         uploading = file;
         setProgress(`Uploading photo ${index + 1} of ${selected.length}…`);
         const body = new FormData();
-        body.set("photo", await prepareProductPhoto(file));
+        body.set("photo", await preparePhotoUpload(file));
         const result = await uploadProductPhotoAction(body);
         if (!result.id) throw new Error(result.error);
         if (key === "images") {

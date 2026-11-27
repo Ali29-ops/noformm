@@ -1,7 +1,8 @@
 import { requireAdmin } from "@/lib/admin-auth";
 import { getStylingReviews, type Review } from "@/lib/styling-reviews";
 import { PageTitle } from "@/components/admin/ui";
-import { saveHeading, saveReview } from "./actions";
+import { saveHeading } from "./actions";
+import { ReviewEditorForm } from "./ReviewEditorForm";
 
 const button = "border border-charcoal px-5 py-2.5 label";
 
@@ -14,7 +15,7 @@ export default async function AdminReviewsPage({ searchParams }: { searchParams:
     <div className="space-y-10">
       <PageTitle title="Client reviews" lede="Manage the heading and cards on the Styling page." />
       {status === "saved" && <p role="status">Changes saved.</p>}
-      {status === "invalid" && <p role="alert">Check the required fields and photo format. Photos must be under 10 MB.</p>}
+      {status === "invalid" && <p role="alert">Check the required fields and try again.</p>}
       <form action={saveHeading} className="space-y-4 border-y border-hardwood/25 py-6">
         <h2 className="font-serif text-3xl">Section heading</h2>
         <div className="grid gap-4 md:grid-cols-2">
@@ -58,7 +59,7 @@ function TextField({ label, name, value, multiline, required }: {
 
 function ReviewForm({ review, order }: { review?: Review; order: number }) {
   return (
-    <form action={saveReview} className="mt-5 space-y-4">
+    <ReviewEditorForm buttonClass={button} submitLabel={review ? "Save review" : "Add review"}>
       {review && <input type="hidden" name="id" value={review.id} />}
       {review && <img src={review.image} alt={review.en.alt} className="h-24 w-24 object-cover" />}
       <div className="grid gap-4 md:grid-cols-2">
@@ -92,7 +93,6 @@ function ReviewForm({ review, order }: { review?: Review; order: number }) {
           Visible on Styling
         </label>
       </div>
-      <button className={button}>{review ? "Save review" : "Add review"}</button>
-    </form>
+    </ReviewEditorForm>
   );
 }
